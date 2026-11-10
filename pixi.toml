@@ -1,0 +1,150 @@
+# Smart Microscopy workshop: one default CPU environment, no source checkouts.
+# Distribute this manifest together with wheels/ and the workshop examples.
+# Install: pixi install -e default
+# Launch:  pixi run start-napari
+
+[workspace]
+authors = ["Rhode, Sebastian <sebastian.rhode@zeiss.com>"]
+channels = ["conda-forge"]
+name = "pixi_smartmic"
+platforms = ["win-64", "linux-64"]
+version = "0.0.2"
+description = "CPU-only microscopy workshop with CZI tools, napari and ZEN API."
+
+[dependencies]
+python = ">=3.12.16"
+
+# Scientific computing and image processing
+numpy = "*"
+scipy = "*"
+dask = "*"
+dask-image = "*"
+xarray = ">=2026.2.0"
+pandas = "<3"
+scikit-image = ">=0.26.0"
+
+# Visualization
+matplotlib-base = ">=3.7.0"
+seaborn = ">=0.13.2"
+altair = "*"
+cmap = "*"
+wordcloud = "*"
+
+# Storage and I/O
+zarr = ">=3.0"
+fsspec = "*"
+xmltodict = "*"
+requests = "*"
+imagecodecs = ">=2026.6.6"
+openpyxl = ">=3.1.5"
+
+# Runtime helpers; Qt itself is installed through PyPI with napari.
+grpclib = "*"
+qtpy = "*"
+pyqtgraph = "*"
+pydantic = ">=2.11.5"
+colorlog = "*"
+rich = "*"
+tqdm = "*"
+progressbar2 = "*"
+python-dateutil = ">=2.8,<3"
+validators = "*"
+
+# Interactive notebooks
+ipyfilechooser = "*"
+ipykernel = ">=5.2.0,<7"
+ipython = "*"
+ipywidgets = "*"
+itables = "*"
+ipydatagrid = "*"
+stackview = "*"
+nbformat = "*"
+nbclient = "*"
+marimo = "*"
+voila = "*"
+streamlit = "*"
+
+[pypi-dependencies]
+# Published packages, not editable installs or paths to developer repositories.
+czitools = { version = ">=0.27.3", extras = ["all"] }
+napari-czitools = "*"
+napari-czann-segment = { version = "*", extras = ["cpu"] }
+napari-zenapi-streaming = { version = "*" }
+napari-virtual-reader = { version = "*" }
+onnxruntime = "*"
+
+# Release wheel URLs pin the versions; local handout wheels are alternatives.
+#zen_api = { path = "wheels/zen_api-2026.5.1-py3-none-any.whl" }
+#zen_api_utils = { path = "wheels/zen_api_utils-0.1.0-py3-none-any.whl" }
+zen_api = { url = "https://github.com/zeiss-microscopy/OAD/releases/download/v2026.07.1/zen_api-2026.7.1-py3-none-any.whl" }
+zen_api_utils = { url = "https://github.com/zeiss-microscopy/OAD/releases/download/zen-api-utils-v0.1.0/zen_api_utils-0.1.0-py3-none-any.whl" }
+
+# openreadout = "*"
+#napari-openreadout = ">=0.4.0"
+pylibCZIrw = ">=6.1.0"
+python-box = { version = "*", extras = ["all"] }
+loguru = "*"
+aicspylibczi = ">=3.3.1"
+czifile = ">=2026.6.6"
+
+bioio = "*"
+bioio-czi = "*"
+bioio-ome-zarr = "*"
+bioio-tifffile = "*"
+bioio-ome-tiff = "*"
+bioio-imageio = "*"
+
+ngff-zarr = ">=0.52.0"
+ome-zarr = ">=0.19.2"
+ome-writers = { version = ">=0.3.2", extras = ["acquire-zarr"] }
+ngio = ">=0.5.10"
+ome-zarr-models = ">=1.8.1,<2"
+
+napari = ">=0.10.0"
+pyqt6 = ">=6.7,<6.10"
+magicgui = "*"
+superqt = "*"
+napari-crop = "*"
+napari-layer-statistics = "*"
+napari-ome-zarr = ">=0.10.0"
+napari-skimage-regionprops = "*"
+napari-metadata = "*"
+ome-zarrpari = "*"
+plotly = "*"
+microfilm = ">=0.3.0,<0.4"
+ndv = { version = ">=0.5.0", extras = ["vispy", "pyqt"] }
+df2tables = "*"
+betterproto = "==2.0.0b7"
+pip-system-certs = "*"
+
+[activation]
+env = { QT_API = "pyqt6" }
+
+[tasks]
+start-napari = { cmd = "python -m napari", description = "Open napari with the workshop plugins and CPU inference" }
+open-napari-czitools-example = { cmd = '''python -c "import napari; viewer = napari.Viewer(); viewer.open_sample('napari-czitools', 'unique_id.0'); napari.run()"''', description = "Open the napari-czitools cell-division sample" }
+omezarr-gui = { cmd = "czitools-omezarr-gui", description = "Launch the CZI-to-OME-Zarr converter" }
+start-zen-streaming = { cmd = "python -m napari_zen_streaming.main", description = "Launch ZEN API streaming (requires a compatible running ZEN installation)" }
+
+[tasks.export-hcs]
+cmd = '''python -c "import sys; from pathlib import Path; from czitools.metadata_tools import extract_hcs_document; source = Path(sys.argv[1]); output = Path(sys.argv[2]) / source.with_suffix('.hcs.json').name; output.parent.mkdir(parents=True, exist_ok=True); extract_hcs_document(source).write_json(output); print(output)" "{{ czifile }}" "{{ output_dir }}"'''
+description = "Export CZI HCS metadata to results/hcs without modifying shared inputs"
+args = [{ arg = "czifile" }, { arg = "output_dir", default = "results/hcs" }]
+
+[tasks.check-czi-hcs]
+cmd = 'czi_hcs_check "{{ czifile }}"'
+description = "Inspect CZI well-plate metadata and stored dimensions"
+args = [{ arg = "czifile" }]
+
+[tasks.transloc_assay]
+cmd = 'python "{{ script }}" --czi "{{ czi }}" --plate-layout "{{ plate_layout }}" --output-dir "{{ output_dir }}"'
+description = "Run the translocation example with shared workshop data and separate results"
+args = [
+    { arg = "plate_layout", default = "data/translocation/plate_layout_example.xlsx" },
+    { arg = "script", default = "examples/translocation/translocation_assay.py" },
+    { arg = "czi", default = "data/translocation/transloc_gfp_dapi_0_2micron.czi" },
+    { arg = "output_dir", default = "results/translocation" },
+]
+
+[environments]
+default = { features = [] }

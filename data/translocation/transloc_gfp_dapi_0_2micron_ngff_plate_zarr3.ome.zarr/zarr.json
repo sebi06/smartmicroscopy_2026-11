@@ -1,0 +1,568 @@
+{
+  "attributes": {
+    "ome": {
+      "version": "0.6",
+      "plate": {
+        "columns": [
+          {
+            "name": "01"
+          },
+          {
+            "name": "02"
+          },
+          {
+            "name": "03"
+          },
+          {
+            "name": "04"
+          },
+          {
+            "name": "05"
+          },
+          {
+            "name": "06"
+          },
+          {
+            "name": "07"
+          },
+          {
+            "name": "08"
+          },
+          {
+            "name": "09"
+          },
+          {
+            "name": "10"
+          },
+          {
+            "name": "11"
+          },
+          {
+            "name": "12"
+          }
+        ],
+        "rows": [
+          {
+            "name": "A"
+          },
+          {
+            "name": "B"
+          },
+          {
+            "name": "C"
+          },
+          {
+            "name": "D"
+          },
+          {
+            "name": "E"
+          },
+          {
+            "name": "F"
+          },
+          {
+            "name": "G"
+          },
+          {
+            "name": "H"
+          }
+        ],
+        "wells": [
+          {
+            "path": "A/01",
+            "rowIndex": 0,
+            "columnIndex": 0
+          },
+          {
+            "path": "A/02",
+            "rowIndex": 0,
+            "columnIndex": 1
+          },
+          {
+            "path": "A/03",
+            "rowIndex": 0,
+            "columnIndex": 2
+          },
+          {
+            "path": "A/04",
+            "rowIndex": 0,
+            "columnIndex": 3
+          },
+          {
+            "path": "A/05",
+            "rowIndex": 0,
+            "columnIndex": 4
+          },
+          {
+            "path": "A/06",
+            "rowIndex": 0,
+            "columnIndex": 5
+          },
+          {
+            "path": "A/07",
+            "rowIndex": 0,
+            "columnIndex": 6
+          },
+          {
+            "path": "A/08",
+            "rowIndex": 0,
+            "columnIndex": 7
+          },
+          {
+            "path": "A/09",
+            "rowIndex": 0,
+            "columnIndex": 8
+          },
+          {
+            "path": "A/10",
+            "rowIndex": 0,
+            "columnIndex": 9
+          },
+          {
+            "path": "A/11",
+            "rowIndex": 0,
+            "columnIndex": 10
+          },
+          {
+            "path": "A/12",
+            "rowIndex": 0,
+            "columnIndex": 11
+          },
+          {
+            "path": "B/01",
+            "rowIndex": 1,
+            "columnIndex": 0
+          },
+          {
+            "path": "B/02",
+            "rowIndex": 1,
+            "columnIndex": 1
+          },
+          {
+            "path": "B/03",
+            "rowIndex": 1,
+            "columnIndex": 2
+          },
+          {
+            "path": "B/04",
+            "rowIndex": 1,
+            "columnIndex": 3
+          },
+          {
+            "path": "B/05",
+            "rowIndex": 1,
+            "columnIndex": 4
+          },
+          {
+            "path": "B/06",
+            "rowIndex": 1,
+            "columnIndex": 5
+          },
+          {
+            "path": "B/07",
+            "rowIndex": 1,
+            "columnIndex": 6
+          },
+          {
+            "path": "B/08",
+            "rowIndex": 1,
+            "columnIndex": 7
+          },
+          {
+            "path": "B/09",
+            "rowIndex": 1,
+            "columnIndex": 8
+          },
+          {
+            "path": "B/10",
+            "rowIndex": 1,
+            "columnIndex": 9
+          },
+          {
+            "path": "B/11",
+            "rowIndex": 1,
+            "columnIndex": 10
+          },
+          {
+            "path": "B/12",
+            "rowIndex": 1,
+            "columnIndex": 11
+          },
+          {
+            "path": "C/01",
+            "rowIndex": 2,
+            "columnIndex": 0
+          },
+          {
+            "path": "C/02",
+            "rowIndex": 2,
+            "columnIndex": 1
+          },
+          {
+            "path": "C/03",
+            "rowIndex": 2,
+            "columnIndex": 2
+          },
+          {
+            "path": "C/04",
+            "rowIndex": 2,
+            "columnIndex": 3
+          },
+          {
+            "path": "C/05",
+            "rowIndex": 2,
+            "columnIndex": 4
+          },
+          {
+            "path": "C/06",
+            "rowIndex": 2,
+            "columnIndex": 5
+          },
+          {
+            "path": "C/07",
+            "rowIndex": 2,
+            "columnIndex": 6
+          },
+          {
+            "path": "C/08",
+            "rowIndex": 2,
+            "columnIndex": 7
+          },
+          {
+            "path": "C/09",
+            "rowIndex": 2,
+            "columnIndex": 8
+          },
+          {
+            "path": "C/10",
+            "rowIndex": 2,
+            "columnIndex": 9
+          },
+          {
+            "path": "C/11",
+            "rowIndex": 2,
+            "columnIndex": 10
+          },
+          {
+            "path": "C/12",
+            "rowIndex": 2,
+            "columnIndex": 11
+          },
+          {
+            "path": "D/01",
+            "rowIndex": 3,
+            "columnIndex": 0
+          },
+          {
+            "path": "D/02",
+            "rowIndex": 3,
+            "columnIndex": 1
+          },
+          {
+            "path": "D/03",
+            "rowIndex": 3,
+            "columnIndex": 2
+          },
+          {
+            "path": "D/04",
+            "rowIndex": 3,
+            "columnIndex": 3
+          },
+          {
+            "path": "D/05",
+            "rowIndex": 3,
+            "columnIndex": 4
+          },
+          {
+            "path": "D/06",
+            "rowIndex": 3,
+            "columnIndex": 5
+          },
+          {
+            "path": "D/07",
+            "rowIndex": 3,
+            "columnIndex": 6
+          },
+          {
+            "path": "D/08",
+            "rowIndex": 3,
+            "columnIndex": 7
+          },
+          {
+            "path": "D/09",
+            "rowIndex": 3,
+            "columnIndex": 8
+          },
+          {
+            "path": "D/10",
+            "rowIndex": 3,
+            "columnIndex": 9
+          },
+          {
+            "path": "D/11",
+            "rowIndex": 3,
+            "columnIndex": 10
+          },
+          {
+            "path": "D/12",
+            "rowIndex": 3,
+            "columnIndex": 11
+          },
+          {
+            "path": "E/01",
+            "rowIndex": 4,
+            "columnIndex": 0
+          },
+          {
+            "path": "E/02",
+            "rowIndex": 4,
+            "columnIndex": 1
+          },
+          {
+            "path": "E/03",
+            "rowIndex": 4,
+            "columnIndex": 2
+          },
+          {
+            "path": "E/04",
+            "rowIndex": 4,
+            "columnIndex": 3
+          },
+          {
+            "path": "E/05",
+            "rowIndex": 4,
+            "columnIndex": 4
+          },
+          {
+            "path": "E/06",
+            "rowIndex": 4,
+            "columnIndex": 5
+          },
+          {
+            "path": "E/07",
+            "rowIndex": 4,
+            "columnIndex": 6
+          },
+          {
+            "path": "E/08",
+            "rowIndex": 4,
+            "columnIndex": 7
+          },
+          {
+            "path": "E/09",
+            "rowIndex": 4,
+            "columnIndex": 8
+          },
+          {
+            "path": "E/10",
+            "rowIndex": 4,
+            "columnIndex": 9
+          },
+          {
+            "path": "E/11",
+            "rowIndex": 4,
+            "columnIndex": 10
+          },
+          {
+            "path": "E/12",
+            "rowIndex": 4,
+            "columnIndex": 11
+          },
+          {
+            "path": "F/01",
+            "rowIndex": 5,
+            "columnIndex": 0
+          },
+          {
+            "path": "F/02",
+            "rowIndex": 5,
+            "columnIndex": 1
+          },
+          {
+            "path": "F/03",
+            "rowIndex": 5,
+            "columnIndex": 2
+          },
+          {
+            "path": "F/04",
+            "rowIndex": 5,
+            "columnIndex": 3
+          },
+          {
+            "path": "F/05",
+            "rowIndex": 5,
+            "columnIndex": 4
+          },
+          {
+            "path": "F/06",
+            "rowIndex": 5,
+            "columnIndex": 5
+          },
+          {
+            "path": "F/07",
+            "rowIndex": 5,
+            "columnIndex": 6
+          },
+          {
+            "path": "F/08",
+            "rowIndex": 5,
+            "columnIndex": 7
+          },
+          {
+            "path": "F/09",
+            "rowIndex": 5,
+            "columnIndex": 8
+          },
+          {
+            "path": "F/10",
+            "rowIndex": 5,
+            "columnIndex": 9
+          },
+          {
+            "path": "F/11",
+            "rowIndex": 5,
+            "columnIndex": 10
+          },
+          {
+            "path": "F/12",
+            "rowIndex": 5,
+            "columnIndex": 11
+          },
+          {
+            "path": "G/01",
+            "rowIndex": 6,
+            "columnIndex": 0
+          },
+          {
+            "path": "G/02",
+            "rowIndex": 6,
+            "columnIndex": 1
+          },
+          {
+            "path": "G/03",
+            "rowIndex": 6,
+            "columnIndex": 2
+          },
+          {
+            "path": "G/04",
+            "rowIndex": 6,
+            "columnIndex": 3
+          },
+          {
+            "path": "G/05",
+            "rowIndex": 6,
+            "columnIndex": 4
+          },
+          {
+            "path": "G/06",
+            "rowIndex": 6,
+            "columnIndex": 5
+          },
+          {
+            "path": "G/07",
+            "rowIndex": 6,
+            "columnIndex": 6
+          },
+          {
+            "path": "G/08",
+            "rowIndex": 6,
+            "columnIndex": 7
+          },
+          {
+            "path": "G/09",
+            "rowIndex": 6,
+            "columnIndex": 8
+          },
+          {
+            "path": "G/10",
+            "rowIndex": 6,
+            "columnIndex": 9
+          },
+          {
+            "path": "G/11",
+            "rowIndex": 6,
+            "columnIndex": 10
+          },
+          {
+            "path": "G/12",
+            "rowIndex": 6,
+            "columnIndex": 11
+          },
+          {
+            "path": "H/01",
+            "rowIndex": 7,
+            "columnIndex": 0
+          },
+          {
+            "path": "H/02",
+            "rowIndex": 7,
+            "columnIndex": 1
+          },
+          {
+            "path": "H/03",
+            "rowIndex": 7,
+            "columnIndex": 2
+          },
+          {
+            "path": "H/04",
+            "rowIndex": 7,
+            "columnIndex": 3
+          },
+          {
+            "path": "H/05",
+            "rowIndex": 7,
+            "columnIndex": 4
+          },
+          {
+            "path": "H/06",
+            "rowIndex": 7,
+            "columnIndex": 5
+          },
+          {
+            "path": "H/07",
+            "rowIndex": 7,
+            "columnIndex": 6
+          },
+          {
+            "path": "H/08",
+            "rowIndex": 7,
+            "columnIndex": 7
+          },
+          {
+            "path": "H/09",
+            "rowIndex": 7,
+            "columnIndex": 8
+          },
+          {
+            "path": "H/10",
+            "rowIndex": 7,
+            "columnIndex": 9
+          },
+          {
+            "path": "H/11",
+            "rowIndex": 7,
+            "columnIndex": 10
+          },
+          {
+            "path": "H/12",
+            "rowIndex": 7,
+            "columnIndex": 11
+          }
+        ],
+        "field_count": 1,
+        "name": "Automated Plate",
+        "version": "0.6"
+      }
+    },
+    "czitools": {
+      "originalMetadata": {
+        "path": "CZI/metadata.xml",
+        "format": "ZEISS-CZI-XML",
+        "mediaType": "application/xml",
+        "sourceFilename": "transloc_gfp_dapi_0_2micron.czi"
+      }
+    }
+  },
+  "zarr_format": 3,
+  "node_type": "group"
+}

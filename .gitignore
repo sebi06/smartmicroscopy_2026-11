@@ -1,0 +1,31 @@
+# Installed environments
+/.pixi/
+/.venv/
+/venv/
+
+# Machine-local configuration and secrets
+/paths.toml
+/.vscode/
+.env
+.env.*
+!.env.example
+
+# Generated workshop outputs
+/results/
+
+# Python and tool caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ty_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
