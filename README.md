@@ -266,11 +266,11 @@ This reads the shared dataset and workbook, then writes to
 `results/translocation/`. The notebook uses
 `results/translocation/notebook_run/` so its exports stay separate.
 
-Optional positional arguments are the workbook, script, CZI, and output
+Optional positional arguments are the script, input file, workbook, and output
 directory, in that order. For example:
 
 ```powershell
-pixi run transloc_assay "data/translocation/my_layout.xlsx"
+pixi run transloc_assay "examples/translocation/translocation_assay.py" "data/translocation/transloc_gfp_dapi_0_2micron.czi" "data/translocation/my_layout.xlsx"
 ```
 
 Paths passed to tasks are relative to this workshop folder unless absolute.

@@ -137,12 +137,15 @@ description = "Inspect CZI well-plate metadata and stored dimensions"
 args = [{ arg = "czifile" }]
 
 [tasks.transloc_assay]
-cmd = 'python "{{ script }}" --czi "{{ czi }}" --plate-layout "{{ plate_layout }}" --output-dir "{{ output_dir }}"'
+cmd = 'python "{{ script }}" --input "{{ inputfile }}" --plate-layout "{{ plate_layout }}" --output-dir "{{ output_dir }}"'
 description = "Run the translocation example with shared workshop data and separate results"
+# Pixi task arguments are positional: script, inputfile, plate_layout, output_dir.
+# Supply earlier arguments to override a later one; omitted trailing arguments
+# use their defaults. Flags such as --input belong to Python, not this task.
 args = [
-    { arg = "plate_layout", default = "data/translocation/plate_layout_example.xlsx" },
     { arg = "script", default = "examples/translocation/translocation_assay.py" },
-    { arg = "czi", default = "data/translocation/transloc_gfp_dapi_0_2micron.czi" },
+    { arg = "inputfile", default = "data/translocation/transloc_gfp_dapi_0_2micron.czi" },
+    { arg = "plate_layout", default = "data/translocation/plate_layout_example.xlsx" },
     { arg = "output_dir", default = "results/translocation" },
 ]
 

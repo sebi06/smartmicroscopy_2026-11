@@ -15,6 +15,40 @@ import translocation_assay as assay
 import zarr
 
 from translocation_assay_io import load_assay_input, prepare_omezarr_plate, resolve_input_format
+from translocation_assay_utils import save_heatmaps
+
+
+class PlateHeatmapTests(unittest.TestCase):
+    """Keep every plate column visible for CZI and NGFF well paths."""
+
+    def test_heatmaps_accept_padded_and_unpadded_columns(self) -> None:
+        """Both metrics retain all 96 values and their well positions."""
+        for padded in (False, True):
+            with self.subTest(padded=padded), tempfile.TemporaryDirectory() as directory:
+                paths = [
+                    f"{row}/{column:02d}" if padded else f"{row}/{column}"
+                    for row in "ABCDEFGH"
+                    for column in range(1, 13)
+                ]
+                counts = np.arange(1, 97).reshape(8, 12)
+                ratios = counts / 10
+                table = pd.DataFrame(
+                    {
+                        "WellPath": paths,
+                        "NumberOfObjects": counts.ravel(),
+                        "MedianTranslocationRatio": ratios.ravel(),
+                    }
+                )
+                figures = []
+                with patch(
+                    "plotly.graph_objects.Figure.write_html",
+                    autospec=True,
+                    side_effect=lambda figure, *args, **kwargs: figures.append(figure),
+                ):
+                    save_heatmaps(table, Path(directory), "plotly")
+                self.assertEqual(len(figures), 2)
+                np.testing.assert_array_equal(figures[0].data[0].z, counts)
+                np.testing.assert_array_equal(figures[1].data[0].z, ratios)
 
 
 class OmeZarrPlateTests(unittest.TestCase):

@@ -41,7 +41,7 @@ CHANNELINDEX_SECONDARY_OBJECT = 1
 SEGMENTATION_SCENE = None
 
 
-def _default_czi_path() -> Path:
+def _default_inputfile() -> Path:
     """Return the assay input from the workshop's shared data directory."""
     return Path(__file__).resolve().parents[2] / "data" / "translocation" / "transloc_gfp_dapi_0_2micron.czi"
 
@@ -127,9 +127,7 @@ def run_analysis(
             ring_width_um / pixel_spacing_um[1],
         )
         ring_width_label = (
-            f"{ring_width_um:g} um "
-            f"({ring_width_equivalent_px_yx[0]:g} px Y, "
-            f"{ring_width_equivalent_px_yx[1]:g} px X)"
+            f"{ring_width_um:g} um ({ring_width_equivalent_px_yx[0]:g} px Y, {ring_width_equivalent_px_yx[1]:g} px X)"
         )
     else:
         assert ring_width_px is not None
@@ -139,9 +137,7 @@ def run_analysis(
             ring_width_px * pixel_spacing_um[1],
         )
         ring_width_label = (
-            f"{ring_width_px:g} px "
-            f"({ring_width_equivalent_um_yx[0]:g} um Y, "
-            f"{ring_width_equivalent_um_yx[1]:g} um X)"
+            f"{ring_width_px:g} px ({ring_width_equivalent_um_yx[0]:g} um Y, {ring_width_equivalent_um_yx[1]:g} um X)"
         )
     if metadata.channelinfo is None:
         raise ValueError("Channel metadata are unavailable.")
@@ -153,10 +149,10 @@ def run_analysis(
     for channel, index in channel_indices.items():
         if index >= len(channel_names):
             raise ValueError(
-                f"Channel index {index} for {channel} is unavailable; " f"stored channels are {channel_names}."
+                f"Channel index {index} for {channel} is unavailable; stored channels are {channel_names}."
             )
         if channel_names[index].strip().casefold() != channel.casefold():
-            raise ValueError(f"Expected {channel} at channel index {index}; " f"stored channels are {channel_names}.")
+            raise ValueError(f"Expected {channel} at channel index {index}; stored channels are {channel_names}.")
     with Progress(
         SpinnerColumn(),
         TextColumn("{task.description}"),
@@ -252,12 +248,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--input",
-        "--czi",
         dest="input_path",
         type=Path,
-        default=_default_czi_path(),
+        default=_default_inputfile(),
         help=(
-            "Input CZI, OME-Zarr HCS directory, or OZX archive (--czi is a legacy alias). "
+            "Input CZI, OME-Zarr HCS directory, or OZX archive (single-file OME-ZARR)."
             "Default: workshop data/translocation/transloc_gfp_dapi_0_2micron.czi."
         ),
     )
@@ -295,9 +290,7 @@ def main(argv: list[str] | None = None) -> int:
     ring_width_group.add_argument(
         "--ring-width-px",
         type=float,
-        help=(
-            "Ring width directly in pixels; alternative to --ring-width-um. " "Do not supply both ring-width options."
-        ),
+        help=("Ring width directly in pixels; alternative to --ring-width-um. Do not supply both ring-width options."),
     )
     parser.add_argument("--min-nucleus-area-px", type=int, default=40)
     parser.add_argument("--min-nucleus-distance-px", type=int, default=8)

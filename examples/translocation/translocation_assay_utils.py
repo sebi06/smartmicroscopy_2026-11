@@ -967,7 +967,8 @@ def analyze_scenes(
 def _plate_values(well_table: pd.DataFrame, column: str) -> dict[str, float]:
     values: dict[str, float] = {}
     for well_path, value in zip(well_table["WellPath"], well_table[column], strict=True):
-        values[str(well_path)] = float(value) if pd.notna(value) else float("nan")
+        row, well_column = str(well_path).split("/")
+        values[f"{row}/{int(well_column)}"] = float(value) if pd.notna(value) else float("nan")
     return values
 
 
