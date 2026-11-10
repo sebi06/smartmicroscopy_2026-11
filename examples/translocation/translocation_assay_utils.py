@@ -358,7 +358,7 @@ def segment_nuclei(
     threshold_function = THRESHOLD_METHODS.get(threshold_method)
     if threshold_function is None:
         raise ValueError(
-            f"Unsupported threshold method {threshold_method!r}; " f"choose from {', '.join(THRESHOLD_METHODS)}."
+            f"Unsupported threshold method {threshold_method!r}; choose from {', '.join(THRESHOLD_METHODS)}."
         )
     image = np.asarray(dapi)
     finite = np.isfinite(image)
@@ -1368,7 +1368,7 @@ def _save_dose_response_plotly(
                 mode="markers+lines",
                 marker={"color": "#1976bd", "size": 8},
                 line={"color": "#1976bd", "width": 2},
-                hovertemplate=(f"{drug}<br>Dose: %{{customdata:g}} {unit}<br>" "Fraction: %{y:.3f}<extra></extra>"),
+                hovertemplate=(f"{drug}<br>Dose: %{{customdata:g}} {unit}<br>Fraction: %{{y:.3f}}<extra></extra>"),
                 showlegend=False,
             ),
             row=row,
