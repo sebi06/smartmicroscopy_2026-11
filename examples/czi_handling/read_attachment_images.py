@@ -1,6 +1,20 @@
+"""Read CZI attachment images and display the slide preview.
+
+Run directly in VS Code, or from the workshop repository root:
+    pixi run --no-install python examples\\czi_handling\\read_attachment_images.py
+"""
+
 import os
+import sys
 from pathlib import Path
 
+# Direct interpreter launches do not activate the Pixi environment's DLL paths.
+if os.name == "nt":
+    library_bin = Path(sys.prefix) / "Library" / "bin"
+    if library_bin.is_dir():
+        os.environ["PATH"] = str(library_bin) + os.pathsep + os.environ.get("PATH", "")
+
+import matplotlib.pyplot as plt
 from czitools.metadata_tools.attachment import CziAttachments
 from czitools.metadata_tools.czi_metadata import CziMetadata
 from czitools.metadata_tools.helper import AttachmentType
@@ -17,8 +31,10 @@ filepath = r"w96_A1+A2.czi"
 
 # read all metadata_tools and check for the attachment images
 md = CziMetadata(filepath)
+
 if md.attachments is None:
     raise RuntimeError(f"Attachment metadata is unavailable for {filepath}")
+
 print(f"CZI Image has Label {md.attachments.has_label}")
 print(f"CZI Image has SlidePreview {md.attachments.has_preview}")
 print(f"CZI Image has Prescan {md.attachments.has_prescan}")
@@ -33,23 +49,42 @@ for k, v in attachments.__dict__.items():
 attachment_types = [AttachmentType.SlidePreview, AttachmentType.Label, AttachmentType.Prescan]
 
 for at in attachment_types:
-    if at == "SlidePreview" and attachments.has_preview:
+    if at == AttachmentType.SlidePreview and attachments.has_preview:
+        # Read the slide preview attachment as an array and optionally copy it as a CZI file
         data, loc = read_tools.read_attachments(filepath, attachment_type=at, copy=True)
+
         if data is None:
             raise RuntimeError(f"Could not read the {at} attachment from {filepath}")
         print(f"Shape of {at} image: {data.shape}")
         print(f"Location of {at}: {loc}")
 
-    if at == "Label" and attachments.has_label:
+        preview = data[..., 0] if data.ndim == 3 and data.shape[-1] == 1 else data
+
+        # Convert BGR to RGB if necessary
+        if preview.ndim == 3 and preview.shape[-1] == 3:
+            preview = preview[..., ::-1]  # Convert CZI BGR pixels to RGB.
+
+        # show the slide preview image
+        plt.figure()
+        plt.imshow(preview, cmap="gray")
+        plt.title(f"Slide preview: {Path(filepath).name}")
+        plt.axis("off")
+        plt.show(block=True)
+
+    if at == AttachmentType.Label and attachments.has_label:
         data, loc = read_tools.read_attachments(filepath, attachment_type=at, copy=True)
+
         if data is None:
             raise RuntimeError(f"Could not read the {at} attachment from {filepath}")
+
         print(f"Shape of {at} image: {data.shape}")
         print(f"Location of {at}: {loc}")
 
-    if at == "Prescan" and attachments.has_prescan:
+    if at == AttachmentType.Prescan and attachments.has_prescan:
         data, loc = read_tools.read_attachments(filepath, attachment_type=at, copy=True)
+
         if data is None:
             raise RuntimeError(f"Could not read the {at} attachment from {filepath}")
+
         print(f"Shape of {at} image: {data.shape}")
         print(f"Location of {at}: {loc}")
