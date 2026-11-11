@@ -1,2 +1,2 @@
 [environment]
-extra-paths = ["examples/translocation"]
+extra-paths = ["examples/translocation", "examples/czi_handling"]

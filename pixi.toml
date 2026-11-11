@@ -9,7 +9,7 @@ channels = ["conda-forge"]
 name = "pixi_smartmic"
 platforms = ["win-64", "linux-64"]
 version = "0.0.2"
-description = "CPU-only microscopy workshop with CZI tools, napari and ZEN API."
+description = "CPU-only microscopy workshop with CZI tools, Napari and ZEN API."
 
 [dependencies]
 python = ">=3.12.16"

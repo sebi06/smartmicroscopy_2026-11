@@ -13,6 +13,9 @@
 # Generated workshop outputs
 /results/
 
+# Archive folders at any depth
+_archive/
+
 # Python and tool caches
 __pycache__/
 *.py[cod]
