@@ -1,2 +1,5 @@
 # SCM syntax highlighting & preventing 3-way merges
 pixi.lock merge=binary linguist-language=YAML linguist-generated=true -diff
+
+# Store CZI images in Git LFS at any depth, regardless of extension case.
+*.[cC][zZ][iI] filter=lfs diff=lfs merge=lfs -text

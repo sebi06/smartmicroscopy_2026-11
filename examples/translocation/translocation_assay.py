@@ -43,7 +43,7 @@ SEGMENTATION_SCENE = None
 
 def _default_inputfile() -> Path:
     """Return the assay input from the workshop's shared data directory."""
-    return Path(__file__).resolve().parents[2] / "data" / "translocation" / "transloc_gfp_dapi_0_2micron.czi"
+    return Path(__file__).resolve().parents[2] / "data" / "transloc_gfp_dapi_0_2micron.czi"
 
 
 def run_analysis(

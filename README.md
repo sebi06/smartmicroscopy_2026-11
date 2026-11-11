@@ -33,7 +33,7 @@ On a managed computer, ask IT to install it if necessary.
 
 ```bash
 sudo apt update
-sudo apt install git curl
+sudo apt install git git-lfs curl
 ```
 
 For other distributions, use the appropriate package manager described in
@@ -46,6 +46,15 @@ git --version
 ```
 
 You should see a Git version number rather than a command-not-found error.
+
+Check Git LFS as well; CZI datasets are stored using Git Large File Storage:
+
+```text
+git lfs version
+```
+
+Git for Windows normally includes Git LFS. If the command is unavailable,
+install it using the [Git LFS installation guide](https://git-lfs.com/).
 
 ### 2. Install Pixi
 
@@ -120,6 +129,17 @@ prompts and never put passwords or access tokens in the clone URL.
 
 Your current directory should now contain `pixi.toml`, `pixi.lock`,
 `examples/`, and `data/`. Run the remaining commands from this directory.
+
+Initialize Git LFS for this clone and download its datasets:
+
+```text
+git lfs install --local
+git lfs pull
+```
+
+These downloads require additional disk space and network access. GitHub
+LFS storage, bandwidth, and per-file limits depend on the repository owner's
+plan. If datasets are distributed separately, obtain them from the instructor.
 
 ### 5. Create the Workshop Environment
 

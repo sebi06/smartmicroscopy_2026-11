@@ -144,8 +144,8 @@ description = "Run the translocation example with shared workshop data and separ
 # use their defaults. Flags such as --input belong to Python, not this task.
 args = [
     { arg = "script", default = "examples/translocation/translocation_assay.py" },
-    { arg = "inputfile", default = "data/translocation/transloc_gfp_dapi_0_2micron.czi" },
-    { arg = "plate_layout", default = "data/translocation/plate_layout_example.xlsx" },
+    { arg = "inputfile", default = "data/transloc_gfp_dapi_0_2micron.czi" },
+    { arg = "plate_layout", default = "data/plate_layout_example.xlsx" },
     { arg = "output_dir", default = "results/translocation" },
 ]
 
