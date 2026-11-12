@@ -9,6 +9,7 @@
 .env
 .env.*
 !.env.example
+/examples/control_zen_via_zenapi/my_config.ini
 
 # Generated workshop outputs
 /results/
