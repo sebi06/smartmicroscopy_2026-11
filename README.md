@@ -300,6 +300,64 @@ uses the installed napari-czitools sample provider, not a repository script.
 ZEN streaming requires a compatible running ZEN installation, API access,
 and connection settings appropriate to the workshop microscope.
 
+### Stream a ZEN Experiment to OME-Zarr from Windows CMD
+
+Use [zenapi_stream2omezarr_experiment.py](examples/control_zen_via_zenapi/zenapi_stream2omezarr_experiment.py)
+to stream an experiment directly to OME-Zarr, rather than opening the napari
+streaming viewer.
+
+Open **Command Prompt (CMD)** and change to your workshop checkout (replace
+the example directory with your own):
+
+```bat
+cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_stream2omezarr_experiment.py" --help
+```
+
+The workspace name is `pixi_smartmic` and the environment name is `default`
+(shown together as `pixi_smartmic:default` in VS Code). Pass only `default`
+to `-e`. Pixi selects the workspace from the current directory and runs its
+Python interpreter; no Conda activation or VS Code interpreter selection is
+required. Do not use the interpreter from the separate `zen-pixi-workspace`.
+
+Before acquisition, start a compatible ZEN installation with ZEN-API enabled,
+make the named experiment available in ZEN, and configure
+[config.ini](examples/control_zen_via_zenapi/config.ini) for your gateway.
+The gateway INI is still required; acquisition dimensions come from ZEN's
+exported experiment metadata, not a separate streaming INI.
+
+For example, start the experiment from Python and write OME-Zarr under
+`results\zen-streaming`:
+
+```bat
+pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_stream2omezarr_experiment.py" ^
+  --experiment "00_ZEN_API_OMEZARR_Stream" ^
+  --zenapi-config "examples\control_zen_via_zenapi\config.ini" ^
+  --output-dir "results\zen-streaming" ^
+  --dtype uint16 ^
+  --czi-name "zenapi_stream" ^
+  --start-experiment ^
+  --no-overwrite-czi ^
+  --no-overwrite-zarr
+```
+
+- In CMD, `^` continues a command onto the next line. Do not add spaces after
+  it. Alternatively, join the lines with spaces and remove the carets.
+- Replace the experiment name with your ZEN experiment name **without**
+  `.czexp`. Set `--dtype` to match its pixel output.
+- Paths supplied here are relative to the workshop root; quote paths with
+  spaces. `--output-dir` controls OME-Zarr output, not ZEN's CZI save location.
+- To start acquisition manually in ZEN, replace `--start-experiment` with
+  `--no-start-experiment` (the default), launch the script first, then start
+  the experiment in ZEN. The default inactivity timeout is 30 seconds; use
+  `--inactivity-timeout 120` if more time is needed before/between frames.
+- The example refuses to overwrite existing CZI or OME-Zarr output. Without
+  the two `--no-overwrite-*` flags, overwriting is enabled by default.
+- Optional: add `--validate-ome-zarr` for metadata validation or
+  `--pyramid-levels 3` to generate three downsampled levels after streaming.
+  Experiments with explicit sample-carrier wells use an HCS plate layout
+  by default.
+
 ### Translocation Assay
 
 The assay modules and notebook are included under `examples/translocation/`.
@@ -345,3 +403,18 @@ locally if your network requires them; do not disable TLS verification.
 
 Development, linting, testing, building, and documentation-deployment tasks
 are intentionally excluded from this participant environment.
+
+## DISCLAIMER
+
+The provided examples are free to use for everybody. Carl Zeiss Microscopy GmbH's ZEN software undertakes no warranty concerning the use of those scripts, image analysis settings and ZEN experiments.
+
+> :warning: **Use scripts, tools, ZEN API and all examples at your own risk!**
+
+Additionally Carl Zeiss Microscopy GmbH's ZEN software allows connection and usage to the third party software packages.
+Therefore Carl Zeiss Microscopy GmbH undertakes no warranty concerning those software packages, makes no representation that they will work on your system and/or hardware and will not be liable for any damages caused by the use of any scripts or examples inside this repository.
+
+By using any of those examples you agree to this disclaimer.
+
+Version: 2026.11.12
+
+Copyright (c) 2026 Carl Zeiss AG, Germany. All Rights Reserved.

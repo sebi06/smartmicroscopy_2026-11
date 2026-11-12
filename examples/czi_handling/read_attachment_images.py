@@ -20,14 +20,23 @@ from czitools.metadata_tools.czi_metadata import CziMetadata
 from czitools.metadata_tools.helper import AttachmentType
 from czitools.read_tools import read_tools
 
-# adapt to your needs
-defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
-os.chdir(defaultdir)
+# Make the shared utility importable from any workshop subdirectory.
+for utility_dir in (Path.cwd().resolve(), *Path.cwd().resolve().parents):
+    if (utility_dir / "workshop_utils.py").is_file():
+        if str(utility_dir) not in sys.path:
+            sys.path.insert(0, str(utility_dir))
+        break
+else:
+    raise FileNotFoundError("Start from the workshop root or a subdirectory.")
+
+from workshop_utils import initialize_workshop
+
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
 
 # define the file location
-filepath = r"w96_A1+A2.czi"
-# filepath = r"Tumor_HE_Orig_small.czi"
-# filepath = r"CellDivision_T=10_Z=15_CH=2_DCV_small.czi"
+filepath = data_dir / "w96_A1+A2.czi"
+# filepath = data_dir / "Tumor_HE_Orig_small.czi"
+# filepath = data_dir / "CellDivision_T=10_Z=15_CH=2_DCV_small.czi"
 
 # read all metadata_tools and check for the attachment images
 md = CziMetadata(filepath)

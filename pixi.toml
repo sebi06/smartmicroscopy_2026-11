@@ -31,6 +31,7 @@ seaborn = ">=0.13.2"
 altair = "*"
 cmap = "*"
 wordcloud = "*"
+shapely = "*"
 
 # Storage and I/O
 zarr = ">=3.0"
