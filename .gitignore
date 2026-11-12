@@ -12,6 +12,13 @@
 
 # Generated workshop outputs
 /results/
+/examples/czi_handling/newCZI_compressed.czi
+/examples/czi_handling/newczi_mdata.czi
+/examples/czi_handling/newCZI_scenes.czi
+/examples/czi_handling/newCZI_stack.czi
+/examples/czi_handling/newczi_tilewise.czi
+/examples/czi_handling/newCZI_uncompressed.czi
+/examples/czi_handling/newCZI_zloc.czi
 
 # Archive folders at any depth
 _archive/
