@@ -204,8 +204,10 @@ testing, or build environments to select.
 The notebook setup cells load `initialize_workshop()` from
 [workshop_utils.py](workshop_utils.py). It walks from the current working
 directory through its parents and uses only the nearest `pixi.toml` to find
-the workshop root, then checks that the default Pixi kernel is selected.
-No particular notebook or example file is required for root discovery.
+the workshop root. No particular notebook or example file is required for
+root discovery. The utility respects the interpreter selected in VS Code
+or used to launch a script; it does not require the environment to live
+inside this workshop. That environment must provide the required packages.
 
 Run notebooks from the workshop root or any subdirectory. A small import
 bootstrap locates the shared utility without installing a local package.

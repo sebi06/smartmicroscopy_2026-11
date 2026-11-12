@@ -1,4 +1,4 @@
-"""Tests for notebook root discovery and kernel validation."""
+"""Tests for workshop discovery and shared notebook/script setup."""
 
 import sys
 import tempfile
@@ -48,13 +48,16 @@ class WorkshopSetupTests(unittest.TestCase):
             with self.assertRaisesRegex(FileNotFoundError, "pixi.toml"):
                 initialize_workshop("new_topic", start=Path(directory))
 
-    def test_wrong_kernel_raises(self):
+    def test_external_environment_is_accepted_without_switching_interpreter(self):
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
+            root = Path(directory).resolve()
             (root / "pixi.toml").touch()
-            with patch.object(sys, "prefix", str(root / "other_environment")):
-                with self.assertRaisesRegex(RuntimeError, "Select the workshop Pixi default kernel"):
-                    initialize_workshop("new_topic", start=root)
+            external_env = root.parent / "other_workspace" / ".pixi" / "envs" / "default"
+            with patch.object(sys, "prefix", str(external_env)):
+                paths = initialize_workshop("czi_handling", start=root)
+                self.assertEqual(paths[0], root)
+                self.assertEqual(paths[1], root / "examples" / "czi_handling")
+                self.assertEqual(sys.prefix, str(external_env))
 
     def test_paths_imports_and_summary(self):
         with tempfile.TemporaryDirectory() as directory:

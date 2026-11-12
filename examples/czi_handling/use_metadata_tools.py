@@ -1,40 +1,39 @@
-# -*- coding: utf-8 -*-
+import sys
+from pathlib import Path
 
-#################################################################
-# File        : use_metadata_tools.py
-# Author      : sebi06
-#
-# Disclaimer: This code is purely experimental. Feel free to
-# use it at your own risk.
-#
-# Requires magicgui to be installed!
-#################################################################
-
-from czitools.metadata_tools.czi_metadata import (
-    CziMetadata,
-    writexml,
-    get_metadata_as_object,
-    _obj2dict,
-)
-from czitools.metadata_tools.dimension import CziDimensions
+from czitools.metadata_tools.add_metadata import CziAddMetaData
 from czitools.metadata_tools.boundingbox import CziBoundingBox
 from czitools.metadata_tools.channel import CziChannelInfo
-from czitools.metadata_tools.scaling import CziScaling
-from czitools.metadata_tools.sample import CziSampleInfo
-from czitools.metadata_tools.objective import CziObjectives
-from czitools.metadata_tools.microscope import CziMicroscope
-from czitools.metadata_tools.add_metadata import CziAddMetaData
+from czitools.metadata_tools.czi_metadata import (
+    CziMetadata,
+    _obj2dict,
+    get_metadata_as_object,
+    writexml,
+)
 from czitools.metadata_tools.detector import CziDetector
-from czitools.utils import misc
-from pathlib import Path
+from czitools.metadata_tools.dimension import CziDimensions
+from czitools.metadata_tools.microscope import CziMicroscope
+from czitools.metadata_tools.objective import CziObjectives
+from czitools.metadata_tools.sample import CziSampleInfo
+from czitools.metadata_tools.scaling import CziScaling
+from czitools.utils import logging_tools, misc
 from magicgui import magicgui
 from magicgui.types import FileDialogMode
-from czitools.utils import logging_tools
+
+# Make the shared utility importable from any workshop subdirectory.
+for utility_dir in (Path.cwd().resolve(), *Path.cwd().resolve().parents):
+    if (utility_dir / "workshop_utils.py").is_file():
+        if str(utility_dir) not in sys.path:
+            sys.path.insert(0, str(utility_dir))
+        break
+else:
+    raise FileNotFoundError("Start from the workshop root or a subdirectory.")
+
+from workshop_utils import initialize_workshop
+
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
 
 logger = logging_tools.set_logging()
-
-# adapt to your needs
-defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
 
 
 # open simple dialog to select a CZI file
@@ -43,7 +42,7 @@ defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
         "label": "Choose CZI files:",
         "mode": FileDialogMode.EXISTING_FILE,
         "filter": "*.czi",
-        "value": defaultdir,
+        "value": data_dir,
     },
     call_button="Open CZI File",
 )
@@ -108,7 +107,8 @@ czi_bbox = CziBoundingBox(filepath)
 print(czi_bbox.total_bounding_box)
 print(czi_bbox.scenes_bounding_rect)
 print(czi_bbox.total_rect)
-print(czi_bbox.total_bounding_box["C"])
+if czi_bbox.total_bounding_box is not None:
+    print(czi_bbox.total_bounding_box["C"])
 
 # get selected metadata_tools as a dictionary
 mdata_dict = _obj2dict(mdata)

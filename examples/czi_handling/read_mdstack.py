@@ -9,19 +9,36 @@ from a CZI file, grouped per stack. It supports:
 Dimension order is always: [V, R, I, H, M] + T + C + Z + Y + X [+ A]
 """
 
+import os
+import sys
+from pathlib import Path
+
+# Direct interpreter launches do not apply Pixi's native-library PATH activation.
+native_dll_dir = Path(sys.prefix) / "Library" / "bin"
+if os.name == "nt" and native_dll_dir.is_dir():
+    os.environ["PATH"] = str(native_dll_dir) + os.pathsep + os.environ.get("PATH", "")
+
 import xarray as xr
-from czitools.read_tools import read_tools
 from czitools.metadata_tools.czi_metadata import CziMetadata
-from czitools.utils.napari_tools import display_xarray_in_napari
-from czitools.utils.napari_tools import display_xarray_list_in_napari
+from czitools.read_tools import read_tools
+from czitools.utils.napari_tools import display_xarray_in_napari, display_xarray_list_in_napari
+
+# Make the shared utility importable from any workshop subdirectory.
+for utility_dir in (Path.cwd().resolve(), *Path.cwd().resolve().parents):
+    if (utility_dir / "workshop_utils.py").is_file():
+        if str(utility_dir) not in sys.path:
+            sys.path.insert(0, str(utility_dir))
+        break
+else:
+    raise FileNotFoundError("Start from the workshop root or a subdirectory.")
+
+from workshop_utils import initialize_workshop
+
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
 
 # Test files
-# filepath = r"F:\AzureDevOps\RMS_CAREamics_Container\_archive\calc_mean_testimage.czi"
-# filepath = r"F:\Testdata_Zeiss\CZI_Testfiles\S=3_1Pos_2Mosaic_T=2=Z=3_CH=2.czi"
-# filepath = r"F:\Testdata_Zeiss\CZI_Testfiles\96well_S=192_2pos_CH=3.czi"
-filepath = r"F:\Testdata_Zeiss\CZI_Testfiles\WP96_4Pos_B4-10_DAPI.czi"
-# filepath = r"F:\Github\czitools\data\CellDivision_T10_Z15_CH2_DCV_small.czi"
-# filepath = r"f:\Testdata_Zeiss\LLS7\LS_Mitosis_T=150-300.czi"
+filepath = data_dir / "WP96_4Pos_B4-10_DAPI.czi"
+
 
 # show resulting stack inside napari
 show_napari = True

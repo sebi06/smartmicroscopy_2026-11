@@ -10,10 +10,11 @@ def initialize_workshop(
     start: Path | None = None,
     data_subdir: str = "",
 ) -> tuple[Path, Path, Path, Path]:
-    """Validate the kernel, set up example imports, and print workshop paths.
+    """Find the workshop, set up example imports, and print workshop paths.
 
     Start from the current working directory unless a directory is supplied.
     No notebook or example files are required to identify the workshop root.
+    Use the current interpreter without requiring a particular environment path.
     Return the workshop root, example directory, data directory, and model
     directory, in that order. ``data_subdir`` is relative to the data directory.
     """
@@ -24,10 +25,6 @@ def initialize_workshop(
             break
     else:
         raise FileNotFoundError("Start from the workshop root or a subdirectory containing pixi.toml.")
-
-    default_env = workshop_root / ".pixi" / "envs" / "default"
-    if Path(sys.prefix).resolve() != default_env.resolve():
-        raise RuntimeError(f"Select the workshop Pixi default kernel from {default_env}.")
 
     project_dir = workshop_root / "examples" / example
     data_dir = workshop_root / "data" / data_subdir

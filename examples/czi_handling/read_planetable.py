@@ -1,27 +1,26 @@
-# -*- coding: utf-8 -*-
-
-#################################################################
-# File        : read_planetable.py
-# Author      : sebi06
-#
-# Disclaimer: This code is purely experimental. Feel free to
-# use it at your own risk.
-#
-# Requires magicgui to be installed!
-#################################################################
+import sys
+from pathlib import Path
 
 from czitools.metadata_tools.czi_metadata import CziMetadata
 from czitools.metadata_tools.dimension import CziDimensions
-from czitools.utils import planetable
-from pathlib import Path
+from czitools.utils import logging_tools, planetable
 from magicgui import magicgui
 from magicgui.types import FileDialogMode
-from czitools.utils import logging_tools
+
+# Make the shared utility importable from any workshop subdirectory.
+for utility_dir in (Path.cwd().resolve(), *Path.cwd().resolve().parents):
+    if (utility_dir / "workshop_utils.py").is_file():
+        if str(utility_dir) not in sys.path:
+            sys.path.insert(0, str(utility_dir))
+        break
+else:
+    raise FileNotFoundError("Start from the workshop root or a subdirectory.")
+
+from workshop_utils import initialize_workshop
+
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
 
 logger = logging_tools.set_logging()
-
-# adapt to your needs
-defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
 
 
 # open simple dialog to select a CZI file
@@ -30,7 +29,7 @@ defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
         "label": "Choose CZI files:",
         "mode": FileDialogMode.EXISTING_FILE,
         "filter": "*.czi",
-        "value": defaultdir,
+        "value": data_dir,
     },
     call_button="Read Plantable from CZI File",
 )

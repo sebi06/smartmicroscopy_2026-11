@@ -1,27 +1,34 @@
-# -*- coding: utf-8 -*-
-
-#################################################################
-# File        : use_ndv_tools.py
-# Author      : sebi06
-#
-# Disclaimer: This code is purely experimental. Feel free to
-# use it at your own risk.
-#
-# Requires napari & magicgui to be installed!
-#
-# Requires: ndv-0.5.0rc3-py3-none-any.whl installed
-#
-#################################################################
-
-from czitools.read_tools import read_tools
+import os
+import sys
 from pathlib import Path
-from magicgui import magicgui
-from magicgui.types import FileDialogMode
-from czitools.utils.napari_tools import display_xarray_in_napari
-from czitools.utils.ndv_tools import _create_luts_ndv
+from typing import Any, cast
+
+# Direct interpreter launches do not apply Pixi's native-library PATH activation.
+native_dll_dir = Path(sys.prefix) / "Library" / "bin"
+if os.name == "nt" and native_dll_dir.is_dir():
+    os.environ["PATH"] = str(native_dll_dir) + os.pathsep + os.environ.get("PATH", "")
+
 import ndv
 import xarray as xr
-from typing import Any, cast
+from czitools.read_tools import read_tools
+from czitools.utils.napari_tools import display_xarray_in_napari
+from czitools.utils.ndv_tools import _create_luts_ndv
+from magicgui import magicgui
+from magicgui.types import FileDialogMode
+
+# Make the shared utility importable from any workshop subdirectory.
+for utility_dir in (Path.cwd().resolve(), *Path.cwd().resolve().parents):
+    if (utility_dir / "workshop_utils.py").is_file():
+        if str(utility_dir) not in sys.path:
+            sys.path.insert(0, str(utility_dir))
+        break
+else:
+    raise FileNotFoundError("Start from the workshop root or a subdirectory.")
+
+from workshop_utils import initialize_workshop
+
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
+
 
 show_napari = False
 show_ndv = True
@@ -31,9 +38,6 @@ use_dialog = True
 
 # option to show the link to the dash dashboard when using dask (only relevant if use_mdstack=True)
 show_dask = False
-
-# adapt to your needs
-defaultdir = Path(Path(__file__).resolve().parents[2]) / "data"
 
 # Keep shared variables initialized for both code paths.
 array6d: Any = None
@@ -47,7 +51,7 @@ result: Any = None
         "label": "Choose CZI files:",
         "mode": FileDialogMode.EXISTING_FILE,
         "filter": "*.czi",
-        "value": defaultdir,
+        "value": data_dir,
     },
     call_button="Open CZI File",
 )
@@ -61,7 +65,6 @@ def filespicker(filepath: Path) -> Path:
 
 
 if use_dialog:
-
     filespicker.filepath.changed.connect(print)
     filespicker.show(run=True)
 
@@ -69,8 +72,7 @@ if use_dialog:
     print(f"Selected file: {filepath}")
 
 elif not use_dialog:
-
-    filepath = str(defaultdir / "CellDivision_T10_Z15_CH2_DCV_small.czi")
+    filepath = str(data_dir / "CellDivision_T10_Z15_CH2_DCV_small.czi")
 
 
 if not use_mdstack:
@@ -145,14 +147,11 @@ elif use_mdstack:
 
 ###  SHOW RESULTS IN VIEWER
 
-if show_napari:
-
+if show_napari and array6d is not None:
     # Delegate Napari display to the utility function
-    if array6d is not None:
-        display_xarray_in_napari(array6d, mdata, subset_planes)
+    display_xarray_in_napari(array6d, mdata, subset_planes)
 
 if show_ndv:
-
     # Determine the appropriate data to display in NDV based on the results from read_stacks
     viewer_data = None
     if isinstance(result, list):

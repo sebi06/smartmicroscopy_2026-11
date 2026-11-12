@@ -1,16 +1,24 @@
 """Launch the CZI -> OME-Zarr converter GUI (czitools Stage 5).
 
-Requires the GUI extra::
+Recommended: run the existing Pixi task from the workshop root::
 
-    pip install "czitools[omezarr-gui]"
+    pixi run omezarr-gui
 
-Run from anywhere::
+Alternatively, run this script in the workshop Pixi environment::
 
-    python demo/scripts/run_omezarr_gui.py
+    pixi run python examples/czi_handling/run_omezarr_gui.py
 
-Or use the installed console script::
+Or run the console script explicitly through Pixi::
 
-    czitools-omezarr-gui
+    pixi run czitools-omezarr-gui
+
+Selecting a Python interpreter in VS Code does not activate that environment
+in an existing terminal. A bare ``czitools-omezarr-gui`` command may therefore
+launch the copy installed in Conda base rather than the workshop environment,
+causing missing-dependency errors such as ``No module named 'ngff_zarr'``.
+Use ``pixi run`` to select the workshop environment and apply its activation.
+The workshop manifest already includes ngff-zarr; no separate pip install
+is needed.
 
 The GUI can also be embedded in napari::
 
