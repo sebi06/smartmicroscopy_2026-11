@@ -1,7 +1,7 @@
 # Smart Microscopy workshop: one default CPU environment, no source checkouts.
-# Distribute this manifest together with wheels/ and the workshop examples.
-# Install: pixi install -e default
-# Launch:  pixi run start-napari
+# Distribute this manifest together with pixi.lock and the workshop examples.
+# Install: pixi install --locked
+# Launch:  pixi run --locked start-napari
 
 [workspace]
 authors = ["Rhode, Sebastian <sebastian.rhode@zeiss.com>"]
@@ -12,7 +12,7 @@ version = "0.0.2"
 description = "CPU-only microscopy workshop with CZI tools, Napari and ZEN API."
 
 [dependencies]
-python = ">=3.12.16"
+python = ">=3.12.16,<3.13"
 
 # Scientific computing and image processing
 # Avoid MKL's competing OpenMP runtime alongside the PyTorch wheels.
@@ -75,17 +75,15 @@ napari-czann-segment = { version = "*", extras = ["cpu"] }
 napari-zenapi-streaming = { version = "*" }
 napari-virtual-reader = { version = "*" }
 onnxruntime = "*"
-torch = "*"
-torchvision = "*"
+torch = { version = "*", index = "https://download.pytorch.org/whl/cpu" }
+torchvision = { version = "*", index = "https://download.pytorch.org/whl/cpu" }
+czmodel = ">=6.1.3"
+qasync = "*"
 
-# Release wheel URLs pin the versions; local handout wheels are alternatives.
-#zen_api = { path = "wheels/zen_api-2026.5.1-py3-none-any.whl" }
-#zen_api_utils = { path = "wheels/zen_api_utils-0.1.0-py3-none-any.whl" }
+# Release wheel URLs pin the ZEN API package versions.
 zen_api = { url = "https://github.com/zeiss-microscopy/OAD/releases/download/v2026.07.1/zen_api-2026.7.1-py3-none-any.whl" }
 zen_api_utils = { url = "https://github.com/zeiss-microscopy/OAD/releases/download/zen-api-utils-v0.1.0/zen_api_utils-0.1.0-py3-none-any.whl" }
 
-# openreadout = "*"
-#napari-openreadout = ">=0.4.0"
 pylibCZIrw = ">=6.1.0"
 python-box = { version = "*", extras = ["all"] }
 loguru = "*"
@@ -123,9 +121,10 @@ betterproto = "==2.0.0b7"
 pip-system-certs = "*"
 
 [activation]
-env = { QT_API = "pyqt6" }
+env = { QT_API = "pyqt6", PYQTGRAPH_QT_LIB = "PyQt6" }
 
 [tasks]
+check-install = { cmd = '''python -c "import torch, torchvision, numpy, scipy, skimage, napari, czitools, czmodel, onnxruntime, qasync, pyqtgraph; from qtpy import QtCore; from pyqtgraph.Qt import QT_LIB; from zen_api_utils.experiment_acquisition import load_experiment_acquisition; assert torch.version.cuda is None, 'Expected CPU-only PyTorch'; assert QT_LIB == 'PyQt6', 'Expected PyQt6'; print('Workshop imports OK; PyTorch', torch.__version__, '; Qt', QtCore.qVersion())"''', description = "Check core imports and CPU-only PyTorch without opening a GUI or connecting to ZEN" }
 start-napari = { cmd = "python -m napari", description = "Open napari with the workshop plugins and CPU inference" }
 open-napari-czitools-example = { cmd = '''python -c "import napari; viewer = napari.Viewer(); viewer.open_sample('napari-czitools', 'unique_id.0'); napari.run()"''', description = "Open the napari-czitools cell-division sample" }
 omezarr-gui = { cmd = "czitools-omezarr-gui", description = "Launch the CZI-to-OME-Zarr converter" }

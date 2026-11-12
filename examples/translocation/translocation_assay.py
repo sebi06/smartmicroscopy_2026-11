@@ -84,7 +84,7 @@ def run_analysis(
     When plate_layout_path is None (the default), build_plate_layout() supplies
     the built-in layout; plate_layout_example.xlsx is not loaded automatically.
     To use that workbook from the CLI, pass
-    --plate-layout data/translocation/plate_layout_example.xlsx from the workshop root.
+    --plate-layout data/plate_layout_example.xlsx from the workshop root.
     threshold_method selects global DAPI thresholding; the default is Otsu.
     """
     if (ring_width_um is None) == (ring_width_px is None):
@@ -252,8 +252,8 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         default=_default_inputfile(),
         help=(
-            "Input CZI, OME-Zarr HCS directory, or OZX archive (single-file OME-ZARR)."
-            "Default: workshop data/translocation/transloc_gfp_dapi_0_2micron.czi."
+            "Input CZI, OME-Zarr HCS directory, or OZX archive (single-file OME-ZARR). "
+            "Default: workshop data/transloc_gfp_dapi_0_2micron.czi."
         ),
     )
     parser.add_argument(
@@ -273,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help=(
             "Excel workbook with a Wells sheet (default: built-in layout, not an Excel file). "
-            "To use the example workbook, pass --plate-layout data/translocation/plate_layout_example.xlsx; "
+            "To use the example workbook, pass --plate-layout data/plate_layout_example.xlsx; "
             "relative paths are resolved from the working directory."
         ),
     )

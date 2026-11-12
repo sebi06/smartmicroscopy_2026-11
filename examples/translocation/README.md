@@ -12,9 +12,8 @@ plate heatmaps, and dose-response plots from an existing saved run. The
 are stored together in [translocation_docs/](translocation_docs/).
 The public page becomes available after these files are pushed and Pages deploys.
 
-The walkthrough's [code-details section](https://sebi06.github.io/smartmicroscopy_2026-11/examples/translocation/translocation_docs/translocation-assay.html#code)
-includes a flowchart of input validation, per-field segmentation and ring
-measurement, well/dose aggregation, fitting, and exports. The
+Its [code-details section](https://sebi06.github.io/smartmicroscopy_2026-11/examples/translocation/translocation_docs/translocation-assay.html#code)
+explains validation, measurements, fitting, and exports. The
 [Mermaid source](translocation_docs/translocation-assay-flowchart.mmd) is editable.
 
 ## Run the assay
@@ -22,10 +21,10 @@ measurement, well/dose aggregation, fitting, and exports. The
 From the workshop root, run:
 
 ```powershell
-pixi run transloc_assay
+pixi run --locked transloc_assay
 ```
 
-Inputs are shared workshop assets under `data/translocation/`:
+Inputs are shared workshop assets directly under `data/`:
 
 - `transloc_gfp_dapi_0_2micron.czi`
 - `plate_layout_example.xlsx`
@@ -37,36 +36,32 @@ without `--plate-layout` retains the assay's built-in layout.
 The script also accepts CZI, OME-Zarr HCS directories, and OZX archives:
 
 ```powershell
-pixi run -e default python examples/translocation/translocation_assay.py `
-	--input data/translocation/transloc_gfp_dapi_0_2micron_ngff_plate.ozx `
-	--plate-layout data/translocation/plate_layout_example.xlsx `
+pixi run --locked -e default python examples\translocation\translocation_assay.py `
+	--input data\transloc_gfp_dapi_0_2micron_ngff_plate.ozx `
+	--plate-layout data\plate_layout_example.xlsx `
 	--output-dir results/translocation/cli_ozx `
 	--plot-backend seaborn
 ```
 
 Replace `--input` with a CZI file or `.ome.zarr` directory as needed.
-`--input-format auto` is the default; `czi` or `omezarr` explicitly require
-that format. The existing `--czi` argument remains an alias for `--input`,
-so the Pixi task and older commands still work. `--reader-backend` selects
+`--input-format auto` detects the container; `czi` or `omezarr` require
+that format. Use `--input`, not `--czi`. `--reader-backend` selects
 `read_stacks` or `read_field` for CZI only; NGFF always uses read-only,
 full-resolution field reads without extracting OZX archives.
 
-Script exports now include `field_mapping.csv` and format-aware analysis
-parameters. NGFF field IDs follow declared well/image order, not original
-CZI scene IDs. Select previews with `--segmentation-scene` using those
-mapped IDs. Use separate output folders to retain runs from different
-inputs or settings. The Python `run_analysis()` API retains its historical
-`czi_path` parameter name for compatibility, but accepts any supported
-container and an optional `input_format="auto"` argument.
+Use `--help` for all CLI options and separate output folders to preserve runs.
+The Python `run_analysis()` API retains its `czi_path` parameter name but
+accepts all supported containers with `input_format="auto"`.
 
-Open **`translocation_assay.ipynb`** for the unified CZI, OME-Zarr directory,
-and OZX workflow. Select the local Pixi **default** kernel
+## Notebook and outputs
+
+Open [translocation_assay.ipynb](translocation_assay.ipynb) and select the Pixi
+**default** kernel
 (`.pixi/envs/default/python.exe` on Windows). Its setup cell locates the
 workshop root from this example directory or the workshop root and verifies
-the environment. The earlier OME-Zarr-only notebook is no longer the
-recommended workflow.
+the environment.
 
-In the original notebook's configuration cell, select one input:
+In its configuration cell, select one input:
 
 ```python
 input_path = data_dir / "transloc_gfp_dapi_0_2micron.czi"
@@ -78,30 +73,29 @@ czi_reader_backend = "read_stacks"  # alternatively "read_field" for CZI
 
 Restart the kernel and run all cells after changing configuration. Layout,
 channel preview, tuning, segmentation, measurements, fitting, and exports
-are shared. NGFF sources are read-only and use one full-resolution field
-at a time; OZX requires neither extraction nor the original CZI. Only HCS
-plates with compatible 2D fields, named channels, and physical XY scaling
-are supported. The script uses the same input adapters and analysis helpers.
+use the same input adapters and analysis helpers as the CLI. Inputs must
+be HCS plates with compatible 2D fields, channels named EGFP then DAPI,
+and physical XY scaling.
 
-Outputs go to `results/translocation/notebook_run/<input-name>/`.
-Choose a fresh `output_dir` to retain different parameter runs of one input.
-`field_mapping.csv` links analysis field indices to wells and source image
-paths/selectors. CZI indices retain stored scene IDs; NGFF indices follow
-declared well/image order and are **not** original CZI scene IDs. Parameters
-and provenance record the actual input format, backend, and field-ID meaning.
+Notebook outputs go to `results/translocation/notebook_unified_run/<input-name>/`.
+Choose a fresh `output_dir` to retain parameter runs. Exports include cell,
+well, dose-response and fit CSVs, plots, analysis parameters, and an Excel-layout
+snapshot when supplied. Notebook runs also record provenance.
 
-Run the focused input-adapter tests from the workshop root:
+`field_mapping.csv` links field IDs to wells and source paths/selectors.
+CZI IDs retain stored scene indices; NGFF IDs follow declared well/image order
+and are **not** original CZI indices. Use these IDs with `--segmentation-scene`.
+
+The [calc_dose_response.py](calc_dose_response.py) wrapper runs the same CLI.
+Run the included input-adapter tests from the workshop root:
 
 ```powershell
-pixi run -e default python -m unittest discover -s examples/translocation -p test_translocation_assay_omezarr.py -v
+pixi run --locked -e default python -m unittest discover -s examples/translocation -p test_translocation_assay_omezarr.py -v
 ```
 
-If the current manifest cannot resolve, `pixi run --frozen -e default ...`
-uses the existing lockfile/environment without updating dependencies.
-
-The Python modules stay together for local imports. `calc_dose_response.py`
-is a compatibility entry point for the same assay CLI. Original development
-tests and previously generated outputs are not included in this example.
+Keep the Python modules together for local imports. If the manifest and lockfile
+disagree, obtain the matching versions from the instructor rather than bypassing
+the check with `--frozen`.
 
 ## Primary-Object Thresholding
 

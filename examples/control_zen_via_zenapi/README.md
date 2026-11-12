@@ -49,7 +49,7 @@ inside their source rather than through command-line flags.
 - [zenapi_stream2omezarr_experiment.py](zenapi_stream2omezarr_experiment.py):
   experiment-metadata-driven OME-Zarr streaming, with a CLI and Python API.
   Run it with `--help` for arguments; see the
-  [CMD streaming instructions](../../README.md#stream-a-zen-experiment-to-ome-zarr-from-windows-cmd).
+  [CMD example below](#cmd-streaming-example).
 - [zenapi_stream_omezarr_simple.py](zenapi_stream_omezarr_simple.py):
   configured Python example with optional pyramids and output validation.
 
@@ -73,3 +73,38 @@ flowchart, and sequence diagram.
 
 Keep gateway credentials private. Output locations vary by example; check
 the script and ZEN's configured image output directory before acquisition.
+
+## CMD streaming example
+
+Start a compatible ZEN installation with ZEN-API enabled and make the named
+experiment available. Configure [config.ini](config.ini) for your gateway
+(or create the local `my_config.ini` if selected by your script).
+The gateway INI is required; streaming dimensions come from ZEN's exported
+experiment metadata, not a separate streaming INI.
+
+From the workshop root in **CMD**, start acquisition and write OME-Zarr:
+
+```bat
+pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_stream2omezarr_experiment.py" ^
+  --experiment "00_ZEN_API_OMEZARR_Stream" ^
+  --zenapi-config "examples\control_zen_via_zenapi\config.ini" ^
+  --output-dir "results\zen-streaming" ^
+  --dtype uint16 ^
+  --czi-name "zenapi_stream" ^
+  --start-experiment ^
+  --no-overwrite-czi ^
+  --no-overwrite-zarr
+```
+
+- CMD's `^` continues a line; do not put spaces after it. Alternatively, join
+  the lines with spaces and remove the carets.
+- Replace the experiment name (without `.czexp`) and match `--dtype` to its pixels.
+  Quote paths with spaces. `--output-dir` affects OME-Zarr, not ZEN's CZI location.
+- For manual startup, use `--no-start-experiment` (the default), launch the script,
+  then start the experiment in ZEN. Increase the default 30-second inactivity
+  timeout with `--inactivity-timeout 120` if needed.
+- Both `--no-overwrite-*` flags protect existing outputs; overwriting is otherwise
+  enabled by default.
+- Optional: `--validate-ome-zarr` validates metadata; `--pyramid-levels 3` adds
+  three downsampled levels afterward. Explicit sample-carrier wells select an
+  HCS plate layout by default.
