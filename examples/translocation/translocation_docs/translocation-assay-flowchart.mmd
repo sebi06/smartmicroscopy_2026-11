@@ -1,0 +1,21 @@
+flowchart TD
+    A["main: parse CLI arguments"] -->|call| B["run_analysis: validate parameters and input"]
+    B -->|load| C["Load Excel or built-in well assignments"]
+    C -->|prepare| D["Load metadata, map fields to wells, check channels and XY scaling"]
+    D -->|iterate| E{"Next mapped field?"}
+    E -->|yes| F["Read or compute EGFP and DAPI planes"]
+    F -->|validate| G["Require matching two-dimensional planes"]
+    G -->|segment_nuclei| H["Threshold DAPI, clean foreground, split with watershed"]
+    H -->|make_ring_labels| I["Assign nearby background to nuclei and remove label contacts"]
+    I -->|measure_scene_objects| J["Measure EGFP nucleus and ring means"]
+    J -->|calculate| K["Record nucleus/ring ratio or NaN if invalid"]
+    K -->|continue| E
+    E -->|no| L["summarize_wells: pool field measurements by well"]
+    L -->|dose_response_table| M["Pool valid treatment-cell ratios by drug and dose"]
+    M -->|fit_hill| N{"Finite positive-dose responses sufficient and varying?"}
+    N -->|yes| O["Bounded grid search for increasing Hill curve"]
+    N -->|no| P["Store unavailable fit status and reason"]
+    O -->|collect| Q["Return AssayResults tables and preview"]
+    P -->|collect| Q
+    Q -->|write| R["Export field mapping and optional layout snapshot"]
+    R -->|write_analysis_outputs| S["Save CSVs, plots, fit status, and analysis parameters"]

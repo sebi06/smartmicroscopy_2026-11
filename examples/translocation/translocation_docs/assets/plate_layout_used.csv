@@ -1,0 +1,97 @@
+PlateID,Well,ConditionID,Role,Drug,Dose,DoseUnit,Replicate,Notes,Control
+Plate01,A1,special_A1,special,Unassigned,,,1.0,Special condition (39688; unit unspecified),Special condition (39688; unit unspecified)
+Plate01,A2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,A3,Wortmannin_0.977_nM,treatment,Wortmannin,0.977,nM,1.0,,
+Plate01,A4,Wortmannin_1.95_nM,treatment,Wortmannin,1.95,nM,1.0,,
+Plate01,A5,Wortmannin_3.91_nM,treatment,Wortmannin,3.91,nM,1.0,,
+Plate01,A6,Wortmannin_7.81_nM,treatment,Wortmannin,7.81,nM,1.0,,
+Plate01,A7,Wortmannin_15.63_nM,treatment,Wortmannin,15.63,nM,1.0,,
+Plate01,A8,Wortmannin_31.25_nM,treatment,Wortmannin,31.25,nM,1.0,,
+Plate01,A9,Wortmannin_62.5_nM,treatment,Wortmannin,62.5,nM,1.0,,
+Plate01,A10,Wortmannin_125_nM,treatment,Wortmannin,125.0,nM,1.0,,
+Plate01,A11,Wortmannin_250_nM,treatment,Wortmannin,250.0,nM,1.0,,
+Plate01,A12,positive_control,positive_control,Control,,,1.0,,Positive
+Plate01,B1,negative_control,negative_control,Control,,,2.0,,Negative
+Plate01,B2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,B3,Wortmannin_0.977_nM,treatment,Wortmannin,0.977,nM,2.0,,
+Plate01,B4,Wortmannin_1.95_nM,treatment,Wortmannin,1.95,nM,2.0,,
+Plate01,B5,Wortmannin_3.91_nM,treatment,Wortmannin,3.91,nM,2.0,,
+Plate01,B6,Wortmannin_7.81_nM,treatment,Wortmannin,7.81,nM,2.0,,
+Plate01,B7,Wortmannin_15.63_nM,treatment,Wortmannin,15.63,nM,2.0,,
+Plate01,B8,Wortmannin_31.25_nM,treatment,Wortmannin,31.25,nM,2.0,,
+Plate01,B9,Wortmannin_62.5_nM,treatment,Wortmannin,62.5,nM,2.0,,
+Plate01,B10,Wortmannin_125_nM,treatment,Wortmannin,125.0,nM,2.0,,
+Plate01,B11,Wortmannin_250_nM,treatment,Wortmannin,250.0,nM,2.0,,
+Plate01,B12,positive_control,positive_control,Control,,,2.0,,Positive
+Plate01,C1,negative_control,negative_control,Control,,,3.0,,Negative
+Plate01,C2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,C3,Wortmannin_0.977_nM,treatment,Wortmannin,0.977,nM,3.0,,
+Plate01,C4,Wortmannin_1.95_nM,treatment,Wortmannin,1.95,nM,3.0,,
+Plate01,C5,Wortmannin_3.91_nM,treatment,Wortmannin,3.91,nM,3.0,,
+Plate01,C6,Wortmannin_7.81_nM,treatment,Wortmannin,7.81,nM,3.0,,
+Plate01,C7,Wortmannin_15.63_nM,treatment,Wortmannin,15.63,nM,3.0,,
+Plate01,C8,Wortmannin_31.25_nM,treatment,Wortmannin,31.25,nM,3.0,,
+Plate01,C9,Wortmannin_62.5_nM,treatment,Wortmannin,62.5,nM,3.0,,
+Plate01,C10,Wortmannin_125_nM,treatment,Wortmannin,125.0,nM,3.0,,
+Plate01,C11,Wortmannin_250_nM,treatment,Wortmannin,250.0,nM,3.0,,
+Plate01,C12,positive_control,positive_control,Control,,,3.0,,Positive
+Plate01,D1,negative_control,negative_control,Control,,,4.0,,Negative
+Plate01,D2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,D3,Wortmannin_0.977_nM,treatment,Wortmannin,0.977,nM,4.0,,
+Plate01,D4,Wortmannin_1.95_nM,treatment,Wortmannin,1.95,nM,4.0,,
+Plate01,D5,Wortmannin_3.91_nM,treatment,Wortmannin,3.91,nM,4.0,,
+Plate01,D6,Wortmannin_7.81_nM,treatment,Wortmannin,7.81,nM,4.0,,
+Plate01,D7,Wortmannin_15.63_nM,treatment,Wortmannin,15.63,nM,4.0,,
+Plate01,D8,Wortmannin_31.25_nM,treatment,Wortmannin,31.25,nM,4.0,,
+Plate01,D9,Wortmannin_62.5_nM,treatment,Wortmannin,62.5,nM,4.0,,
+Plate01,D10,Wortmannin_125_nM,treatment,Wortmannin,125.0,nM,4.0,,
+Plate01,D11,Wortmannin_250_nM,treatment,Wortmannin,250.0,nM,4.0,,
+Plate01,D12,positive_control,positive_control,Control,,,4.0,,Positive
+Plate01,E1,positive_control,positive_control,Control,,,1.0,,Positive
+Plate01,E2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,E3,LY294002_0.31_uM,treatment,LY294002,0.31,uM,1.0,,
+Plate01,E4,LY294002_0.63_uM,treatment,LY294002,0.63,uM,1.0,,
+Plate01,E5,LY294002_1.25_uM,treatment,LY294002,1.25,uM,1.0,,
+Plate01,E6,LY294002_2.5_uM,treatment,LY294002,2.5,uM,1.0,,
+Plate01,E7,LY294002_5_uM,treatment,LY294002,5.0,uM,1.0,,
+Plate01,E8,LY294002_10_uM,treatment,LY294002,10.0,uM,1.0,,
+Plate01,E9,LY294002_20_uM,treatment,LY294002,20.0,uM,1.0,,
+Plate01,E10,LY294002_40_uM,treatment,LY294002,40.0,uM,1.0,,
+Plate01,E11,LY294002_80_uM,treatment,LY294002,80.0,uM,1.0,,
+Plate01,E12,negative_control,negative_control,Control,,,1.0,,Negative
+Plate01,F1,positive_control,positive_control,Control,,,2.0,,Positive
+Plate01,F2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,F3,LY294002_0.31_uM,treatment,LY294002,0.31,uM,2.0,,
+Plate01,F4,LY294002_0.63_uM,treatment,LY294002,0.63,uM,2.0,,
+Plate01,F5,LY294002_1.25_uM,treatment,LY294002,1.25,uM,2.0,,
+Plate01,F6,LY294002_2.5_uM,treatment,LY294002,2.5,uM,2.0,,
+Plate01,F7,LY294002_5_uM,treatment,LY294002,5.0,uM,2.0,,
+Plate01,F8,LY294002_10_uM,treatment,LY294002,10.0,uM,2.0,,
+Plate01,F9,LY294002_20_uM,treatment,LY294002,20.0,uM,2.0,,
+Plate01,F10,LY294002_40_uM,treatment,LY294002,40.0,uM,2.0,,
+Plate01,F11,LY294002_80_uM,treatment,LY294002,80.0,uM,2.0,,
+Plate01,F12,negative_control,negative_control,Control,,,2.0,,Negative
+Plate01,G1,positive_control,positive_control,Control,,,3.0,,Positive
+Plate01,G2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,G3,LY294002_0.31_uM,treatment,LY294002,0.31,uM,3.0,,
+Plate01,G4,LY294002_0.63_uM,treatment,LY294002,0.63,uM,3.0,,
+Plate01,G5,LY294002_1.25_uM,treatment,LY294002,1.25,uM,3.0,,
+Plate01,G6,LY294002_2.5_uM,treatment,LY294002,2.5,uM,3.0,,
+Plate01,G7,LY294002_5_uM,treatment,LY294002,5.0,uM,3.0,,
+Plate01,G8,LY294002_10_uM,treatment,LY294002,10.0,uM,3.0,,
+Plate01,G9,LY294002_20_uM,treatment,LY294002,20.0,uM,3.0,,
+Plate01,G10,LY294002_40_uM,treatment,LY294002,40.0,uM,3.0,,
+Plate01,G11,LY294002_80_uM,treatment,LY294002,80.0,uM,3.0,,
+Plate01,G12,negative_control,negative_control,Control,,,3.0,,Negative
+Plate01,H1,positive_control,positive_control,Control,,,4.0,,Positive
+Plate01,H2,blank,blank,Unassigned,,,,,Blank or unassigned
+Plate01,H3,LY294002_0.31_uM,treatment,LY294002,0.31,uM,4.0,,
+Plate01,H4,LY294002_0.63_uM,treatment,LY294002,0.63,uM,4.0,,
+Plate01,H5,LY294002_1.25_uM,treatment,LY294002,1.25,uM,4.0,,
+Plate01,H6,LY294002_2.5_uM,treatment,LY294002,2.5,uM,4.0,,
+Plate01,H7,LY294002_5_uM,treatment,LY294002,5.0,uM,4.0,,
+Plate01,H8,LY294002_10_uM,treatment,LY294002,10.0,uM,4.0,,
+Plate01,H9,LY294002_20_uM,treatment,LY294002,20.0,uM,4.0,,
+Plate01,H10,LY294002_40_uM,treatment,LY294002,40.0,uM,4.0,,
+Plate01,H11,LY294002_80_uM,treatment,LY294002,80.0,uM,4.0,,
+Plate01,H12,negative_control,negative_control,Control,,,4.0,,Negative

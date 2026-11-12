@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" data-register="paper">
+<head>
+<title>Translocation assay: measure EGFP inside nuclei and surrounding rings</title>
+<link rel="stylesheet" href="kit.css" data-ve-kit>
+<style>
+header h1{font-size:var(--t-h2);max-width:28ch}
+.plot{display:block;width:100%;height:auto;background:white}
+.opening{max-height:360px;object-fit:contain;background:#000}
+.stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-3);list-style:none;padding:var(--s-3)}
+.stages li,.measure>div,.exports>div{border:1px solid var(--border-bright);padding:var(--s-4);min-width:0}
+.stages strong{display:block;margin-bottom:var(--s-2)}
+.stages small,.note{color:var(--text-dim)}
+.measure,.exports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4)}
+.fraction{display:inline-grid;text-align:center;vertical-align:middle;font-size:var(--t-h3);margin:var(--s-3) 0}
+.fraction span:first-child{border-bottom:1px solid var(--border-bright);padding-bottom:var(--s-2)}
+.fraction span:last-child{padding-top:var(--s-2)}
+code,a,.note{overflow-wrap:anywhere}
+.snapshot{padding:var(--s-4);border:1px solid var(--border-bright);background:var(--surface)}
+@media(max-width:750px){.stages,.measure,.exports{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="ve-toc" aria-label="Sections"><div><a href="#pipeline">Workflow</a><a href="#measurement">Measurement</a><a href="#plate">Plate layout and checks</a><a href="#dose">Dose response</a><a href="#run">Run and exports</a><a href="#code">Code details</a></div><span class="pos"></span></nav>
+<main>
+<header>
+<p class="eyebrow">Smart microscopy / translocation assay</p>
+<h1>Measure EGFP inside nuclei and surrounding rings</h1>
+<p class="lead">DAPI defines the nuclei; the EGFP nucleus-to-ring ratio measures relative nuclear enrichment.</p>
+</header>
+<figure>
+<a href="assets/segmentation_example.png"><img class="plot opening" src="assets/segmentation_example.png" width="2058" height="1100" alt="Saved assay plot showing EGFP and DAPI beside detected nucleus and ring boundaries in well A7, scene 6"></a>
+<figcaption><span class="fig-n">Fig. 1</span>The saved field preview pairs the measured fluorescence with nucleus and outer-ring boundaries.</figcaption>
+</figure>
+<p class="snapshot"><b>Existing result snapshot, not a new analysis.</b> These Seaborn plots come from <code>results/translocation/notebook_unified_run/transloc_gfp_dapi_0_2micron.czi/</code>. The notebook and CLI share the analysis helpers. Click any plot for full resolution.</p>
+<section id="pipeline">
+<h2>Every input uses the same measurement pipeline</h2>
+<figure class="ve-steps">
+<ol class="stages">
+<li data-s="1"><strong>Validate and read</strong><small>Detect CZI, OME-Zarr HCS, or OZX. Check plate metadata, channels, scaling, and optional Excel assignments.</small></li>
+<li data-s="2"><strong>Segment nuclei</strong><small>Threshold each DAPI field. Remove small objects, fill holes, and split touching nuclei with watershed.</small></li>
+<li data-s="3"><strong>Measure EGFP</strong><small>Build outer rings, measure nucleus and ring means, and calculate per-object ratios.</small></li>
+<li data-s="4"><strong>Summarize and fit</strong><small>Aggregate wells and doses. Fit increasing Hill curves, export tables, and draw quality-control plots.</small></li>
+</ol>
+<div class="ve-player">
+<ol class="ve-cap">
+<li data-n="1/4">CZI supports lazy scene arrays or eager field reads; NGFF reads full-resolution fields without extracting OZX.</li>
+<li data-n="2/4">The saved run uses Otsu thresholding; other supported global thresholds can be selected.</li>
+<li data-n="3/4">The ring samples the area around a nucleus; it is not a whole-cell cytoplasm segmentation.</li>
+<li data-n="4/4">The saved workbook assigns wells to treatments, doses, units, and controls before aggregation.</li>
+</ol>
+<button type="button" data-go="-1">Previous</button><button type="button" data-play>Play</button>
+<input type="range" min="1" max="4" value="4" aria-label="Assay workflow step"><button type="button" data-go="1">Next</button>
+</div>
+<figcaption><span class="fig-n">Fig. 2</span>Input adapters change how fields are read, not how their nuclei and EGFP measurements are analyzed.</figcaption>
+</figure>
+</section>
+<section id="measurement">
+<h2>The ratio compares a nucleus with its own local ring</h2>
+<figure>
+<div class="measure">
+<div><h3>Per-object measurement</h3><div class="fraction"><span>Mean nuclear EGFP</span><span>Mean ring EGFP</span></div><p>Measure raw intensities, not display-scaled fluorescence.</p><p class="note">A non-finite or non-positive ring mean makes the ratio invalid.</p></div>
+<div><h3>Dose response</h3><div class="fraction"><span>Cells at or above the ratio cutoff</span><span>Cells with finite ratios</span></div><p>Pool valid cells from replicate treatment wells at each dose.</p><p class="note">This is not the same as the median ratio heatmap or an unweighted average of well fractions.</p></div>
+</div>
+<figcaption><span class="fig-n">Fig. 3</span>The response counts cells above a ratio cutoff, rather than fitting the plate's median ratios.</figcaption>
+</figure>
+<p>The saved preview labels the physical ring width and its pixel equivalent. Rings exclude nuclear pixels and can be truncated by nearby objects or the image boundary.</p>
+</section>
+<section id="plate">
+<h2>Read the well assignments before interpreting the heatmaps</h2>
+<figure>
+<a href="assets/plate_layout.png"><img class="plot" src="assets/plate_layout.png" width="2627" height="1720" alt="Plate01 well assignments showing treatment names and doses, positive and negative controls, blanks, and the special condition with unspecified unit"></a>
+<figcaption><span class="fig-n">Fig. 4</span>The saved plate layout supplies treatment identity, dose, unit, and control roles for each well.</figcaption>
+</figure>
+<p><a href="assets/plate_layout_used.csv">Download the saved well assignments</a>. This layout image is generated from that CSV, not inferred from fluorescence. Special and blank wells remain explicitly labeled; their unspecified doses are not invented.</p>
+<p>Controls appear in the well summaries, but only treatment wells with finite doses enter the dose-response table. The normalized fit panels use fitted bottom and top values, not positive-control normalization.</p>
+<figure>
+<a href="assets/heatmap_translocation_ratio.png"><img class="plot" src="assets/heatmap_translocation_ratio.png" width="1973" height="1062" alt="Saved plate heatmap with the median EGFP nucleus-to-ring ratio printed in each well"></a>
+<figcaption><span class="fig-n">Fig. 5</span>The median-ratio map shows well-level nuclear enrichment, not the fraction of responding cells.</figcaption>
+</figure>
+<figure>
+<a href="assets/heatmap_number_of_objects.png"><img class="plot" src="assets/heatmap_number_of_objects.png" width="1989" height="1062" alt="Saved plate heatmap with the detected object count printed in each well"></a>
+<figcaption><span class="fig-n">Fig. 6</span>Object counts expose differences in sampling that a ratio map alone cannot show.</figcaption>
+</figure>
+<p>Interpret both maps with the plate assignments and <a href="assets/well_summary.csv">saved well summary</a>; color alone does not establish a treatment effect.</p>
+</section>
+<section id="dose">
+<h2>Fit the responding fraction, then inspect the normalized curve</h2>
+<figure>
+<a href="assets/dose_response_ec50.png"><img class="plot" src="assets/dose_response_ec50.png" width="2180" height="1460" alt="Saved dose-response plots for Wortmannin in nM and LY294002 in micromolar, with raw responding fractions and normalized Hill fits"></a>
+<figcaption><span class="fig-n">Fig. 7</span>The saved curves report half-maximal effective concentration estimates for distinct compounds with distinct dose units.</figcaption>
+</figure>
+<p>The fit uses a bounded NumPy grid search for an increasing four-parameter Hill curve. The normalized panel subtracts the fitted bottom and divides by the fitted response range.</p>
+<p class="note">The estimates are specific to this dataset and segmentation settings, not general compound reference values. Too few finite positive-dose responses or constant responses leave the fit unavailable.</p>
+<p><a href="assets/dose_response_summary.csv">Inspect dose-response values</a> · <a href="assets/ec50_results.csv">Inspect fit parameters and status</a></p>
+</section>
+<section id="run">
+<h2>Keep analysis outputs separate from the published snapshot</h2>
+<figure>
+<div class="exports">
+<div><h3>New assay run</h3><code>results/translocation/&lt;run-name&gt;/</code><p>Cell measurements, well summaries, dose responses, fit results, field mapping, and analysis parameters.</p><p>When using an Excel layout, also save the assignments used for the run.</p></div>
+<div><h3>This documentation snapshot</h3><code>examples/translocation/translocation_docs/</code><p>The editable source, rendered walkthrough, copied plots, and compact supporting CSVs live together.</p><p>No links depend on ignored result folders. Rerunning the assay does not refresh these copied plots.</p></div>
+</div>
+<figcaption><span class="fig-n">Fig. 8</span>The documentation includes its own plot assets so GitHub Pages does not need the local results directory.</figcaption>
+</figure>
+<pre><code>cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+pixi run --locked -e default python "examples\translocation\translocation_assay.py" ^
+  --input "data\translocation\transloc_gfp_dapi_0_2micron.czi" ^
+  --plate-layout "data\translocation\plate_layout_example.xlsx" ^
+  --output-dir "results\translocation\visual-example" ^
+  --plot-backend seaborn</code></pre>
+<p>CMD uses <code>^</code> for continuation, with no trailing spaces. Select an unused output folder to retain earlier results. The command illustrates the CLI; it did not create the snapshot shown above.</p>
+<p>Seaborn writes static PNGs. The CLI defaults to Plotly for interactive HTML. Omit <code>--plate-layout</code> only when the built-in assignments match the sample.</p>
+</section>
+<section id="code">
+<h2>The field loop feeds well summaries and dose fits</h2>
+<figure>
+<div class="frame"><pre class="mermaid" aria-label="Code-level flowchart of input validation, field processing, aggregation, fitting, and exports">
+flowchart TD
+    A["main: parse CLI arguments"] -->|call| B["run_analysis: validate parameters and input"]
+    B -->|load| C["Load Excel or built-in well assignments"]
+    C -->|prepare| D["Load metadata, map fields to wells, check channels and XY scaling"]
+    D -->|iterate| E{"Next mapped field?"}
+    E -->|yes| F["Read or compute EGFP and DAPI planes"]
+    F -->|validate| G["Require matching two-dimensional planes"]
+    G -->|segment_nuclei| H["Threshold DAPI, clean foreground, split with watershed"]
+    H -->|make_ring_labels| I["Assign nearby background to nuclei and remove label contacts"]
+    I -->|measure_scene_objects| J["Measure EGFP nucleus and ring means"]
+    J -->|calculate| K["Record nucleus/ring ratio or NaN if invalid"]
+    K -->|continue| E
+    E -->|no| L["summarize_wells: pool field measurements by well"]
+    L -->|dose_response_table| M["Pool valid treatment-cell ratios by drug and dose"]
+    M -->|fit_hill| N{"Finite positive-dose responses sufficient and varying?"}
+    N -->|yes| O["Bounded grid search for increasing Hill curve"]
+    N -->|no| P["Store unavailable fit status and reason"]
+    O -->|collect| Q["Return AssayResults tables and preview"]
+    P -->|collect| Q
+    Q -->|write| R["Export field mapping and optional layout snapshot"]
+    R -->|write_analysis_outputs| S["Save CSVs, plots, fit status, and analysis parameters"]
+</pre></div>
+<figcaption><span class="fig-n">Fig. 9</span>The code aggregates object measurements only after processing all mapped fields, and records unavailable fits instead of inventing EC50 values.</figcaption>
+</figure>
+<p><a href="translocation-assay-flowchart.mmd">Editable Mermaid flowchart</a>. Validation and read errors stop the analysis; they are not successful empty results.</p>
+<details>
+<summary>Follow the functions and edge cases</summary>
+<p><a href="../translocation_assay.py"><code>main()</code> and <code>run_analysis()</code></a> parse options, reject incompatible ring-width settings, load input metadata, and enforce channel order EGFP then DAPI. <a href="../translocation_assay_io.py"><code>prepare_scene_inputs()</code></a> supplies either lazy scenes or a field-reader callback.</p>
+<p><a href="../translocation_assay_utils.py"><code>analyze_scenes()</code></a> loads each mapped field, checks matching channel planes, and calls the segmentation and measurement helpers. Fields without nuclei produce no cell rows; they still contribute field and threshold bookkeeping.</p>
+<p><code>make_ring_labels()</code> uses nearest-nucleus distance to assign background pixels, then removes pixels touching a different nucleus or ring label. <code>measure_scene_objects()</code> uses label-wise pixel sums and areas; an empty ring or invalid ring mean yields a non-finite ratio.</p>
+<p><code>summarize_wells()</code> combines fields by well. <code>dose_response_table()</code> pools finite cell ratios from matching treatment wells rather than averaging their medians. <code>fit_hill()</code> rejects too few usable dose responses or a constant response and records the reason.</p>
+<p><code>write_analysis_outputs()</code> writes cell, well, dose, and fit tables plus plots and parameters. <code>run_analysis()</code> separately writes <code>field_mapping.csv</code> and, when an Excel layout is supplied, <code>plate_layout_used.csv</code>.</p>
+</details>
+</section>
+<section class="sources" aria-label="Sources">
+<p class="ve-label caps">Sources and provenance</p>
+<p><a href="../README.md">Assay README</a> · <a href="../translocation_assay.py">CLI and orchestration</a> · <a href="../translocation_assay_utils.py">Segmentation, measurements, fitting, and plotting</a> · <a href="../translocation_assay_io.py">Input adapters</a> · <a href="../translocation_plate_layout.py">Plate assignments</a></p>
+<p>Plot snapshot: <code>transloc_gfp_dapi_0_2micron.czi</code>, from the existing unified notebook run. Saved parameters select Otsu, the Excel plate layout, channel order EGFP then DAPI, and Seaborn output. The segmentation image itself labels its field, threshold, ring width, and object count.</p>
+<p><a href="translocation-assay.src.html">Editable visual source</a>. Source review and existing result inspection only; no new assay was run for this page.</p>
+</section>
+</main>
+</body>
+</html>
