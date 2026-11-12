@@ -1,6 +1,6 @@
 # Guided acquisition with ZEN-API
 
-[Open the visual walkthrough](guided-acquisition.html) for the workflow, output
+[Open the visual walkthrough](https://sebi06.github.io/smartmicroscopy_2026-11/examples/control_zen_via_zenapi/guided_acquisition_docs/guided-acquisition.html) for the workflow, output
 locations, and end-of-run options.
 
 [zenapi_guidedacq.py](../zenapi_guidedacq.py) segments an existing overview CZI,
