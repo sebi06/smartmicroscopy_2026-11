@@ -212,6 +212,11 @@ testing, or build environments to select.
     x86-64 only; ask the instructor for a supported workshop computer.
 - **Missing dataset:** Obtain the workshop input files from the instructor
     and place them in `data/translocation/` without changing their filenames.
+- **OpenMP kernel crash when combining PyTorch and scikit-image:** The manifest
+    selects OpenBLAS rather than MKL for NumPy/SciPy to avoid competing OpenMP
+    runtimes. Run `pixi install --locked` with the matching manifest and lockfile,
+    then restart the notebook kernel. Do not set `KMP_DUPLICATE_LIB_OK`; it can
+    hide unsafe runtime conflicts.
 
 If installation fails, share the error text with the instructor, but remove
 any credentials or private network details before posting it publicly.

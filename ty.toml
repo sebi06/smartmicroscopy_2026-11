@@ -1,2 +1,3 @@
 [environment]
-extra-paths = ["examples/translocation", "examples/czi_handling"]
+extra-paths = ["examples/translocation", "examples/czi_handling", "examples/deep_learning"]
+python = '.pixi\envs\default'
