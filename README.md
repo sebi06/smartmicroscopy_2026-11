@@ -199,6 +199,27 @@ or another workshop task. You do not need to reinstall Git or Pixi each time.
 For an interactive shell, run `pixi shell`. There are no GPU, documentation,
 testing, or build environments to select.
 
+### Shared Notebook Setup
+
+The notebook setup cells load `initialize_workshop()` from
+[workshop_utils.py](workshop_utils.py). It walks from the current working
+directory through its parents and uses only the nearest `pixi.toml` to find
+the workshop root, then checks that the default Pixi kernel is selected.
+No particular notebook or example file is required for root discovery.
+
+Run notebooks from the workshop root or any subdirectory. A small import
+bootstrap locates the shared utility without installing a local package.
+The utility also adds the example directory to `sys.path` and prints the
+Python executable and all four paths. Notebooks select their example folder:
+
+```python
+workshop_root, project_dir, data_dir, model_dir = initialize_workshop("czi_handling")
+```
+
+The returned paths point to the workshop root, `examples/<example>`, `data`,
+and `data/DL_models`. Pass `data_subdir="translocation"` when a notebook uses
+`data/translocation` instead of `data`; the model directory stays shared.
+
 ### Setup Troubleshooting
 
 - **Command not found:** Reopen your terminal after installing Git or Pixi

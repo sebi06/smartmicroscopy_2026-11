@@ -39,3 +39,11 @@ htmlcov/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# exclude certain file types
+*.log
+*.tmp
+*.bak
+*.xlsx
+*planetable*.csv
+*MetaData*.xml
