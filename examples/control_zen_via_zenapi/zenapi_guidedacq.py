@@ -2,7 +2,7 @@ import asyncio
 import os
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, cast
 
@@ -247,10 +247,52 @@ def show_segmentation(
     return None
 
 
+def show_acquisition_summary(
+    filepath_overview: Path,
+    results: pd.DataFrame,
+    filepath_detail: Path | None,
+    channel: int = 0,
+) -> None:
+    """Display overview, segmentation overlay, and first detail scan side by side."""
+    with pyczi.open_czi(str(filepath_overview)) as czidoc:
+        overview = czidoc.read(plane={"C": channel})[..., 0]
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6), layout="constrained")
+    for ax in axes[:2]:
+        ax.imshow(overview, cmap="inferno", vmin=overview.min(), vmax=overview.max())
+    axes[0].set_title("Overview")
+    axes[1].set_title("Segmentation")
+    for polygon in results["polygon"]:
+        axes[1].plot(polygon[1], polygon[0], "w--", lw=2, alpha=1.0)
+
+    axes[2].set_title("First detail scan")
+    if filepath_detail is not None:
+        with pyczi.open_czi(str(filepath_detail)) as czidoc:
+            detail = czidoc.read(plane={"C": channel})[..., 0]
+        axes[2].imshow(detail, cmap="inferno", vmin=detail.min(), vmax=detail.max() * 0.85)
+    else:
+        axes[2].text(0.5, 0.5, "No detail scans acquired", ha="center", va="center", transform=axes[2].transAxes)
+    for ax in axes:
+        ax.set_axis_off()
+    fig.suptitle("Guided acquisition results")
+    plt.show(block=True)
+
+
 async def main(
     region_type: RegionType = "polygon",
     open_detail: bool = False,
+    move_results: bool = False,
+    show_summary_plot: bool = False,
 ) -> None:
+    """Run guided acquisition and optionally relocate its complete output folder.
+
+    Set move_results=True to move the timestamped run folder, including all
+    overview, segmentation, table, preview, and detail outputs, under
+    workshop_root/results/guided_acq after acquisition succeeds. Existing run
+    folders are never overwritten. The source overview in data is preserved.
+    Set show_summary_plot=True to open a three-panel overview, segmentation
+    overlay, and first-detail comparison at the end. Close it to exit the run.
+    """
 
     # OVERVIEW SCAN
     overview_exp = "00000_Overview_15x8_DAPI_5X"
@@ -271,7 +313,7 @@ async def main(
     script_dir = Path(__file__).parent
 
     # Build the path to config.ini relative to the script
-    config_path = script_dir / "config.ini"
+    config_path = script_dir / "my_config.ini"
     show_segresults = True
     verbose = False  # save the cloned experiments to disk to check later and create additional logging
 
@@ -285,7 +327,7 @@ async def main(
         my_commands.execute()
 
     # Get the current date and time
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     # Format the date and time as a string
     timestamp_folder = now.strftime("%Y-%m-%d_%H-%M-%S")
@@ -314,7 +356,7 @@ async def main(
     logger.info(f"Start Segmentation of OverView: {overview_exp}")
 
     # create general save path
-    save_path = Path(zen_savefolder.image_output_path) / timestamp_folder
+    save_path = Path(zen_savefolder.image_output_path) / str("GA_" + timestamp_folder)
 
     _, results, _, objects = segment_czi(
         str(filepath_overview),
@@ -418,11 +460,29 @@ async def main(
         dst_path = save_path / czifile.name
         shutil.move(str(czifile), str(dst_path))
 
-        if open_detail:
+    if move_results:
+        destination = workshop_root / "results" / "guided_acq" / save_path.name
+        if destination.exists():
+            raise FileExistsError(
+                f"Cannot move guided acquisition results: '{destination}' already exists. "
+                f"Run files remain in '{save_path}'."
+            )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(save_path), str(destination))
+        save_path = destination
+        logger.info(f"Moved guided acquisition results to: {save_path}")
+
+    if open_detail:
+        for czifile in detail_scan_czifile:
             # open the image in ZEN (for demo purposes) using TCP-IP
+            dst_path = save_path / czifile.name
             cmdlist = zen_tcpip_commands.add_image(str(dst_path))
             my_cmds = ZenCommands(cmdlist)
             my_cmds.execute()
+
+    if show_summary_plot:
+        first_detail = save_path / detail_scan_czifile[0].name if detail_scan_czifile else None
+        show_acquisition_summary(filepath_overview, results, first_detail)
 
 
 if __name__ == "__main__":
@@ -430,4 +490,4 @@ if __name__ == "__main__":
     logger = set_logging()
 
     # run the main function
-    asyncio.run(main())
+    asyncio.run(main(move_results=True, show_summary_plot=True))

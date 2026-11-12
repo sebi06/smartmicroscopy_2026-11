@@ -1,0 +1,20 @@
+flowchart TD
+    A["Read saved overview and stage metadata"] -->|derive Z| B["Segment overview and write labels / CSV"]
+    B -->|copy input| C["Copy overview and optionally export overlay PNG"]
+    C -->|iterate results| D{"Next object?"}
+    D -->|yes| E["Load and clone detail experiment"]
+    E -->|replace regions| F["Clear tile regions and add selected region"]
+    F -->|acquire| G["Await live detail scan"]
+    G -->|continue| D
+    D -->|no| H["Close API channel and gather detail CZIs"]
+    H -->|check option| I{"move_results?"}
+    I -->|false| J["Keep run in ZEN output directory"]
+    I -->|true| K{"Destination exists?"}
+    K -->|yes| L["Raise FileExistsError; keep source run"]
+    K -->|no| M["Move whole run into results/guided_acq"]
+    J -->|use final paths| N["Optionally open detail images in ZEN"]
+    M -->|use final paths| N
+    N -->|check option| O{"show_summary_plot?"}
+    O -->|false| P["Finish"]
+    O -->|true| Q["Show overview, overlay, and first detail"]
+    Q -->|close plot| P

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-register="blueprint">
+<head>
+<title>Guided acquisition: a saved overview guides live detail scans</title>
+<link rel="stylesheet" href="kit.css" data-ve-kit>
+<style>
+.stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s-3);padding:var(--s-4);list-style:none}
+.stages li{border:1px solid var(--border-bright);padding:var(--s-3);min-width:0}
+.stages strong{display:block;font-size:var(--t-h3);margin-bottom:var(--s-3)}
+.stages small,.filemap small{display:block;color:var(--text-dim)}
+.stages .live{border:2px solid var(--accent)}
+.filemap,.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-5)}
+.filemap>div,.compare>div{padding:var(--s-4);border:1px solid var(--border-bright)}
+.filemap ul{padding-left:var(--s-4)}
+.triptych{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3)}
+.triptych>div{border:1px solid var(--border-bright);padding:var(--s-4)}
+.triptych h3{margin-top:0}
+.label{font-family:var(--font-mono);font-size:var(--t-small);color:var(--text-dim)}
+code,a,.label{overflow-wrap:anywhere}
+.warning{padding:var(--s-4);background:var(--surface);border:1px solid var(--border-bright)}
+@media(max-width:800px){.stages,.filemap,.compare,.triptych{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="ve-toc" aria-label="Sections"><div><a href="#launch">Launch</a><a href="#files">Files</a><a href="#comparison">Comparison</a><a href="#diagrams">Diagrams</a></div><span class="pos"></span></nav>
+<main>
+<header>
+<p class="eyebrow">ZEN-API / guided microscopy</p>
+<h1>A saved overview guides live detail scans</h1>
+<p class="lead">Segment the overview, acquire each selected region, then collect the run and compare its images.</p>
+<p class="meta">Source walkthrough · zenapi_guidedacq.py · 12 November 2026 · not a hardware-run record</p>
+</header>
+<figure class="ve-steps">
+<ol class="stages">
+<li data-s="1"><span class="label">READ / saved input</span><strong>Overview</strong><code>data/OverViewScan.czi</code><small>Read stage metadata; keep the source file.</small></li>
+<li data-s="2"><span class="label">ANALYZE / local processing</span><strong>Segment</strong><small>Filter, threshold, label objects, and derive stage-space regions.</small></li>
+<li class="live" data-s="3"><span class="label">ACQUIRE / live microscope</span><strong>Detail scans</strong><small>Clone the experiment, clear regions, add one region, and await each scan.</small></li>
+<li data-s="4"><span class="label">COLLECT / after success</span><strong>Run folder</strong><small>Gather detail CZIs; optionally move the complete folder into workshop results.</small></li>
+<li data-s="5"><span class="label">INSPECT / optional</span><strong>Compare</strong><small>Show the original overview, segmentation overlay, and first detail scan.</small></li>
+</ol>
+<div class="ve-player">
+<ol class="ve-cap">
+<li data-n="1/5">The script reads a saved overview; the overview acquisition call is commented out.</li>
+<li data-n="2/5">Segmentation results define the stage regions used for detail acquisition.</li>
+<li data-n="3/5">Each result row starts a real detail scan through ZEN-API.</li>
+<li data-n="4/5">Only after successful acquisition does the script gather and optionally relocate the run.</li>
+<li data-n="5/5">The final comparison uses the detail scan at its final location.</li>
+</ol>
+<button type="button" data-go="-1">Previous</button>
+<button type="button" data-play>Play</button>
+<input type="range" min="1" max="5" value="5" aria-label="Acquisition workflow step">
+<button type="button" data-go="1">Next</button>
+</div>
+<figcaption><span class="fig-n">Fig. 1</span>The overview is simulated from a file, but the detail scans operate the microscope.</figcaption>
+</figure>
+<p class="warning"><b>Check the sample and stage alignment first.</b> The saved overview supplies coordinates and a median Z position for live acquisition.</p>
+<section id="launch">
+<h2>The launch call enables collection and comparison</h2>
+<figure>
+<div class="compare">
+<div><span class="chip">Function defaults</span><h3>Leave outputs in ZEN storage</h3><p><code>move_results=False</code><br><code>show_summary_plot=False</code><br><code>open_detail=False</code></p><p>No final comparison unless requested.</p></div>
+<div><span class="chip info">Current script launch</span><h3>Move outputs and show the plot</h3><p><code>move_results=True</code><br><code>show_summary_plot=True</code><br><code>open_detail=False</code></p><p>Close the comparison window to finish.</p></div>
+</div>
+<figcaption><span class="fig-n">Fig. 2</span>The executable launch overrides two function defaults; ZEN detail-image opening remains off.</figcaption>
+</figure>
+<pre><code>cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_guidedacq.py"</code></pre>
+<p>Use CMD from the workshop root. The workspace is <code>pixi_smartmic</code>; the environment is <code>default</code>. Configure <code>my_config.ini</code> and the detail experiment <code>ZEN_API_GuidedAcq</code> before running. Options are Python parameters, not CLI flags.</p>
+</section>
+<section id="files">
+<h2>One run folder carries the generated files</h2>
+<figure>
+<div class="filemap">
+<div><span class="label">WORKING LOCATION</span><h3>ZEN image output directory</h3><code>GA_&lt;UTC date&gt;_&lt;UTC time&gt;/</code><ul><li>Overview copy: <code>OverViewScan_OV.czi</code></li><li>Overlay preview: <code>OverViewScan_OV.png</code></li><li>Label image: <code>OverViewScan_seg.czi</code></li><li>Object table: <code>OverViewScan_seg.csv</code></li><li>Detail images: <code>zenapi_detail_&lt;id&gt;.czi</code></li></ul><small>The PNG depends on show_segresults. The original overview stays in data.</small></div>
+<div><span class="label">FINAL LOCATION / move_results=True</span><h3>Workshop results</h3><code>results/guided_acq/GA_&lt;UTC date&gt;_&lt;UTC time&gt;/</code><p>The complete working folder moves here after acquisition. Detail-image opening and the summary use the final paths.</p><p><b>If disabled:</b> the folder stays under ZEN's image output directory.</p><p><b>If the destination exists:</b> raise <code>FileExistsError</code> and leave the new run at the source.</p><small>Unrelated output files and verbose-mode saved experiment definitions are not collected.</small></div>
+</div>
+<figcaption><span class="fig-n">Fig. 3</span>Relocation moves the gathered run folder, not the source overview or unrelated ZEN files.</figcaption>
+</figure>
+</section>
+<section id="comparison">
+<h2>The comparison shows context, boundaries, and detail</h2>
+<figure>
+<div class="triptych">
+<div><span class="label">LEFT PANEL</span><h3>Overview</h3><p>Read channel zero from <code>filepath_overview</code>.</p><p>Original image context.</p></div>
+<div><span class="label">MIDDLE PANEL</span><h3>Segmentation</h3><p>Display the same overview and draw detected polygon outlines.</p><p>Not the label-mask CZI.</p></div>
+<div><span class="label">RIGHT PANEL</span><h3>First detail</h3><p>Read channel zero from the first acquired detail CZI.</p><p>If absent: <b>No detail scans acquired</b>.</p></div>
+</div>
+<figcaption><span class="fig-n">Fig. 4</span>The final window is a side-by-side comparison, not an automatically saved summary image.</figcaption>
+</figure>
+<p>The earlier overlay PNG is exported separately. If acquisition or moving fails, inspect the working paths for partial files; there is no automatic rollback.</p>
+</section>
+<section id="diagrams">
+<h2>The acquisition loop finishes before result relocation</h2>
+<figure>
+<div class="frame"><pre class="mermaid" aria-label="Flowchart of guided acquisition with optional relocation and summary plot">
+flowchart TD
+    A["Read saved overview and stage metadata"] -->|derive Z| B["Segment overview and write labels / CSV"]
+    B -->|copy input| C["Copy overview and optionally export overlay PNG"]
+    C -->|iterate results| D{"Next object?"}
+    D -->|yes| E["Load and clone detail experiment"]
+    E -->|replace regions| F["Clear tile regions and add selected region"]
+    F -->|acquire| G["Await live detail scan"]
+    G -->|continue| D
+    D -->|no| H["Close API channel and gather detail CZIs"]
+    H -->|check option| I{"move_results?"}
+    I -->|false| J["Keep run in ZEN output directory"]
+    I -->|true| K{"Destination exists?"}
+    K -->|yes| L["Raise FileExistsError; keep source run"]
+    K -->|no| M["Move whole run into results/guided_acq"]
+    J -->|use final paths| N["Optionally open detail images in ZEN"]
+    M -->|use final paths| N
+    N -->|check option| O{"show_summary_plot?"}
+    O -->|false| P["Finish"]
+    O -->|true| Q["Show overview, overlay, and first detail"]
+    Q -->|close plot| P
+</pre></div>
+<figcaption><span class="fig-n">Fig. 5</span>Each detected object triggers a live detail scan; output relocation and comparison follow successful acquisition.</figcaption>
+</figure>
+<p><a href="guided-acquisition-flowchart.mmd">Editable flowchart source</a>. Other acquisition and filesystem errors propagate and stop the workflow.</p>
+<figure>
+<div class="frame"><pre class="mermaid" aria-label="Sequence of calls among the operator, script, local files, segmentation, ZEN services, and Matplotlib">
+sequenceDiagram
+    actor User as Operator
+    participant App as Guided acquisition
+    participant Files as Local files
+    participant Seg as Segmentation
+    participant ZEN as ZEN services
+    participant Plot as Matplotlib
+    User->>App: Launch in pixi_smartmic default
+    opt show_overview
+        App->>ZEN: Open saved overview through TCP/IP
+    end
+    App->>Files: Read overview planetable
+    Files-->>App: Stage Z values
+    App->>ZEN: Initialize API and get image output path
+    ZEN-->>App: Image output directory
+    App->>Seg: Segment saved overview
+    Seg->>Files: Write segmented CZI and object CSV
+    Seg-->>App: Object results and polygon coordinates
+    App->>Files: Copy overview into run folder
+    opt show_segresults
+        App->>Plot: Export overview with polygon outlines
+        Plot->>Files: Save overlay PNG
+    end
+    loop Each result row
+        App->>ZEN: Load and clone detail experiment
+        App->>ZEN: Clear tile regions and add selected region
+        App->>ZEN: Run detail experiment and await completion
+        ZEN->>Files: Save detail CZI in ZEN output directory
+        ZEN-->>App: Completed output name
+    end
+    App->>ZEN: Close API channel
+    App->>Files: Move detail CZIs into run folder
+    opt move_results
+        App->>Files: Check final destination
+        alt Destination exists
+            Note over App,Files: Raise FileExistsError and stop - source run stays
+        else Destination absent
+            App->>Files: Move run folder under results/guided_acq
+        end
+    end
+    Note over App,Plot: Continue only if gathering and optional relocation succeed
+    opt open_detail
+        App->>ZEN: Open detail images from final paths through TCP/IP
+    end
+    opt show_summary_plot
+        App->>Files: Read overview and first detail if available
+        App->>Plot: Show overview, segmentation overlay, first detail
+        User->>Plot: Close comparison window
+    end
+    App-->>User: Finish
+</pre></div>
+<figcaption><span class="fig-n">Fig. 6</span>ZEN acquires and saves each detail scan before the script gathers files and opens the optional comparison.</figcaption>
+</figure>
+<p><a href="guided-acquisition-sequence.mmd">Editable sequence source</a>. Messages after the collision branch apply only when gathering and optional relocation succeed.</p>
+</section>
+<section class="sources" aria-label="Sources">
+<p class="ve-label caps">Sources and operating instructions</p>
+<p><a href="README_guided_acquisition.md">Dedicated README: setup, settings, outputs, and troubleshooting</a></p>
+<p><a href="../zenapi_guidedacq.py">zenapi_guidedacq.py</a>: <code>main</code>, <code>gca_run_detailscan</code>, <code>show_segmentation</code>, and <code>show_acquisition_summary</code>.</p>
+<p><a href="../processing_tools.py">processing_tools.py</a>: <code>segment_czi</code> creates the segmented CZI and object CSV.</p>
+<p><a href="../../../pixi.toml">pixi.toml</a>: workshop workspace and environment.</p>
+</section>
+</main>
+</body>
+</html>

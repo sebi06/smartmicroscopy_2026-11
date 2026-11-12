@@ -1,0 +1,50 @@
+sequenceDiagram
+    actor User as Operator
+    participant App as Guided acquisition
+    participant Files as Local files
+    participant Seg as Segmentation
+    participant ZEN as ZEN services
+    participant Plot as Matplotlib
+    User->>App: Launch in pixi_smartmic default
+    opt show_overview
+        App->>ZEN: Open saved overview through TCP/IP
+    end
+    App->>Files: Read overview planetable
+    Files-->>App: Stage Z values
+    App->>ZEN: Initialize API and get image output path
+    ZEN-->>App: Image output directory
+    App->>Seg: Segment saved overview
+    Seg->>Files: Write segmented CZI and object CSV
+    Seg-->>App: Object results and polygon coordinates
+    App->>Files: Copy overview into run folder
+    opt show_segresults
+        App->>Plot: Export overview with polygon outlines
+        Plot->>Files: Save overlay PNG
+    end
+    loop Each result row
+        App->>ZEN: Load and clone detail experiment
+        App->>ZEN: Clear tile regions and add selected region
+        App->>ZEN: Run detail experiment and await completion
+        ZEN->>Files: Save detail CZI in ZEN output directory
+        ZEN-->>App: Completed output name
+    end
+    App->>ZEN: Close API channel
+    App->>Files: Move detail CZIs into run folder
+    opt move_results
+        App->>Files: Check final destination
+        alt Destination exists
+            Note over App,Files: Raise FileExistsError and stop - source run stays
+        else Destination absent
+            App->>Files: Move run folder under results/guided_acq
+        end
+    end
+    Note over App,Plot: Continue only if gathering and optional relocation succeed
+    opt open_detail
+        App->>ZEN: Open detail images from final paths through TCP/IP
+    end
+    opt show_summary_plot
+        App->>Files: Read overview and first detail if available
+        App->>Plot: Show overview, segmentation overlay, first detail
+        User->>Plot: Close comparison window
+    end
+    App-->>User: Finish
