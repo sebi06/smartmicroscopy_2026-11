@@ -21,6 +21,10 @@
 /examples/czi_handling/newCZI_uncompressed.czi
 /examples/czi_handling/newCZI_zloc.czi
 
+
+# Exclude the presentation
+/presentation/
+
 # Archive folders at any depth
 _archive/
 
