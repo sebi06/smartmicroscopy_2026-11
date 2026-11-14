@@ -9,8 +9,8 @@ No local repository checkouts or editable installations are needed.
 With Git, Git LFS, and Pixi installed, run:
 
 ```text
-git clone https://github.com/sebi06/smartmicroscopy_2026-11.git
-cd smartmicroscopy_2026-11
+git clone https://github.com/sebi06/smartmicroscopy.git
+cd smartmicroscopy
 git lfs install --local
 git lfs pull
 pixi install --locked
@@ -116,8 +116,8 @@ installation guide. Do not continue until both commands work.
 Open a terminal in the directory where you want to keep the workshop:
 
 ```text
-git clone https://github.com/sebi06/smartmicroscopy_2026-11.git
-cd smartmicroscopy_2026-11
+git clone https://github.com/sebi06/smartmicroscopy.git
+cd smartmicroscopy
 ```
 
 No GitHub account is needed to clone this public repository.
@@ -269,7 +269,7 @@ folder, developer checkout, or manifest-generation step is required.
 ## Folder Layout
 
 ```text
-smartmicroscopy_2026-11/
+smartmicroscopy/
 |-- pixi.toml
 |-- pixi.lock
 |-- data/                       Shared input datasets
@@ -320,7 +320,7 @@ streaming viewer.
 Open **Command Prompt (CMD)** in your checkout:
 
 ```bat
-cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy"
 pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_stream2omezarr_experiment.py" --help
 ```
 

@@ -1,6 +1,6 @@
 # Guided acquisition with ZEN-API
 
-[Open the visual walkthrough](https://sebi06.github.io/smartmicroscopy_2026-11/examples/control_zen_via_zenapi/guided_acquisition_docs/guided-acquisition.html) for the workflow, output locations, and end-of-run options.
+[Open the visual walkthrough](https://sebi06.github.io/smartmicroscopy/examples/control_zen_via_zenapi/guided_acquisition_docs/guided-acquisition.html) for the workflow, output locations, and end-of-run options.
 
 [zenapi_guidedacq.py](../zenapi_guidedacq.py) segments an existing overview CZI,
 converts detected objects into tile regions, and runs a live ZEN detail scan
@@ -30,7 +30,7 @@ a saved image; **the detail acquisitions are real microscope operations**.
 Run from the workshop root, replacing the example checkout path if necessary:
 
 ```bat
-cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy"
 pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_guidedacq.py"
 ```
 
@@ -206,7 +206,7 @@ generated for the detected result rows, so their count varies.
 When `move_results=True`, the complete run folder moves to:
 
 ```text
-F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11\results\guided_acq\GA_<UTC date>_<UTC time>\
+F:\Pixi_Projects\zen_czi\smartmicroscopy\results\guided_acq\GA_<UTC date>_<UTC time>\
 ```
 
 The destination is derived from the workshop root, so it follows your checkout

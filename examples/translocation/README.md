@@ -5,14 +5,14 @@ nuclei, then exports cell measurements, well summaries, and dose-response plots.
 
 ## Visual walkthrough
 
-[Open the illustrated assay walkthrough on GitHub Pages](https://sebi06.github.io/smartmicroscopy_2026-11/examples/translocation/translocation_docs/translocation-assay.html).
+[Open the illustrated assay walkthrough on GitHub Pages](https://sebi06.github.io/smartmicroscopy/examples/translocation/translocation_docs/translocation-assay.html).
 It explains the workflow and includes the plate layout, segmentation,
 plate heatmaps, and dose-response plots from an existing saved run. The
 [local HTML](translocation_docs/translocation-assay.html) and its plot assets
 are stored together in [translocation_docs/](translocation_docs/).
 The public page becomes available after these files are pushed and Pages deploys.
 
-Its [code-details section](https://sebi06.github.io/smartmicroscopy_2026-11/examples/translocation/translocation_docs/translocation-assay.html#code)
+Its [code-details section](https://sebi06.github.io/smartmicroscopy/examples/translocation/translocation_docs/translocation-assay.html#code)
 explains validation, measurements, fitting, and exports. The
 [Mermaid source](translocation_docs/translocation-assay-flowchart.mmd) is editable.
 

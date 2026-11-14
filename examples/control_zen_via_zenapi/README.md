@@ -19,7 +19,7 @@ experiment/output files. Review their settings before running on a microscope.**
 From **Windows CMD**, launch a selected script using the workshop environment:
 
 ```bat
-cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy_2026-11"
+cd /d "F:\Pixi_Projects\zen_czi\smartmicroscopy"
 pixi run --locked -e default python "examples\control_zen_via_zenapi\zenapi_streaming.py"
 ```
 
