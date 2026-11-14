@@ -1,5 +1,17 @@
 # Smart Microscopy Workshop
 
+## Presentation and Visual Overview
+
+- [Smart Microscopy in ZEN — visual overview](https://sebi06.github.io/smartmicroscopy/presentation/smart-microscopy-zen.html):
+  explore the interfaces, workflows, examples, and videos.
+- [Smart Microscopy in ZEN — presentation slides](https://sebi06.github.io/smartmicroscopy/presentation/smart-microscopy-zen-slides.html):
+  open the slide deck; use the arrow keys to navigate and **O** for the outline.
+
+Offline copies are included in [presentation/](presentation/). Keep the
+`assets/` folder beside the HTML files so images and videos remain available.
+
+## Workshop Environment
+
 The Pixi workspace is named `pixi_smartmic`. It provides one `default`
 environment using Python 3.12 and CPU inference on Windows or Linux.
 No local repository checkouts or editable installations are needed.
@@ -228,6 +240,11 @@ argument supports datasets in a subfolder; it does not move existing files.
 - **Command not found:** Reopen your terminal after installing Git or Pixi
     and check `git --version` and `pixi --version` again.
 - **Cannot find `pixi.toml`:** Change into the cloned workshop directory.
+- **Environment directory has moved:** Pixi environments are not relocatable.
+    Close kernels and applications using this workshop environment, remove only
+    `.pixi/envs/default/` from the renamed repository, then run
+    `pixi install --locked` and `pixi run --locked check-install`.
+    Keep `pixi.lock`; do not edit environment path markers to bypass this check.
 - **Lockfile out of date:** Ask the instructor for the matching `pixi.toml`
     and `pixi.lock`. Do not run `pixi update` as a workaround during the workshop.
 - **Certificate, proxy, or download errors:** Ask your instructor or IT about
