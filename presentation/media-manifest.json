@@ -1,0 +1,577 @@
+{
+  "title": "Smart Microscopy in ZEN - media provenance",
+  "reviewed": "2026-11-13",
+  "reference_policy": "Source fields point to accessible repository copies, not private originals. Credits retain attribution; no private workstation paths or unavailable presentation-deck references are required.",
+  "assets": [
+    {
+      "asset": "assets/zeiss.png",
+      "source": "assets/zeiss.png",
+      "credit": "ZEISS logo supplied by the workshop organizer",
+      "sha256": "bfe78dbebb6d93a23b49954a4da740a7da84f9a19b4f4dd4e98170b0c09d9da0",
+      "bytes": 650
+    },
+    {
+      "asset": "assets/example-zenapi-control.svg",
+      "source": "../examples/control_zen_via_zenapi/README.md",
+      "credit": "New text-free conceptual illustration of an external computer controlling microscope acquisition, with selected cells, stage controls and a specimen; not a hardware specification or recorded result",
+      "sha256": "e59a640894f8318c002ccead02e9adbf5776f125f2d246a534e2c5ed1c0e24b5",
+      "bytes": 4670
+    },
+    {
+      "asset": "assets/example-czi-handling.png",
+      "source": "../examples/czi_handling/using_pylibCZIrw.ipynb",
+      "operation": "Composite of saved notebook outputs: cropped Frame_1 and Frame_2 images from zero-based cell 21 output 2, plane shape from cell 21 output 0, and dimension extents from cell 11 output 0. No CZI reader or microscope was run.",
+      "credit": "Workshop pylibCZIrw notebook: actual saved Python CZI pixel-reading and metadata outputs, composed into a new visual",
+      "sha256": "e79ae6ced8822960f6983241ef192b61244e97c5a261bd9b52a04700ca1b77a3",
+      "bytes": 186085
+    },
+    {
+      "asset": "assets/example-deep-learning.png",
+      "source": "../examples/deep_learning/run_prediction_from_czann.ipynb",
+      "operation": "Decoded existing image/png output from zero-based cell 6, output 1; no model was rerun",
+      "credit": "Workshop CZANN inference notebook: saved input, prediction, and label-mask comparison",
+      "sha256": "4825c44b01a155499ed206de872344e16e14955f942d7e26c5ed377cf73b3c14",
+      "bytes": 281727
+    },
+    {
+      "asset": "assets/example-translocation.png",
+      "source": "../examples/translocation/translocation_docs/assets/segmentation_example.png",
+      "credit": "Workshop translocation assay: saved nuclei and cytoplasmic-ring segmentation example",
+      "sha256": "26085250ae6ce04dc8993b371e6af79a95a8d222710e4a7a150950527123c276",
+      "bytes": 834808
+    },
+    {
+      "asset": "assets/ga-overview-detail.png",
+      "source": "assets/ga-overview-detail.png",
+      "credit": "ZEISS OAD Guided Acquisition: overview, image analysis, target positions and detailed imaging",
+      "sha256": "d4e0c8c42938d9c31a8914da081ef531ef5e8f492cd13a980b2d244ea2676b30",
+      "bytes": 338743
+    },
+    {
+      "asset": "assets/ga-poster-gallery.png",
+      "source": "assets/ga-poster-gallery.png",
+      "credit": "ZEISS OAD Guided Acquisition: application poster gallery; original sample credits remain with the source material",
+      "sha256": "fde9c84583291037d6cace90d4ff1e8bf50404dfc1158a57f26b084ae94dcd77",
+      "bytes": 3103746
+    },
+    {
+      "asset": "assets/interfaces.png",
+      "source": "assets/interfaces.png",
+      "credit": "ZEN Interfaces: full interface map",
+      "sha256": "e964f9a77b4a49b84e959ab6b73f5e6b3cc5b7d9e0924561697e0efbb240a0f5",
+      "bytes": 450276
+    },
+    {
+      "asset": "assets/oad.png",
+      "source": "assets/oad.png",
+      "credit": "ZEN Interfaces: OAD concept",
+      "sha256": "e77d7009476218c8414f5a7091253e7a7a1123b1803c1d0ffc9c1950de111b4e",
+      "bytes": 403840
+    },
+    {
+      "asset": "assets/feedback-workflow.png",
+      "source": "assets/feedback-workflow.png",
+      "credit": "ZEN Interfaces: Experiment Feedback workflow",
+      "sha256": "6cf2dbd89492f85c2a2b1e14ff35927eb26b42d0635fc1ca1a934cee91ca8b96",
+      "bytes": 26993
+    },
+    {
+      "asset": "assets/feedback-editor.png",
+      "source": "assets/feedback-editor.png",
+      "credit": "ZEN Interfaces: Experiment Feedback editor",
+      "sha256": "277e0dd5ee37517cf455c900e65b4520f76e628a4be388b9ea0f1081707e62eb",
+      "bytes": 250957
+    },
+    {
+      "asset": "assets/oad-editor.png",
+      "source": "assets/oad-editor.png",
+      "credit": "OAD/ZEN-API: internal script editor",
+      "sha256": "18c1bab12587039788b8b08ff8080d73f572393f7888bba698a0c626a15c41e8",
+      "bytes": 145603
+    },
+    {
+      "asset": "assets/ga-module.png",
+      "source": "assets/ga-module.png",
+      "credit": "OAD Guided Acquisition: module UI",
+      "sha256": "7a6ff0de25e47fec746f9c0b16778361c641f8fd9703f6258fb7427c2085301b",
+      "bytes": 466390
+    },
+    {
+      "asset": "assets/ga-external.png",
+      "source": "assets/ga-external.png",
+      "credit": "OAD Guided Acquisition: external analysis",
+      "sha256": "ca976a56b47757dc5d8a0d21462c94247125b85e16c11adc3a2c0c1e17569af5",
+      "bytes": 20855
+    },
+    {
+      "asset": "assets/ga-script.png",
+      "source": "assets/ga-script.png",
+      "credit": "OAD Guided Acquisition: scripted workflow",
+      "sha256": "a0fb9c9ff7ed7f419cccad088b562f9a6ca8014391e6adbb17cb1c1debc247f0",
+      "bytes": 342624
+    },
+    {
+      "asset": "assets/organoids.png",
+      "source": "assets/organoids.png",
+      "credit": "Sample courtesy Dr. M. Lutolf, EPFL, Switzerland; ZEISS Guided Acquisition",
+      "sha256": "4eca9caa2a3295e967ccc1cef7b092d69fd708304929c782af866b1fb6b64ecb",
+      "bytes": 310779
+    },
+    {
+      "asset": "assets/neurons.png",
+      "source": "assets/neurons.png",
+      "credit": "Sample courtesy Dr. L. Lim, Katholieke Universiteit Leuven, Belgium; ZEISS Guided Acquisition",
+      "sha256": "0f2e8103f03c15dfb7a7d0bd8af35e149b319a1c551dd69df7e9152080bdf580",
+      "bytes": 436845
+    },
+    {
+      "asset": "assets/event-oad.png",
+      "source": "assets/event-oad.png",
+      "credit": "OAD SmartMicroscopy: event-driven mitosis workflow",
+      "sha256": "ae39f943cea9a91486ca1d0a11ef12834297cf8144baea63cdf2d5202f0499c8",
+      "bytes": 1555084
+    },
+    {
+      "asset": "assets/api-general.png",
+      "source": "assets/api-general.png",
+      "credit": "OAD ZEN-API: general architecture",
+      "sha256": "c7a2f9c11f938dd0625a6d5d1cfb785f28f56ca610ab834776449931d013b5e7",
+      "bytes": 17340
+    },
+    {
+      "asset": "assets/api-grpc.png",
+      "source": "assets/api-grpc.png",
+      "credit": "OAD ZEN-API: gRPC and contracts",
+      "sha256": "d2dcd2a09a60ec136c6c2faa01824983267ba77cbc6e6dee4b9598ee5372a9b1",
+      "bytes": 533545
+    },
+    {
+      "asset": "assets/api-enable.png",
+      "source": "assets/api-enable.png",
+      "credit": "OAD ZEN-API: toolkit activation",
+      "sha256": "c9434afc27537d779e84c8a3fe3965d048b5ac59812793178a7e610c9f73f427",
+      "bytes": 44699
+    },
+    {
+      "asset": "assets/api-installer.png",
+      "source": "assets/api-installer.png",
+      "credit": "OAD ZEN-API: ZMI installer",
+      "sha256": "ff7b02308f1aa484f97cc0ff0361e853a1e4b54e56dd7d453ca00e68953e5297",
+      "bytes": 257913
+    },
+    {
+      "asset": "assets/mitosis-overview.jpg",
+      "source": "assets/mitosis-overview.jpg",
+      "credit": "Smart Microscopy Reloaded: overview scan; ZEISS application-note material",
+      "sha256": "d9e0f5a9e9668b1c9f217abbf6bab5eddfa3eae5fe35ed5d8b915dc465d8da6a",
+      "bytes": 123465
+    },
+    {
+      "asset": "assets/mitosis-detection.png",
+      "source": "assets/mitosis-detection.png",
+      "credit": "Smart Microscopy Reloaded: metaphase detection; ZEISS application-note material",
+      "sha256": "7975a6d458583b78681ee2c265c79f082a51f2fb699a1dafafd228317facf7c0",
+      "bytes": 373874
+    },
+    {
+      "asset": "assets/mitosis-detail.png",
+      "source": "assets/mitosis-detail.png",
+      "credit": "Smart Microscopy Reloaded: detailed time-lapse; ZEISS application-note material",
+      "sha256": "efca80221667e285c34dc5f4226d4430b2397407da4b52d1057d97d8653855bd",
+      "bytes": 1194167
+    },
+    {
+      "asset": "assets/mitosis-mosaic.jpg",
+      "source": "assets/mitosis-mosaic.jpg",
+      "credit": "Smart Microscopy Reloaded: high-throughput montage; ZEISS application-note material",
+      "sha256": "7961303ccd83a118821310e30437c0f1cf327907099ddfc5f3c8ebd63e13c7df",
+      "bytes": 686699
+    },
+    {
+      "asset": "assets/mitosis-results.png",
+      "source": "assets/mitosis-results.png",
+      "credit": "Smart Microscopy Reloaded: downstream analysis; ZEISS application-note material",
+      "sha256": "f307d372c96f5d40e00c27fee737f794ae8c4d6ce611b3fb23dda64bfb9f554c",
+      "bytes": 1283801
+    },
+    {
+      "asset": "assets/ga-prometaphase.mp4",
+      "source": "assets/ga-prometaphase.mp4",
+      "credit": "Smart Microscopy Reloaded: Guided Acquisition Prometaphase",
+      "sha256": "d1fd13174273e65addb128e9f9d956266cc5f04ec72cb61e0fea2e24ca768303",
+      "bytes": 1178402
+    },
+    {
+      "asset": "assets/ga-300-mitosis.mp4",
+      "source": "assets/ga-300-mitosis.mp4",
+      "credit": "Smart Microscopy Reloaded: 300 positions acquired",
+      "sha256": "4e2f0c1238146a6807534a8268af6dc9b1ab99276afd15764781a00f18481669",
+      "bytes": 3206627
+    },
+    {
+      "asset": "assets/oad-mitosis.mp4",
+      "source": "assets/oad-mitosis.mp4",
+      "credit": "OAD SmartMicroscopy: simulated event-driven acquisition demo, 4x playback",
+      "sha256": "7a0e0ea0d0338bb6de4fbe2f7b898fa4d8176c55a65724f7a0031e05d0205113",
+      "bytes": 17883501
+    },
+    {
+      "asset": "assets/api-guided.mp4",
+      "source": "assets/api-guided.mp4",
+      "credit": "ZEN Interfaces: ZEN API Guided Acquisition demo",
+      "sha256": "29e16b5eaafb86e8df0f4af35675f50fd919d46ae2c22942ae542dbcb79bcda7",
+      "bytes": 4630186
+    },
+    {
+      "asset": "assets/api-segmentation.mp4",
+      "source": "assets/api-segmentation.mp4",
+      "credit": "ZEN Interfaces: PixelStream semantic segmentation demo",
+      "sha256": "5f479c9942d1c21fcbf45133eaceea54bdd0201137537886f29b7fc4f9fbfeaf",
+      "bytes": 11393765,
+      "additional_sources": [
+        "assets/api-segmentation.mp4"
+      ]
+    },
+    {
+      "asset": "assets/api-denoising.mp4",
+      "source": "assets/api-denoising.mp4",
+      "credit": "ZEN Interfaces: PixelStream Noise2Void denoising demo",
+      "sha256": "6b3700d3c1657e0e4f5cd21b869750df9b6db71713d8dd730c074cc0e27d6ccc",
+      "bytes": 13624000,
+      "additional_sources": [
+        "assets/api-denoising.mp4"
+      ]
+    },
+    {
+      "asset": "assets/feedback-demo.mp4",
+      "source": "assets/feedback-demo.mp4",
+      "credit": "Sebastian Rhode / ZEISS, Experiment Feedback demonstration",
+      "sha256": "ed74ca5fe22ab4a0e2580eb2077d7edb7029ad2f966b0aaf46d31ca8c56bbd59",
+      "bytes": 2920021
+    },
+    {
+      "asset": "assets/experiment-concept.png",
+      "source": "assets/experiment-concept.png",
+      "credit": "Sebastian Rhode / ZEISS, experiment concept illustration",
+      "sha256": "ecac8326e7cf7104b504fa37c87c47292e9348a44883c1f444b776f6bf8106b3",
+      "bytes": 308188
+    },
+    {
+      "asset": "assets/api-architecture.png",
+      "source": "assets/api-architecture.png",
+      "credit": "Sebastian Rhode / ZEISS, ZEN API architecture illustration, 13 November 2026",
+      "sha256": "b87fff8d9c402f7666e9ed7bc55aa3fd933bc9cafcc046a2c1a650a7fcf04107",
+      "bytes": 222843,
+      "note": "Complete gateway/provider architecture illustration."
+    },
+    {
+      "asset": "assets/api-experiment-stream.png",
+      "source": "assets/api-experiment-stream.png",
+      "credit": "Sebastian Rhode / ZEISS, ZEN API experiment and streaming illustration, 13 November 2026",
+      "sha256": "eeed75f1317437602fc8991862f9529d1f4424cd2b351fa8e646d3cd88ca87c6",
+      "bytes": 186204
+    },
+    {
+      "asset": "assets/api-workflow-blocks.png",
+      "source": "assets/api-workflow-blocks.png",
+      "credit": "Sebastian Rhode / ZEISS, ZEN API workflow-block illustration, 13 November 2026",
+      "sha256": "bfde0bd28cf7c9d680ae5170f26e68f901c414785aa7a786243576c26764791e",
+      "bytes": 579875
+    },
+    {
+      "asset": "assets/api-denoising-poster.jpg",
+      "derived_from": "assets/api-denoising.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "99de362606e163045b7eb5403d65752644a1b152b0114f891a3151be7c4905ab",
+      "bytes": 46784
+    },
+    {
+      "asset": "assets/api-guided-poster.jpg",
+      "derived_from": "assets/api-guided.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "34bf6662f7e73709f7e94f20594390034c40afba54ab373ea71b19d94dcfec43",
+      "bytes": 41247
+    },
+    {
+      "asset": "assets/api-segmentation-poster.jpg",
+      "derived_from": "assets/api-segmentation.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "b446a444ba7cc0bc1db01ee07ca629e8333a58b6e1eda0072f9fc15ca16c1c6c",
+      "bytes": 47680
+    },
+    {
+      "asset": "assets/feedback-demo-poster.jpg",
+      "derived_from": "assets/feedback-demo.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "f2da420a908e26353f4dfe1deed7e51bfe3dd2c2ff998b885a6b401a6ca97ad9",
+      "bytes": 30720
+    },
+    {
+      "asset": "assets/ga-300-mitosis-poster.jpg",
+      "derived_from": "assets/ga-300-mitosis.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "04151293bef627b3fe58bb6c9778c73a1c6a960963d21e79f83c2fa8b173af40",
+      "bytes": 21287
+    },
+    {
+      "asset": "assets/ga-prometaphase-poster.jpg",
+      "derived_from": "assets/ga-prometaphase.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "f8f2c4a76a51d104bd1c35482c78fded929819209815b80245c3bc98c947a6bd",
+      "bytes": 29865
+    },
+    {
+      "asset": "assets/oad-mitosis-poster.jpg",
+      "derived_from": "assets/oad-mitosis.mp4",
+      "operation": "Video frame at 1 second, resized to width 960",
+      "sha256": "70ee5aacfb680c7b5ae6d0fd1d7f775a8344d8bc072b82505ed6684c6b8c1c87",
+      "bytes": 26870
+    },
+    {
+      "asset": "assets/source-sans-pro-regular.woff",
+      "source": "assets/source-sans-pro-regular.woff",
+      "credit": "Adobe Source Sans Pro; bundled source font and accompanying SIL Open Font License",
+      "sha256": "d4eaa48ba450f4dd2d024ab5b0e895c73c81475718e5453fd1890254c16b7a57",
+      "bytes": 114324
+    },
+    {
+      "asset": "assets/source-sans-pro-semibold.woff",
+      "source": "assets/source-sans-pro-semibold.woff",
+      "credit": "Adobe Source Sans Pro; bundled source font and accompanying SIL Open Font License",
+      "sha256": "b0abd2736335424f9fd3eb27974a36d03783b3db141e0801dca7d3a635218b46",
+      "bytes": 115648
+    },
+    {
+      "asset": "assets/source-sans-pro-italic.woff",
+      "source": "assets/source-sans-pro-italic.woff",
+      "credit": "Adobe Source Sans Pro; bundled source font and accompanying SIL Open Font License",
+      "sha256": "05d3615fdbe7d35c62d6a1308dc48e3985016b69e65926ed37b99fe7e6b297dc",
+      "bytes": 98556
+    },
+    {
+      "asset": "assets/source-sans-pro-LICENSE.txt",
+      "source": "assets/source-sans-pro-LICENSE.txt",
+      "credit": "Adobe Source Sans Pro; bundled source font and accompanying SIL Open Font License",
+      "sha256": "bb5f5f9b59ff3ab358efed2c5436e8aa2e12444959c4bde82167b874d5db1b1c",
+      "bytes": 4632
+    },
+    {
+      "asset": "assets/recording-czi-viewing.mp4",
+      "source": "assets/recording-czi-viewing.mp4",
+      "credit": "User-supplied ScreenPal recording; napari-czitools: large CZI viewing",
+      "sha256": "f5928c262137957311afbe4d7630b491722afd76512abaa494168b530df01813",
+      "bytes": 7228585
+    },
+    {
+      "asset": "assets/recording-czi-viewing-poster.jpg",
+      "derived_from": "assets/recording-czi-viewing.mp4",
+      "operation": "Video frame at 40 seconds, resized to width 960",
+      "sha256": "a55d87da02165e72df634f6365db85a4f8511c3c85907f171f9d0399a77b7c66",
+      "bytes": 82781
+    },
+    {
+      "asset": "assets/recording-napari-streaming.mp4",
+      "source": "assets/recording-napari-streaming.mp4",
+      "credit": "User-supplied ScreenPal recording; napari: live ZEN API streaming",
+      "sha256": "e7ba3fc3ab52ffceaef4090c6c690a4bb68e51c30d50eabb6356f7904a7aefef",
+      "bytes": 13927816
+    },
+    {
+      "asset": "assets/recording-napari-streaming-poster.jpg",
+      "derived_from": "assets/recording-napari-streaming.mp4",
+      "operation": "Video frame at 62 seconds, resized to width 960",
+      "sha256": "2206f0bb3ef196e7776621b374ba2409f560b1d0f01aed6beeab36ae433ef796",
+      "bytes": 36368
+    },
+    {
+      "asset": "assets/recording-api-guided.mp4",
+      "source": "assets/recording-api-guided.mp4",
+      "credit": "User-supplied ScreenPal recording; ZEN API: Guided Acquisition",
+      "sha256": "f4982e4f1536a7586c556a4baa8904e45689b54fc6fc6917c273d6336b094422",
+      "bytes": 4658946
+    },
+    {
+      "asset": "assets/recording-api-guided-poster.jpg",
+      "derived_from": "assets/recording-api-guided.mp4",
+      "operation": "Video frame at 20 seconds, resized to width 960",
+      "sha256": "53c93a16dade6fc8e59a90fb0b0c69e325f285479fb211cbe75cb78439d04142",
+      "bytes": 41580
+    },
+    {
+      "asset": "assets/recording-pixel-baseline.mp4",
+      "source": "assets/recording-pixel-baseline.mp4",
+      "credit": "User-supplied ScreenPal recording; ZEN API: PixelStream without processing",
+      "sha256": "cd38dc1935c7bca386a435003631dcfa14f3a088ad1b88b173d9432722331764",
+      "bytes": 9848654
+    },
+    {
+      "asset": "assets/recording-pixel-baseline-poster.jpg",
+      "derived_from": "assets/recording-pixel-baseline.mp4",
+      "operation": "Video frame at 15 seconds, resized to width 960",
+      "sha256": "38e1441999eaee3f5bca4addca2c7c1e2e4756778946e785db61e13364c33404",
+      "bytes": 60628
+    },
+    {
+      "asset": "assets/recording-pixel-denoising-poster.jpg",
+      "derived_from": "assets/api-denoising.mp4",
+      "operation": "Video frame at 15 seconds, resized to width 960",
+      "sha256": "98e66b9ff28cbb68c84f652fa1ed5d340408075c20c494684af193bbbd12f260",
+      "bytes": 54193
+    },
+    {
+      "asset": "assets/recording-pixel-segmentation-poster.jpg",
+      "derived_from": "assets/api-segmentation.mp4",
+      "operation": "Video frame at 10 seconds, resized to width 960",
+      "sha256": "52e3c96295e254e96bc827cd0058dbde628305d133871074b285171472905d9d",
+      "bytes": 64841
+    },
+    {
+      "asset": "assets/napari-streaming-ui.png",
+      "source": "assets/napari-streaming-ui.png",
+      "credit": "napari-zenapi-streaming repository; Krijn H. van der Steen and Sebastian Rhode",
+      "sha256": "380cb88c3f9c461fdc6da0b79238c9ce2aa2261690c4180cb38f496b6c875f5e",
+      "bytes": 227587
+    },
+    {
+      "asset": "assets/napari-omezarr-result.png",
+      "source": "assets/napari-omezarr-result.png",
+      "credit": "napari-zenapi-streaming repository; Krijn H. van der Steen and Sebastian Rhode",
+      "sha256": "65a453447ad040f6bd4a1863498a3d3e60f9bd4fe6571876e5bb483a086c1378",
+      "bytes": 655211
+    }
+  ],
+  "recording_collection": [
+    {
+      "title": "napari-czitools: large CZI viewing",
+      "source": "assets/recording-czi-viewing.mp4",
+      "asset": "assets/recording-czi-viewing.mp4",
+      "poster": "assets/recording-czi-viewing-poster.jpg",
+      "sha256": "f5928c262137957311afbe4d7630b491722afd76512abaa494168b530df01813",
+      "reuses_existing_identical_asset": false,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2548,
+            "height": 1380
+          }
+        ],
+        "format": {
+          "duration": "44.000000"
+        }
+      }
+    },
+    {
+      "title": "napari: live ZEN API streaming",
+      "source": "assets/recording-napari-streaming.mp4",
+      "asset": "assets/recording-napari-streaming.mp4",
+      "poster": "assets/recording-napari-streaming-poster.jpg",
+      "sha256": "e7ba3fc3ab52ffceaef4090c6c690a4bb68e51c30d50eabb6356f7904a7aefef",
+      "reuses_existing_identical_asset": false,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2034,
+            "height": 1094
+          }
+        ],
+        "format": {
+          "duration": "69.000000"
+        }
+      }
+    },
+    {
+      "title": "ZEN API: Guided Acquisition",
+      "source": "assets/recording-api-guided.mp4",
+      "asset": "assets/recording-api-guided.mp4",
+      "poster": "assets/recording-api-guided-poster.jpg",
+      "sha256": "f4982e4f1536a7586c556a4baa8904e45689b54fc6fc6917c273d6336b094422",
+      "reuses_existing_identical_asset": false,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2544,
+            "height": 1348
+          }
+        ],
+        "format": {
+          "duration": "39.000000"
+        }
+      }
+    },
+    {
+      "title": "ZEN API: PixelStream without processing",
+      "source": "assets/recording-pixel-baseline.mp4",
+      "asset": "assets/recording-pixel-baseline.mp4",
+      "poster": "assets/recording-pixel-baseline-poster.jpg",
+      "sha256": "cd38dc1935c7bca386a435003631dcfa14f3a088ad1b88b173d9432722331764",
+      "reuses_existing_identical_asset": false,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2556,
+            "height": 1380
+          }
+        ],
+        "format": {
+          "duration": "31.000000"
+        }
+      }
+    },
+    {
+      "title": "ZEN API: online Noise2Void denoising",
+      "source": "assets/api-denoising.mp4",
+      "asset": "assets/api-denoising.mp4",
+      "poster": "assets/recording-pixel-denoising-poster.jpg",
+      "sha256": "6b3700d3c1657e0e4f5cd21b869750df9b6db71713d8dd730c074cc0e27d6ccc",
+      "reuses_existing_identical_asset": true,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2556,
+            "height": 1380
+          }
+        ],
+        "format": {
+          "duration": "25.000000"
+        }
+      }
+    },
+    {
+      "title": "ZEN API: online semantic segmentation",
+      "source": "assets/api-segmentation.mp4",
+      "asset": "assets/api-segmentation.mp4",
+      "poster": "assets/recording-pixel-segmentation-poster.jpg",
+      "sha256": "5f479c9942d1c21fcbf45133eaceea54bdd0201137537886f29b7fc4f9fbfeaf",
+      "reuses_existing_identical_asset": true,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 2556,
+            "height": 1380
+          }
+        ],
+        "format": {
+          "duration": "31.000000"
+        }
+      }
+    }
+  ]
+}

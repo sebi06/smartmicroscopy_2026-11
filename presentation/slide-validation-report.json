@@ -1,0 +1,552 @@
+{
+  "checked": "2026-11-13T19:36:07.982041+00:00",
+  "overall_status": "passed",
+  "entry_point": "smart-microscopy-zen-slides.html",
+  "source": "smart-microscopy-zen-slides.src.html",
+  "final_html_sha256": "06bf1e564b6e2d725fd0f434f527c097962ad19646a77212a8fee1074f124e88",
+  "backup": {
+    "file": "presentation-backup-2026-11-13-1946.zip",
+    "verified_original_files": 68,
+    "original_documents_and_assets_unchanged": false,
+    "subsequent_changes": "Overview navigation now wraps all 13 links; the shared manifest includes the supplied ZEISS logo. The original snapshot remains in the ZIP backup."
+  },
+  "content": {
+    "slides": 37,
+    "figures": 41,
+    "captions": 41,
+    "video_players": 13,
+    "unique_video_files": 11,
+    "original_image_and_video_occurrences_preserved": true,
+    "all_four_workshop_examples_linked_and_illustrated": true,
+    "text_words_before": 4399,
+    "text_words_after": 1809,
+    "text_reduction_percent": 58.9,
+    "word_count_method": "All authored HTML text, including captions, references, and optional original details; excludes head, scripts, styles, and video fallback text."
+  },
+  "checks": {
+    "static_file_and_anchor_integrity": "passed",
+    "local_targets": 59,
+    "manifest_hashes_verified": 61,
+    "template_engine_chrome_and_delivery_code_unchanged": true,
+    "keyboard_outline_and_help": "Home, next, outline selection, Escape, End and previous passed; outline has 37 slides.",
+    "deep_link_and_reload": 33,
+    "video_playback": {
+      "media": [
+        {
+          "source": "assets/feedback-demo.mp4",
+          "width": 1280,
+          "height": 720,
+          "duration": 47
+        },
+        {
+          "source": "assets/ga-prometaphase.mp4",
+          "width": 1920,
+          "height": 1200,
+          "duration": 23
+        },
+        {
+          "source": "assets/ga-300-mitosis.mp4",
+          "width": 814,
+          "height": 806,
+          "duration": 29
+        },
+        {
+          "source": "assets/oad-mitosis.mp4",
+          "width": 1280,
+          "height": 720,
+          "duration": 116.889002
+        },
+        {
+          "source": "assets/api-segmentation.mp4",
+          "width": 2556,
+          "height": 1380,
+          "duration": 31
+        },
+        {
+          "source": "assets/api-denoising.mp4",
+          "width": 2556,
+          "height": 1380,
+          "duration": 25
+        },
+        {
+          "source": "assets/recording-napari-streaming.mp4",
+          "width": 2034,
+          "height": 1094,
+          "duration": 69
+        },
+        {
+          "source": "assets/recording-czi-viewing.mp4",
+          "width": 2548,
+          "height": 1380,
+          "duration": 44
+        },
+        {
+          "source": "assets/recording-pixel-baseline.mp4",
+          "width": 2556,
+          "height": 1380,
+          "duration": 31
+        },
+        {
+          "source": "assets/recording-api-guided.mp4",
+          "width": 2544,
+          "height": 1348,
+          "duration": 39
+        },
+        {
+          "source": "assets/api-denoising.mp4",
+          "width": 2556,
+          "height": 1380,
+          "duration": 25
+        },
+        {
+          "source": "assets/api-segmentation.mp4",
+          "width": 2556,
+          "height": 1380,
+          "duration": 31
+        },
+        {
+          "source": "assets/api-guided.mp4",
+          "width": 2544,
+          "height": 1348,
+          "duration": 39
+        }
+      ],
+      "playing": true,
+      "videoKeys": {
+        "paused": true,
+        "slide": "#slide-7"
+      },
+      "offSlidePaused": true,
+      "deepLinkAndReload": 33
+    },
+    "renderer_proof": "passed at 390px and 1280px; zero visual problems. First sheet reviewed.",
+    "renderer_proof_method": "Identical slide layouts on a temporary document-scroll surface. The default renderer cannot crop off-screen figures inside the deck's fixed nested scroll container. Native delivery checks validate the actual deck separately.",
+    "http_resources": {
+      "state": "passed",
+      "verification": "All 12 URLs rechecked with Windows Invoke-WebRequest; each returned HTTP 200.",
+      "results": [
+        {
+          "url": "https://github.com/sebi06/napari-zenapi-streaming",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/Experiment_Feedback/Experiment_Feedback_Tutorial_3.14.pdf",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/README.md",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/zen_api_utils/README.md",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Experiment_Feedback",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Guided_Acquisition",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/SmartMicroscopy/Detecting%20Mitosis",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/protofiles/proto_2026.11.1/zen_api/acquisition/v1beta",
+          "status": 200
+        },
+        {
+          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/python_examples",
+          "status": 200
+        },
+        {
+          "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/",
+          "status": 200
+        },
+        {
+          "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/proto/",
+          "status": 200
+        }
+      ]
+    },
+    "native_slide_delivery": [
+      {
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "failures": []
+      },
+      {
+        "size": {
+          "width": 1280,
+          "height": 600
+        },
+        "failures": []
+      }
+    ],
+    "computed_typography": [
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "57.6px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "19.2px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "19.2px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "19.2px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "19.2px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "19.2px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "18px"
+      },
+      {
+        "font": "Consolas, \"Courier New\", monospace",
+        "size": "18px"
+      }
+    ],
+    "preview_sheets": [
+      "smart-microscopy-zen-slides.sheet.png",
+      "smart-microscopy-zen-slides.sheet-2.png",
+      "smart-microscopy-zen-slides.sheet-3.png",
+      "smart-microscopy-zen-slides.slide-2.sheet.png",
+      "smart-microscopy-zen-slides.slide-2.sheet-2.png",
+      "smart-microscopy-zen-slides.brand.sheet.png",
+      "smart-microscopy-zen-slides.brand.sheet-2.png",
+      "smart-microscopy-zen-slides.dark.sheet.png",
+      "smart-microscopy-zen-slides.dark.sheet-2.png",
+      "smart-microscopy-zen-slides.dark.sheet-3.png",
+      "smart-microscopy-zen-slides.detection.sheet.png",
+      "smart-microscopy-zen-slides.detection.sheet-2.png"
+    ],
+    "slide_2_visual_routes": {
+      "figures": 4,
+      "images": [
+        {
+          "src": "assets/oad-editor.png",
+          "loaded": true
+        },
+        {
+          "src": "assets/feedback-editor.png",
+          "loaded": true
+        },
+        {
+          "src": "assets/mitosis-overview.jpg",
+          "loaded": true
+        },
+        {
+          "src": "assets/mitosis-detail.png",
+          "loaded": true
+        },
+        {
+          "src": "assets/example-zenapi-control.svg",
+          "loaded": true
+        }
+      ],
+      "source_links": "passed",
+      "image_hashes": "passed",
+      "navigation": "passed",
+      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
+      "desktop_fit": "passed at 1920x1080 and 1280x600 with no overflow or autoFit",
+      "additional_mobile_observation": "Slide 2 fits at 390x900; pre-existing overflow was observed on unrelated slides 3, 6, 22 and 32. Those slides were not changed."
+    },
+    "zeiss_branding": {
+      "delivery": [
+        {
+          "size": {
+            "width": 1920,
+            "height": 1080
+          },
+          "failures": []
+        },
+        {
+          "size": {
+            "width": 1280,
+            "height": 600
+          },
+          "failures": []
+        }
+      ],
+      "image": {
+        "loaded": true,
+        "position": "fixed",
+        "source": "assets/zeiss.png"
+      },
+      "logoVisibleOnSlides": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "finalLogoBox": {
+        "x": 1216.010498046875,
+        "y": 12,
+        "width": 44.7916259765625,
+        "height": 43.96875
+      },
+      "copy_matches_supplied_file": true,
+      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
+      "manifest_reference": "assets/zeiss.png"
+    },
+    "linked_overview_navigation": "All 13 links visible without horizontal scrolling at 1920px, 1280px, and 390px; section headings clear the sticky navigation.",
+    "dark_theme": {
+      "themes": [
+        {
+          "colorScheme": "dark",
+          "tokens": {
+            "--bg": "#0f0f0f",
+            "--surface": "#1a1a19",
+            "--border": "#2b2a28",
+            "--border-bright": "#696763",
+            "--text": "#f2f0eb",
+            "--text-dim": "#a4a19b",
+            "--accent": "#ff6e50",
+            "--accent-dim": "rgba(255,110,80,.14)",
+            "--ok": "#6cc492",
+            "--risk": "#f57fa2"
+          },
+          "matchesOverviewDark": true
+        },
+        {
+          "colorScheme": "light",
+          "tokens": {
+            "--bg": "#0f0f0f",
+            "--surface": "#1a1a19",
+            "--border": "#2b2a28",
+            "--border-bright": "#696763",
+            "--text": "#f2f0eb",
+            "--text-dim": "#a4a19b",
+            "--accent": "#ff6e50",
+            "--accent-dim": "rgba(255,110,80,.14)",
+            "--ok": "#6cc492",
+            "--risk": "#f57fa2"
+          },
+          "matchesOverviewDark": true
+        }
+      ],
+      "delivery": [
+        {
+          "size": {
+            "width": 1920,
+            "height": 1080
+          },
+          "failures": []
+        },
+        {
+          "size": {
+            "width": 1280,
+            "height": 600
+          },
+          "failures": []
+        }
+      ],
+      "outline": {
+        "background": "rgb(15, 15, 15)",
+        "color": "rgb(242, 240, 235)"
+      },
+      "logoLoaded": true,
+      "navigation": "passed",
+      "text_contrast": [
+        {
+          "background": "--bg",
+          "foreground": "--text",
+          "ratio": 16.83
+        },
+        {
+          "background": "--bg",
+          "foreground": "--text-dim",
+          "ratio": 7.44
+        },
+        {
+          "background": "--bg",
+          "foreground": "--accent",
+          "ratio": 6.94
+        },
+        {
+          "background": "--surface",
+          "foreground": "--text",
+          "ratio": 15.29
+        },
+        {
+          "background": "--surface",
+          "foreground": "--text-dim",
+          "ratio": 6.76
+        },
+        {
+          "background": "--surface",
+          "foreground": "--accent",
+          "ratio": 6.3
+        }
+      ],
+      "renderer_proof": "passed at 390px and 1280px; representative sheet reviewed",
+      "policy": "Fixed dark palette matching the overview dark theme, including when the operating system prefers light. Original image colors and ZEISS logo are unchanged."
+    },
+    "slide_10_vertical_spacing": {
+      "status": "passed",
+      "viewports": [
+        {
+          "size": {
+            "width": 1920,
+            "height": 1080
+          },
+          "failures": [],
+          "methods": 5,
+          "listHeight": 808.5,
+          "gaps": [
+            109.58332824707031,
+            109.5833740234375,
+            109.58331298828125,
+            109.58331298828125
+          ],
+          "noteBelowList": true,
+          "distribution": "space-evenly"
+        },
+        {
+          "size": {
+            "width": 1280,
+            "height": 600
+          },
+          "failures": [],
+          "methods": 5,
+          "listHeight": 406.94793701171875,
+          "gaps": [
+            49.42707824707031,
+            49.427093505859375,
+            49.4375,
+            49.427093505859375
+          ],
+          "noteBelowList": true,
+          "distribution": "space-evenly"
+        }
+      ],
+      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
+      "scope": "Only the object-detection slide layout changed; text, theme, logo and other slide layouts preserved."
+    }
+  },
+  "coverage": {
+    "overview_and_choice": [
+      1,
+      2,
+      35
+    ],
+    "interfaces": [
+      3
+    ],
+    "oad": [
+      4
+    ],
+    "feedback": [
+      5,
+      6,
+      7
+    ],
+    "guided": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "mitosis": [
+      14,
+      15,
+      16,
+      17
+    ],
+    "api_architecture_and_contracts": [
+      18,
+      19,
+      20
+    ],
+    "pixelstream": [
+      21,
+      22,
+      23
+    ],
+    "napari": [
+      24,
+      25,
+      26,
+      27,
+      28
+    ],
+    "additional_recordings": [
+      29,
+      30
+    ],
+    "external_workflows": [
+      31,
+      32
+    ],
+    "four_workshop_examples": [
+      33,
+      34
+    ],
+    "sources_and_credits": [
+      36,
+      37
+    ]
+  },
+  "notes": [
+    "HTML presentation only; no PPTX produced.",
+    "Keep assets and the full overview beside the slides; workshop links expect the repository layout.",
+    "Consolas remains the main font. Videos require an MP4-capable browser.",
+    "Playback tested successfully over temporary localhost HTTP; the VS Code embedded browser's file proxy aborted MP4 loads. Direct local-file playback was not certified by that browser.",
+    "The original overview remains intact as a detailed reference in addition to the complete ZIP backup.",
+    "The shared media manifest now includes the supplied ZEISS logo. The pre-change manifest remains in the verified ZIP backup; existing media files are unchanged; overview navigation was subsequently updated to show all 13 links."
+  ]
+}

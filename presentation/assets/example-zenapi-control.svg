@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title description">
+  <title id="title">External control and targeted microscope acquisition</title>
+  <desc id="description">A computer displays cells, a selected target, acquisition tiles, and stage controls. A cable connects it to a microscope whose objective illuminates the selected region on a motorized stage. This is a conceptual illustration, not a hardware drawing or recorded result.</desc>
+  <defs>
+    <g id="cell">
+      <ellipse rx="17" ry="11" fill="#326e75" stroke="#92c8bf" stroke-width="2"/>
+      <ellipse cx="2" rx="6" ry="5" fill="#b9e3ce"/>
+    </g>
+    <g id="target">
+      <path d="M-25-14v-8h8 M17-22h8v8 M25 14v8h-8 M-17 22h-8v-8" fill="none" stroke="#e66d32" stroke-width="3"/>
+    </g>
+  </defs>
+  <rect width="960" height="540" fill="#f6f5f1"/>
+  <path d="M386 369C431 369 401 463 479 463H716C759 463 771 430 771 393" fill="none" stroke="#555f68" stroke-width="8"/>
+  <path d="M756 392h30v18h-30z" fill="#333e48"/>
+  <g stroke="#46515b" stroke-width="3" stroke-linejoin="round">
+    <path d="M741 93h68v346h-68z" fill="#c7cdd0"/>
+    <path d="M742 93H590v66h152" fill="#e1e4e3"/>
+    <path d="M590 112h-31v47h31" fill="#a6b0b7"/>
+    <path d="M568 159h77v30h-77z" fill="#87949e"/>
+    <path d="M583 189h46v48l-9 13h-28l-9-13z" fill="#e1e4e3"/>
+    <path d="M583 212h46v14h-46z" fill="#53646e"/>
+    <path d="M593 250h26" fill="none" stroke="#e66d32" stroke-width="5"/>
+    <path d="M526 319h267l43 37H483z" fill="#d3d8d8"/>
+    <path d="M483 356h353v25H483z" fill="#8f9ca4"/>
+    <path d="M510 381h300v17H510z" fill="#b5bfc4"/>
+    <path d="M522 439h297l51 38H500z" fill="#c7cdd0"/>
+    <path d="M500 477h370v20H500z" fill="#8f9ca4"/>
+  </g>
+  <path d="M593 251h26l28 88h-86z" fill="#e9b06a" fill-opacity=".26"/>
+  <path d="M543 326h167l21 20H564z" fill="#fff" stroke="#77848d" stroke-width="2"/>
+  <g transform="translate(568 333) scale(.38 .22)">
+    <use href="#cell"/>
+    <use href="#cell" transform="translate(85 0) rotate(-20)"/>
+    <use href="#cell" transform="translate(180 0) rotate(25)"/>
+    <use href="#cell" transform="translate(285 0)"/>
+    <use href="#cell" transform="translate(50 39)"/>
+    <use href="#cell" transform="translate(145 39) rotate(-20)"/>
+    <use href="#cell" transform="translate(245 39) rotate(20)"/>
+    <use href="#cell" transform="translate(340 39)"/>
+  </g>
+  <path d="M591 325h30l8 13h-30z" fill="none" stroke="#e66d32" stroke-width="3"/>
+  <path d="M532 389H705 M552 385v8 M575 385v8 M598 385v8 M621 385v8 M644 385v8 M667 385v8 M690 385v8" stroke="#65737d" stroke-width="2"/>
+  <circle cx="775" cy="279" r="22" fill="#e1e4e3" stroke="#46515b" stroke-width="3"/>
+  <circle cx="775" cy="279" r="10" fill="#8f9ca4"/>
+  <rect x="43" y="142" width="370" height="245" rx="10" fill="#46515b"/>
+  <rect x="55" y="154" width="346" height="219" rx="3" fill="#18282e"/>
+  <g>
+    <use href="#cell" transform="translate(89 194) rotate(-25)"/>
+    <use href="#cell" transform="translate(155 188) rotate(15)"/>
+    <use href="#cell" transform="translate(220 197) rotate(-10)"/>
+    <use href="#cell" transform="translate(119 247) rotate(30)"/>
+    <use href="#cell" transform="translate(189 248) rotate(-20)"/>
+    <use href="#cell" transform="translate(251 257) rotate(35)"/>
+    <use href="#cell" transform="translate(88 307) rotate(-20)"/>
+    <use href="#cell" transform="translate(159 310) rotate(20)"/>
+    <use href="#cell" transform="translate(228 321) rotate(-25)"/>
+    <use href="#target" transform="translate(189 248)"/>
+  </g>
+  <g fill="none" stroke="#75949a" stroke-width="1.5">
+    <path d="M66 166h211v190H66z M136 166v190 M207 166v190 M66 229h211 M66 293h211"/>
+    <path d="M296 168v188" stroke="#465b64"/>
+  </g>
+  <g fill="#e7eceb">
+    <path d="M347 183l-9 13h18z M347 244l-9-13h18z M317 214l13-9v18z M377 214l-13-9v18z"/>
+    <circle cx="347" cy="214" r="8" fill="#92c8bf"/>
+  </g>
+  <rect x="315" y="268" width="64" height="38" rx="4" fill="#e66d32"/>
+  <path d="M341 278l17 9-17 9z" fill="#fff"/>
+  <rect x="315" y="319" width="64" height="37" rx="4" fill="#374c55"/>
+  <rect x="339" y="330" width="15" height="15" fill="#dbe4e1"/>
+  <path d="M43 387h370l32 27H18z" fill="#b9c3c6" stroke="#46515b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M18 414h427v8H18z" fill="#77858e"/>
+  <path d="M170 395h111l10 12H160z" fill="#94a1a7"/>
+  <g fill="#e66d32">
+    <circle cx="425" cy="402" r="4"/>
+    <circle cx="431" cy="439" r="4"/>
+    <circle cx="473" cy="463" r="4"/>
+  </g>
+</svg>

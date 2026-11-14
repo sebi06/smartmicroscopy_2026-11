@@ -1,0 +1,113 @@
+{
+  "checked": "2026-11-13T19:28:37.135708+00:00",
+  "overall_status": "passed",
+  "entry_point": "smart-microscopy-zen.html",
+  "source": "smart-microscopy-zen.src.html",
+  "final_html_sha256": "7315260b4858db02331e3990970cf4b7b485c3e39803758f4d24a206e3c5ecee",
+  "checks": {
+    "compiled_html": "passed; kit CSS and JavaScript inlined",
+    "static_file_and_anchor_integrity": "passed",
+    "figures": 37,
+    "captions": 37,
+    "video_players": 13,
+    "unique_embedded_video_files": 11,
+    "local_link_and_css_targets": 60,
+    "original_source_targets": 0,
+    "online_resources_http_200": 12,
+    "figure_source_chains_checked": 37,
+    "portable_source_references": "Every figure caption links directly to an included asset or to a source entry with reachable repository/online links. No private workstation paths, unavailable presentation decks, or slide-number references remain in the page or linked media manifest.",
+    "media_manifest_reference_policy": "Source fields identify accessible repository files rather than private originals. Attribution and all 60 asset hashes are preserved.",
+    "workshop_example_collections_linked": 4,
+    "workshop_example_images": "Exactly one image in each of the four example cards: a Python CZI pixels-and-metadata composite, existing assay segmentation image, saved PNG output extracted from the CZANN inference notebook, and a text-free ZEN-API illustration showing a computer, selected cells, stage controls and a connected microscope. All four have source links, alt text, captions, correct dimensions, and full-resolution links.",
+    "czi_python_visual": "Replaced the ZEN screenshot with actual saved pylibCZIrw notebook output: two selected image planes, NumPy plane shape, and CZI dimension metadata. Values are verified against saved outputs in cells 11 and 21. The heading and caption explicitly identify Python-based reading without running ZEN.",
+    "zenapi_control_illustration": "Replaced the typographic method-reference card with pictorial artwork. SVG XML validates, contains no visible text elements or external dependencies, and all internal shape references resolve.",
+    "removed_setup_section": "The complete From concept to a working system section and its navigation link are absent.",
+    "additional_info_scope": "Renamed Links and additional info; all linked material is repository-local or online, with no machine-specific file URLs.",
+    "zen_314_documentation_links": "The API 2026.5.1 documentation and public OAD ZEN-API README are linked in the architecture and additional-info sections.",
+    "verified_manifest_entries": 61,
+    "source_locations_in_catalog": 10,
+    "requested_additional_recordings_embedded": 6,
+    "exact_existing_video_matches_reused": 2,
+    "video_integrity": "Original seven MP4s and all six additionally requested recordings fully decoded with ffmpeg -xerror; H.264 video streams verified with ffprobe. Identical recordings reuse existing assets.",
+    "renderer_visual_check": "passed; zero visual problems at 390px and 1280px; smallest label 14.73px; updated first sheet reviewed",
+    "preview_sheet_review": "Reviewed regenerated desktop/mobile first-viewport and next contact sheet after typography changes. Earlier reviews cover unchanged video posters and napari repository UI figures.",
+    "browser_playback": "Native-control playback not independently asserted; video files were fully decoded with FFmpeg.",
+    "offline_typography": "Consolas is the main page font, matching the reference metadata paragraph's verified computed font family. Body, headings and mono font tokens use Consolas with Courier New and monospace fallbacks.",
+    "guided_acquisition_layout": "Figures 7 and 8 and their descriptions are in two complete articles within a single-column grid.",
+    "guided_detection_methods": "The module description includes Semantic Pixel Classifier, Semantic DL Models, Instance Segmentation, CellPose Model, and External DL models, with version/feature compatibility and integration notes. The calibration callout is absent.",
+    "figure_6_visualization": "Replaced the enlarged workflow image with three credited microscopy panels: overview, target detection, and selected-region detail. Width is capped at 860px; panel images are 145px high on desktop and 90px on mobile. Responsive render passes at 390px and 1280px.",
+    "figure_7_visualization": "The original module UI and GuidedAcq_NEW.png appear side-by-side on desktop, stacking below 760px. Figure 8 remains in its separate article below.",
+    "guided_application_gallery": "GA_Poster_Gallery.png is displayed after the additional Guided Acquisition application examples, outside the collapsed details. Both new images are byte-identical local copies with provenance and hashes.",
+    "removed_api_sections": "Both requested sections and their navigation links are absent; all remaining fragment links resolve.",
+    "optional_renderer_font_links": [
+      {
+        "tag": "link",
+        "attribute": "href",
+        "url": "https://fonts.googleapis.com"
+      },
+      {
+        "tag": "link",
+        "attribute": "href",
+        "url": "https://fonts.gstatic.com"
+      },
+      {
+        "tag": "link",
+        "attribute": "href",
+        "url": "https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      }
+    ],
+    "navigation_visibility": {
+      "status": "passed",
+      "change": "All 13 options wrap into visible rows; the horizontal fade is removed. Anchor offsets follow the actual sticky navigation height.",
+      "viewports": [
+        {
+          "size": {
+            "width": 1920,
+            "height": 1080
+          },
+          "links": 13,
+          "height": 99.33333587646484,
+          "horizontalOverflow": false,
+          "maskImage": "none",
+          "hiddenOptions": [],
+          "sourceHeadingClearsNavigation": true
+        },
+        {
+          "size": {
+            "width": 1280,
+            "height": 900
+          },
+          "links": 13,
+          "height": 99.33333587646484,
+          "horizontalOverflow": false,
+          "maskImage": "none",
+          "hiddenOptions": [],
+          "sourceHeadingClearsNavigation": true
+        },
+        {
+          "size": {
+            "width": 390,
+            "height": 900
+          },
+          "links": 13,
+          "height": 221.83334350585938,
+          "horizontalOverflow": false,
+          "maskImage": "none",
+          "hiddenOptions": [],
+          "sourceHeadingClearsNavigation": true
+        }
+      ]
+    },
+    "local_link_targets_verified": 61
+  },
+  "errors": [],
+  "blocked": {},
+  "notes": [
+    "All six new recordings appear as video players; two reuse byte-identical assets already in the original overview.",
+    "Copy the HTML together with assets to preserve local media, posters and fonts.",
+    "Workshop example links are relative to the repository; keep the presentation beside examples for those links to work.",
+    "The renderer retains optional Google Fonts links; page-specific typography uses installed Consolas with monospace fallbacks, so those links are not needed for offline use.",
+    "Unused source assets remain in the provenance inventory; all 60 manifest asset hashes were reverified after adding the workshop example images.",
+    "Python HTTPS verification encountered a local certificate-chain error; online resources were successfully verified with Windows certificate trust through Invoke-WebRequest instead."
+  ]
+}

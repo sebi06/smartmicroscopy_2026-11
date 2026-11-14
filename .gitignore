@@ -23,7 +23,6 @@
 
 
 # Exclude the presentation
-/presentation/
 /presentation-backup-2026-11-13-1946.zip
 
 # Archive folders at any depth

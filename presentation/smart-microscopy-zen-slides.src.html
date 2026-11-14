@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en" data-register="blueprint">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Microscopy in ZEN - Presentation</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="kit.css" data-ve-kit>
+<style>
+:root {
+  color-scheme: dark;
+  --font-display: Consolas, "Courier New", monospace;
+  --font-body: Consolas, "Courier New", monospace;
+  --font-mono: Consolas, "Courier New", monospace;
+  --bg: #0f0f0f; --surface: #1a1a19; --border: #2b2a28; --border-bright: #696763;
+  --text: #f2f0eb; --text-dim: #a4a19b; --accent: #ff6e50; --accent-dim: rgba(255,110,80,.14);
+  --ok: #6cc492; --risk: #f57fa2;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; max-width: none; }
+body { background: var(--bg); color: var(--text); overflow: hidden; font-family: var(--font-body); }
+body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-family: var(--font-body); }
+
+  .deck { height: 100dvh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .slide {
+    height: 100dvh; scroll-snap-align: start; overflow: hidden; position: relative; isolation: isolate;
+    display: flex; flex-direction: column; justify-content: center; gap: clamp(16px, 2.5vh, 28px);
+    padding: clamp(40px, 7vh, 88px) clamp(32px, 8vw, 128px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+  }
+  .js .slide { opacity: 0; transform: translateY(32px); }
+  .slide.visible { opacity: 1; transform: none; }
+  .js .slide .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+  .slide.visible .reveal { opacity: 1; transform: none; }
+  .slide.visible .reveal:nth-child(2) { transition-delay: .08s; }
+  .slide.visible .reveal:nth-child(3) { transition-delay: .16s; }
+  .slide.visible .reveal:nth-child(4) { transition-delay: .24s; }
+
+  /* ===== DELIVERY CHECK: reduced motion doubles as the fit test ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .deck { scroll-behavior: auto; }
+    .slide, .slide .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .slide[data-slide-check] { outline: 4px solid var(--risk); outline-offset: -4px; }
+    .slide[data-slide-check="auto-fit"] { outline-color: var(--accent); }
+    .slide[data-slide-check]::after {
+      content: attr(data-slide-check-label); position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      z-index: 20; padding: 6px 10px; border-radius: 4px; color: var(--bg); background: var(--risk); font: 600 12px/1.2 var(--font-mono); pointer-events: none;
+    }
+    .slide[data-slide-check="auto-fit"]::after { background: var(--accent); }
+  }
+
+  /* ===== CHROME ===== */
+  .deck-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 100; transition: width .3s; pointer-events: none; }
+  .deck-dots {
+    position: fixed; right: clamp(12px, 2vw, 24px); top: 50%; transform: translateY(-50%); z-index: 100;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px; padding: 6px; width: 32px;
+    max-height: min(70dvh, 560px); overflow-y: auto; border-radius: 10px;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(6px); transition: width .2s;
+  }
+  .deck-dots:hover, .deck-dots:focus-within { align-items: stretch; width: min(260px, calc(100vw - 32px)); border: 1px solid var(--border); }
+  .deck-dot {
+    display: grid; grid-template-columns: 8px minmax(0,1fr); align-items: center; gap: 0; width: 20px; min-height: 24px;
+    padding: 6px; border: 0; border-radius: 4px; background: transparent; color: var(--text-dim);
+    font: 500 12px/1.2 var(--font-mono); text-align: left; cursor: pointer;
+  }
+  .deck-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .55; justify-self: center; }
+  .deck-dot-label { max-width: 0; overflow: hidden; opacity: 0; white-space: nowrap; text-overflow: ellipsis; transition: max-width .2s, opacity .2s; }
+  .deck-dots:hover .deck-dot, .deck-dots:focus-within .deck-dot { gap: 10px; width: 100%; }
+  .deck-dots:hover .deck-dot-label, .deck-dots:focus-within .deck-dot-label { max-width: 200px; opacity: 1; }
+  .deck-dot:hover { color: var(--text); }
+  .deck-dot[aria-current="true"] { color: var(--accent); }
+  .deck-dot[aria-current="true"]::before { opacity: 1; transform: scale(1.4); }
+  .deck-dot:focus-visible, .deck-panel__button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .deck-counter, .deck-hints { position: fixed; bottom: clamp(12px, 2vh, 24px); z-index: 100; font: 500 12px var(--font-mono); color: var(--text-dim); font-variant-numeric: tabular-nums; }
+  .deck-counter { right: clamp(16px, 2vw, 28px); }
+  .deck-hints { left: 50%; transform: translateX(-50%); transition: opacity .5s; white-space: nowrap; }
+  .deck-hints.faded { opacity: 0; pointer-events: none; }
+  .deck-overlay { position: fixed; inset: 0; z-index: 200; display: none; place-items: center; padding: 24px; background: rgba(0,0,0,.45); backdrop-filter: blur(4px); }
+  .deck-overlay.open { display: grid; }
+  .deck-panel { width: min(560px, 86vw); max-height: 80dvh; overflow: auto; padding: 16px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-family: var(--font-mono); box-shadow: 0 24px 64px rgba(0,0,0,.25); }
+  .deck-panel:focus { outline: none; }
+  .deck-panel__header { margin: 2px 10px 10px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+  .deck-panel__button { display: flex; gap: 12px; width: 100%; padding: 8px 10px; border: 0; border-radius: 4px; background: transparent; color: inherit; font: 14px/1.3 var(--font-body); text-align: left; cursor: pointer; }
+  /* Accent text on its own tint drops under 4.5:1; the tint carries the state, the text stays --text. */
+  .deck-panel__button:hover, .deck-panel__button[aria-current="true"] { background: var(--accent-dim); color: var(--text); }
+  .deck-panel__number { min-width: 22px; font: 500 12px/1.6 var(--font-mono); color: var(--text-dim); font-variant-numeric: tabular-nums; }
+  .deck-help-row { display: flex; justify-content: space-between; gap: 24px; padding: 7px 10px; font-size: 13px; }
+  .deck-help-row kbd { padding: 2px 8px; border: 1px solid var(--border-bright); border-radius: 4px; font: inherit; }
+
+
+.deck { width: 100%; max-width: none; margin: 0; padding: 0; }
+.deck .slide { margin: 0; border: 0; padding: clamp(30px, 5vh, 60px) clamp(36px, 5.5vw, 104px) 48px; gap: clamp(12px, 1.8vh, 20px); justify-content: flex-start; background: var(--bg); }
+.deck .slide:nth-child(even) { background: var(--surface); }
+.slide :is(h1,h2,h3,p,ul,ol,figure,table) { margin: 0; max-width: none; }
+.slide__label { color: var(--accent); font-size: clamp(18px, 1.1vw, 20px); font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: .06em; }
+.slide__hero { color: var(--text); font-size: clamp(40px, 5vw, 76px); line-height: 1.04; letter-spacing: -.05em; font-weight: 700; }
+.slide__heading { color: var(--text); font-size: clamp(28px, 3vw, 52px); line-height: 1.12; font-weight: 700; letter-spacing: -.035em; text-wrap: balance; }
+.slide__body, .slide li, .slide td, .slide th { font-size: clamp(18px, 1.5vw, 25px); line-height: 1.4; }
+.slide__body { color: var(--text-dim); }
+.slide h3 { font-size: clamp(20px, 1.9vw, 30px); line-height: 1.2; color: var(--accent); }
+.slide ul, .slide ol { padding-left: 1.3em; }
+.slide li + li { margin-top: clamp(10px, 1.7vh, 20px); }
+.slide--detection > ul { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; gap: 12px; }
+.slide.slide--detection > ul > li { margin-top: 0; }
+.slide a { color: var(--accent); text-decoration: underline; text-underline-offset: .15em; overflow-wrap: anywhere; }
+.slide code { color: inherit; background: var(--border); padding: 0 .18em; font-size: .94em; overflow-wrap: anywhere; }
+.split, .pair, .four { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: clamp(20px, 3vw, 56px); min-height: 0; flex: 1; align-items: stretch; }
+.four { gap: clamp(18px, 3vh, 40px) clamp(28px, 5vw, 80px); }
+.four article { border-top: 2px solid var(--border-bright); padding-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+.route-options { grid-template-rows: repeat(2, minmax(0,1fr)); gap: 18px 36px; }
+.route-options article { padding-top: 10px; gap: 8px; }
+.slide .route-options figure { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 18px; align-items: center; }
+.route-options .media { height: 100%; }
+.route-options .media img { max-height: 22dvh; }
+.slide .route-options .route-pair { display: grid; grid-template-columns: 1fr 1.7fr; gap: 6px; }
+.route-options .route-pair img { object-fit: cover; }
+.split > *, .pair > *, .four > * { min-width: 0; min-height: 0; }
+.copy { display: flex; flex-direction: column; justify-content: center; gap: clamp(16px, 2.4vh, 28px); }
+.slide figure { min-width: 0; min-height: 0; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.slide figure > :is(a,div):not(.triptych) { min-height: 0; min-width: 0; flex: 1; }
+.slide .media, .slide .film { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 0; background: var(--bg); }
+.slide .media { overflow: hidden; }
+.slide .media img, .slide .film video { display: block; width: 100%; height: 100%; min-height: 0; max-height: 56dvh; object-fit: contain; }
+.slide .film { background: var(--bg); }
+.slide .film video { background: var(--bg); }
+.slide figcaption { flex: 0 0 auto; color: var(--text-dim); font-size: clamp(18px, 1.1vw, 20px); line-height: 1.32; }
+.slide figcaption .fig-n { font-weight: 700; color: var(--accent); margin-right: .55em; }
+.triptych { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; min-height: 0; flex: 1; }
+.visual { display: flex; flex-direction: column; min-height: 0; gap: 8px; }
+.visual img { width: 100%; height: 0; min-height: 0; flex: 1; object-fit: cover; }
+.visual strong { font-size: clamp(18px, 1.5vw, 24px); color: var(--text); }
+.module-pair { display: grid; grid-template-columns: .85fr 1.55fr; gap: 24px; }
+.module-pair .media { height: 100%; }
+.module-pair .media img { max-height: 56dvh; }
+.slide .stat-figure { justify-content: center; }
+.result-bars { display: flex; flex-direction: column; justify-content: center; gap: 28px; font-size: clamp(18px, 1.5vw, 25px); }
+.result-bars .bar { width: var(--share); height: 28px; margin-top: 12px; background: var(--accent); }
+.result-bars .bar--false { background: transparent; border: 3px solid var(--text-dim); }
+.slide table { border-collapse: collapse; width: 100%; }
+.slide th, .slide td { padding: clamp(10px, 1.5vh, 18px) 16px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.slide th { color: var(--accent); font-weight: 700; }
+.slide th:first-child, .slide td:first-child { width: 38%; }
+.workshop { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+.workshop figure { flex: 1; }
+.workshop .slide__body { font-size: clamp(18px, 1.3vw, 23px); }
+.workshop .media img { max-height: 32dvh; }
+.links { display: flex; flex-direction: column; justify-content: center; gap: clamp(10px, 2vh, 22px); flex: 1; min-height: 0; padding: 0; list-style: none; }
+.slide .links li + li { margin-top: 0; }
+.small { font-size: clamp(18px, 1.1vw, 20px); line-height: 1.35; color: var(--text-dim); }
+.rule { border-left: 3px solid var(--accent); padding-left: 18px; }
+.slide--closing { justify-content: center !important; }
+.slide--closing .slide__heading { font-size: clamp(36px, 4vw, 66px); max-width: 24ch; }
+.slide footer { font-size: 18px; color: var(--text-dim); margin: 0; }
+.deck-brand { position: fixed; top: clamp(12px, 2vh, 24px); right: clamp(12px, 1.5vw, 28px); width: clamp(32px, 3.5vw, 55px); height: auto; margin: 0; border: 0; border-radius: 0; z-index: 90; pointer-events: none; }
+.deck-dots { backdrop-filter: none; background: var(--bg); }
+.deck-panel { font-family: var(--font-body); }
+.deck-panel__button, .deck-help-row { font-size: 18px; }
+@media (max-height: 700px) {
+  .deck .slide { padding-top: 24px; padding-bottom: 40px; gap: 12px; }
+  .slide__hero { font-size: clamp(36px, 4.5vw, 64px); }
+  .slide__heading { font-size: clamp(27px, 2.8vw, 44px); }
+  .slide li + li { margin-top: 10px; }
+  .slide th, .slide td { padding-block: 10px; }
+}
+@media (max-height: 500px) {
+  .deck .slide { padding-block: 16px 30px; gap: 8px; }
+  .slide__label { display: none; }
+  .slide__heading { font-size: 26px; }
+}
+@media (max-width: 760px) {
+  .deck .slide { padding-inline: 22px 40px; }
+  .slide__heading { font-size: 27px; }
+  .slide__hero { font-size: 36px; }
+  .split, .pair, .four { gap: 14px; }
+  .slide__body, .slide li, .slide td, .slide th, .slide figcaption { font-size: 18px; }
+  .slide .links { gap: 10px; }
+  .deck-dots { right: 4px; }
+  .route-options { grid-template-columns: 1fr; grid-template-rows: repeat(4, minmax(0,1fr)); gap: 10px; }
+  .route-options article { padding-top: 6px; gap: 4px; }
+  .route-options h3 { font-size: 20px; }
+  .slide .route-options figure { gap: 12px; }
+}
+@media print {
+  html, body { overflow: visible; }
+  .deck { height: auto; overflow: visible; }
+  .deck .slide { height: 180mm; width: 300mm; break-after: page; opacity: 1 !important; transform: none !important; }
+  .deck-progress, .deck-dots, .deck-counter, .deck-hints, .deck-overlay { display: none !important; }
+}
+</style>
+</head>
+<body>
+<img class="deck-brand" src="assets/zeiss.png" width="55" height="54" alt="ZEISS">
+<main class="deck" aria-label="Smart Microscopy in ZEN presentation">
+<section class="slide" id="slide-1">
+<p class="slide__label">ZEISS ZEN / Smart Microscopy / November 2026</p>
+<h1 class="slide__hero">From image to action.</h1>
+<figure class="hero-figure">
+<div class="triptych">
+<div class="visual"><img src="assets/mitosis-overview.jpg" width="615" height="618" alt="Low-magnification overview showing many cells across a well"><strong>Observe</strong></div>
+<div class="visual"><img src="assets/mitosis-detection.png" width="547" height="575" alt="Region-feature filters identify candidate mitotic cells"><strong>Detect</strong></div>
+<div class="visual"><img src="assets/mitosis-detail.png" width="1522" height="763" alt="Detailed images show chromosome and spindle changes during mitosis"><strong>Acquire</strong></div>
+</div>
+<figcaption>Sample information decides what ZEN acquires next. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption>
+</figure>
+<p class="slide__body">Observe. Detect. Acquire selectively.</p>
+<footer>Arrow keys: navigate / O: outline / ?: help / F11: browser fullscreen</footer>
+</section>
+
+<section class="slide" id="slide-2">
+<p class="slide__label">Choose a route</p>
+<h2 class="slide__heading">Put the decision where it belongs.</h2>
+<div class="four route-options">
+<article><h3>OAD</h3><figure><a class="media" href="assets/oad-editor.png" target="_blank" rel="noopener"><img src="assets/oad-editor.png" width="1552" height="1129" loading="eager" alt="ZEN's internal script editor contains custom Python acquisition code"></a><figcaption>ZEN hosts your custom script. <a href="smart-microscopy-zen.html#s5">Source</a></figcaption></figure></article>
+<article><h3>Experiment Feedback</h3><figure><a class="media" href="assets/feedback-editor.png" target="_blank" rel="noopener"><img src="assets/feedback-editor.png" width="1481" height="997" loading="eager" alt="Experiment Feedback editor combines observable measurements with acquisition actions"></a><figcaption>Rules adapt a running experiment. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure></article>
+<article><h3>Guided Acquisition</h3><figure><a class="media route-pair" href="smart-microscopy-zen.html#guided"><img src="assets/mitosis-overview.jpg" width="615" height="618" loading="eager" alt="Low-magnification overview screens many cells"><img src="assets/mitosis-detail.png" width="1522" height="763" loading="eager" alt="Detailed images record selected mitotic cells"></a><figcaption>Overview images select detail scans. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption></figure></article>
+<article><h3>ZEN-API</h3><figure><a class="media" href="assets/example-zenapi-control.svg" target="_blank" rel="noopener"><img src="assets/example-zenapi-control.svg" width="960" height="540" loading="eager" alt="An external computer selects image targets and controls a connected microscope"></a><figcaption>Your app controls ZEN. <a href="../examples/control_zen_via_zenapi/README.md">Source</a></figcaption></figure></article>
+</div>
+<p class="small">These routes complement each other. Start with the built-in module when it fits.</p>
+</section>
+
+<section class="slide" id="slide-3">
+<p class="slide__label">Interfaces</p>
+<h2 class="slide__heading">Reading data is not controlling a microscope.</h2>
+<div class="split">
+<figure><a class="media" href="assets/interfaces.png" target="_blank" rel="noopener"><img src="assets/interfaces.png" width="1731" height="1198" loading="eager" alt="Source illustration places OAD, Experiment Feedback, ZEN API, COM, TCP/IP, extensions, and CZI access around ZEN"></a><figcaption>ZEN offers distinct data, scripting, extension, and service interfaces. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li><strong>CZI libraries:</strong> pixels and metadata.</li>
+<li><strong>OAD / Feedback:</strong> internal ZEN workflows.</li>
+<li><strong>COM / TCP-IP:</strong> external scripting routes.</li>
+<li><strong>C# extensions:</strong> integrated functionality.</li>
+<li><strong>ZEN-API:</strong> typed external services.</li>
+</ul><p class="small">TCP/IP scripting is not gRPC ZEN-API. Availability depends on edition, license, version, and instrument.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-4">
+<p class="slide__label">Open Application Development</p>
+<h2 class="slide__heading">OAD makes ZEN the workflow host.</h2>
+<div class="pair">
+<figure><a class="media" href="assets/oad-editor.png" target="_blank" rel="noopener"><img src="assets/oad-editor.png" width="1552" height="1129" loading="eager" alt="ZEN internal script editor with Python code and output panel"></a><figcaption>Record supported operations; edit scripts for acquisition, processing, analysis, and saving. <a href="smart-microscopy-zen.html#s5">Source</a></figcaption></figure>
+<figure><a class="media" href="assets/oad.png" target="_blank" rel="noopener"><img src="assets/oad.png" width="3331" height="2251" loading="eager" alt="Source diagram distinguishes the internal IronPython environment from external Python and .NET libraries"></a><figcaption>Internal IronPython and external CPython remain separate runtimes. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
+</div>
+<p class="small">Broad internal access; not every UI action is recordable. NumPy/SciPy need an external process and data handoff.</p>
+</section>
+
+<section class="slide" id="slide-5">
+<p class="slide__label">Experiment Feedback / lifecycle</p>
+<h2 class="slide__heading">Prepare once. React to changes. Finish once.</h2>
+<figure><a class="media" href="assets/feedback-workflow.png" target="_blank" rel="noopener"><img src="assets/feedback-workflow.png" width="1097" height="539" loading="eager" alt="Original Experiment Feedback workflow with Pre Loop, Main Loop, and Post Loop"></a><figcaption>PreLoop initializes; Loop handles observable changes; PostLoop records results or starts follow-up work. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
+<p class="slide__body">Loop is event-driven, not an unconditional polling loop.</p>
+</section>
+
+<section class="slide" id="slide-6">
+<p class="slide__label">Experiment Feedback / rules</p>
+<h2 class="slide__heading">Use the right result at the right time.</h2>
+<div class="split">
+<figure><a class="media" href="assets/feedback-editor.png" target="_blank" rel="noopener"><img src="assets/feedback-editor.png" width="1481" height="997" loading="eager" alt="Experiment Feedback editor showing the three script areas and observable/action lists"></a><figcaption>The experiment stores setup, event-dependent logic, and final actions. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li>Read online measurements or hardware state.</li>
+<li>Stop, adjust, log, or launch external software.</li>
+<li>Wait for analysis when rules need its results.</li>
+<li>Wait for disk before external image reading.</li>
+<li>Define measurements; reload changed settings.</li>
+</ul><p class="small">Free Run / Synchronized execution and script cost affect acquisition timing.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-7">
+<p class="slide__label">Experiment Feedback / demonstration</p>
+<h2 class="slide__heading">Watch a rule act during acquisition.</h2>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/feedback-demo-poster.jpg"><source src="assets/feedback-demo.mp4" type="video/mp4">Your browser cannot play this video. <a href="assets/feedback-demo.mp4">Open the MP4</a>.</video></div><figcaption>Experiment Feedback demonstration; not a timing guarantee. <a href="media-manifest.json">Source</a></figcaption></figure>
+</section>
+
+<section class="slide" id="slide-8">
+<p class="slide__label">Guided Acquisition</p>
+<h2 class="slide__heading">Spend detail on selected objects.</h2>
+<figure class="guided-summary">
+<div class="triptych">
+<div class="visual"><img src="assets/mitosis-overview.jpg" width="615" height="618" loading="eager" alt="Wide-field overview contains many candidate cells"><strong>Observe</strong></div>
+<div class="visual"><img src="assets/mitosis-detection.png" width="547" height="575" loading="eager" alt="Image-analysis feature filters select candidate mitotic cells"><strong>Detect</strong></div>
+<div class="visual"><img src="assets/mitosis-detail.png" width="1522" height="763" loading="eager" alt="Detailed images show selected cells during mitosis"><strong>Acquire</strong></div>
+</div>
+<figcaption>An overview becomes a target list, then selected detail scans; analysis can be internal or external. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption>
+</figure>
+<p class="slide__body">One workflow pattern. Module, script, or external client.</p>
+</section>
+
+<section class="slide" id="slide-9">
+<p class="slide__label">Guided Acquisition / module</p>
+<h2 class="slide__heading">Configure the standard workflow without scripting.</h2>
+<figure class="module-comparison">
+<div class="module-pair">
+<a class="media" href="assets/ga-module.png" target="_blank" rel="noopener"><img src="assets/ga-module.png" width="1451" height="1642" loading="eager" alt="Guided Acquisition module with overview, processing, image analysis and detail scan settings"></a>
+<a class="media" href="assets/ga-overview-detail.png" target="_blank" rel="noopener"><img src="assets/ga-overview-detail.png" width="1348" height="916" loading="eager" alt="Overview scans of brain sections feed internal or external analysis; detected XYZ positions and ROI shapes guide detailed imaging"></a>
+</div>
+<figcaption>Overview and detail recipes share processing, detection, XYZ positions, and region shapes. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption>
+</figure>
+<p class="small">Supports analysis checks and well plates. Confirm module entitlement and instrument support.</p>
+</section>
+
+<section class="slide slide--detection" id="slide-10">
+<p class="slide__label">Guided Acquisition / object detection</p>
+<h2 class="slide__heading">Choose how to find the targets.</h2>
+<ul>
+<li><strong>Semantic Pixel Classifier:</strong> learned image features classify pixels.</li>
+<li><strong>Semantic DL Models:</strong> neural networks assign pixel classes.</li>
+<li><strong>Instance Segmentation:</strong> separate individual, touching objects.</li>
+<li><strong>CellPose Model:</strong> segment cells or nuclei.</li>
+<li><strong>External DL models:</strong> import compatible models or return external detections.</li>
+</ul>
+<p class="small rule">Check ZEN version, analysis features, and model compatibility. External inference needs integration; pixel classification is not necessarily deep learning.</p>
+</section>
+
+<section class="slide" id="slide-11">
+<p class="slide__label">Guided Acquisition / OAD script</p>
+<h2 class="slide__heading">Own the workflow when the standard sequence does not fit.</h2>
+<div class="split">
+<figure><a class="media fit" href="assets/ga-script.png" target="_blank" rel="noopener"><img src="assets/ga-script.png" width="2279" height="2974" loading="eager" alt="Detailed source workflow for scripted Guided Acquisition"></a><figcaption>The script exposes processing, target selection, experiment changes, and external handoffs. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li>Customize the overview-to-detail sequence.</li>
+<li>Use IronPython and ZEN scripting functions.</li>
+<li>Maintain coordinates, errors, and recovery.</li>
+<li>Published example: use at your own risk.</li>
+</ul><p class="small">Required ZEN capabilities still apply. Open the figure for the full workflow.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-12">
+<p class="slide__label">Guided Acquisition / gallery</p>
+<h2 class="slide__heading">The same selection pattern serves cells and tissues.</h2>
+<figure class="guided-gallery"><a class="media" href="assets/ga-poster-gallery.png" target="_blank" rel="noopener"><img src="assets/ga-poster-gallery.png" width="1670" height="975" loading="eager" alt="Guided Acquisition gallery pairs cell and tissue overviews with selected high-resolution details, including mitotic cells and neurons"></a><figcaption>Overview-to-detail imaging across biological applications; sample credits remain with the source. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption></figure>
+</section>
+
+<section class="slide" id="slide-13">
+<p class="slide__label">Guided Acquisition / applications</p>
+<h2 class="slide__heading">Select structures before spending acquisition time.</h2>
+<div class="pair">
+<figure><a class="media" href="assets/organoids.png" target="_blank" rel="noopener"><img src="assets/organoids.png" width="995" height="332" loading="eager" alt="Organoid overview and selected detailed images"></a><figcaption>Select organoids by image features. Sample: Dr. M. Lutolf, EPFL. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption></figure>
+<figure><a class="media" href="assets/neurons.png" target="_blank" rel="noopener"><img src="assets/neurons.png" width="546" height="435" loading="eager" alt="Overview of sectioned mouse brain with a detailed projection of a detected neuron"></a><figcaption>Find rare labeled neurons. Sample: Dr. L. Lim, KU Leuven. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption></figure>
+</div>
+</section>
+
+<section class="slide" id="slide-14">
+<p class="slide__label">Case study / mitosis</p>
+<h2 class="slide__heading">Find the event early enough to follow it.</h2>
+<div class="split">
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/ga-prometaphase-poster.jpg"><source src="assets/ga-prometaphase.mp4" type="video/mp4">Video unavailable. <a href="assets/ga-prometaphase.mp4">Open the MP4</a>.</video></div><figcaption>Prometaphase triggers detailed event-centered acquisition. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption></figure>
+<div class="copy"><ol>
+<li>Screen a broad field.</li>
+<li>Segment and filter candidates.</li>
+<li>Acquire time-lapse and Z-stacks.</li>
+<li>Measure anaphase initiation.</li>
+</ol><p class="small">Sequential wells reduce delay. Classification errors and stack time still limit useful throughput.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-15">
+<p class="slide__label">Case study / one overnight run</p>
+<h2 class="slide__heading">Selected positions include true events and false positives.</h2>
+<div class="pair">
+<figure class="stat-figure"><div class="result-bars" aria-label="Of 300 selected positions, 266 are mitotic events and 34 are false positives."><div><strong>266</strong> mitotic events<div class="bar" style="--share:88.6667%" aria-hidden="true"></div></div><div><strong>34</strong> false positives<div class="bar bar--false" style="--share:11.3333%" aria-hidden="true"></div></div></div><figcaption>300 positions: 266 mitotic events; 34 false positives, mainly apoptotic cells. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption></figure>
+<figure><div class="film"><video class="square" controls playsinline preload="none" poster="assets/ga-300-mitosis-poster.jpg"><source src="assets/ga-300-mitosis.mp4" type="video/mp4">Video unavailable. <a href="assets/ga-300-mitosis.mp4">Open the MP4</a>.</video></div><figcaption>The montage combines event-centered acquisitions from this run. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption></figure>
+</div>
+<p class="small">A reported experiment, not a general accuracy or throughput guarantee.</p>
+</section>
+
+<section class="slide" id="slide-16">
+<p class="slide__label">Case study / biological readout</p>
+<h2 class="slide__heading">Measure the biology, not just the image count.</h2>
+<figure><a class="media" href="assets/mitosis-results.png" target="_blank" rel="noopener"><img src="assets/mitosis-results.png" width="2070" height="809" loading="eager" alt="Cell-division montage with marked anaphase initiation and a distribution of event timing"></a><figcaption>Downstream analysis identifies anaphase initiation and the distribution of event timing. <a href="smart-microscopy-zen.html#s7">Source</a></figcaption></figure>
+</section>
+
+<section class="slide" id="slide-17">
+<p class="slide__label">Case study / custom OAD</p>
+<h2 class="slide__heading">A scheduler coordinates overview and event acquisition.</h2>
+<div class="pair">
+<figure><a class="media" href="assets/event-oad.png" target="_blank" rel="noopener"><img src="assets/event-oad.png" width="4223" height="1939" loading="eager" alt="OAD smart imaging example shows continuing overview and detailed acquisition cycles"></a><figcaption>Custom OAD logic connects detection and detailed event acquisition. <a href="smart-microscopy-zen.html#s4">Source</a></figcaption></figure>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/oad-mitosis-poster.jpg"><source src="assets/oad-mitosis.mp4" type="video/mp4">Video unavailable. <a href="assets/oad-mitosis.mp4">Open the MP4</a>.</video></div><figcaption>Repository demo with simulated data; 4x playback is not a real-time latency measurement. <a href="smart-microscopy-zen.html#s4">Source</a></figcaption></figure>
+</div>
+</section>
+
+<section class="slide" id="slide-18">
+<p class="slide__label">ZEN-API / architecture</p>
+<h2 class="slide__heading">Your application decides. ZEN executes acquisition.</h2>
+<figure><a class="media" href="assets/api-architecture.png" target="_blank" rel="noopener"><img src="assets/api-architecture.png" width="1920" height="1080" loading="eager" alt="Original ZEN API architecture shows external consumers connecting through a gateway to API providers in the ZEN ecosystem"></a><figcaption>Client calls; gateway routes; ZEN providers implement available services. Illustration: Sebastian Rhode, ZEISS. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="small">Typed services, not mouse clicks. The gateway shares access and service descriptions; providers register capabilities. Complements OAD, not every internal function.</p>
+</section>
+
+<section class="slide" id="slide-19">
+<p class="slide__label">ZEN-API / contracts</p>
+<h2 class="slide__heading">A typed contract connects different languages.</h2>
+<figure><a class="media" href="assets/api-grpc.png" target="_blank" rel="noopener"><img src="assets/api-grpc.png" width="3587" height="1520" loading="eager" alt="Source illustration connects C# interface definitions, protocol-buffer contracts, gRPC services and generated client code"></a><figcaption>Protocol Buffers define messages; gRPC transports calls and streams; generated stubs expose them to the client. <a href="smart-microscopy-zen.html#s5">Source</a></figcaption></figure>
+<p class="small">gRPC uses HTTP/2. A contract is not a microscope driver; generated client code cannot add unsupported server features.</p>
+</section>
+
+<section class="slide" id="slide-20">
+<p class="slide__label">ZEN-API / Python layers</p>
+<h2 class="slide__heading">Generated contracts and workflow helpers have different jobs.</h2>
+<div class="split">
+<div class="copy"><h3>The client stack</h3><ul>
+<li><code>zen_api</code>: generated messages and gRPC wrappers.</li>
+<li><code>zen_api_utils</code>: separate connection and workflow helpers.</li>
+<li>NumPy, AI, and visualization: client-side choices.</li>
+</ul></div>
+<div class="copy"><h3>Match the running system</h3><ul>
+<li>Package version is not a service namespace.</li>
+<li><code>v1</code> and <code>v1beta</code> can coexist.</li>
+<li>Methods depend on server, edition, and instrument.</li>
+</ul><p class="small">Newer reviewed contracts do not imply ZEN 3.14 support.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-21">
+<p class="slide__label">ZEN-API / PixelStream</p>
+<h2 class="slide__heading">Process pixels while ZEN acquires.</h2>
+<div class="pair">
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/api-segmentation-poster.jpg"><source src="assets/api-segmentation.mp4" type="video/mp4">Video unavailable. <a href="assets/api-segmentation.mp4">Open the MP4</a>.</video></div><figcaption>Semantic segmentation extracts candidate structures in an external Python client. <a href="media-manifest.json">Source</a></figcaption></figure>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/api-denoising-poster.jpg"><source src="assets/api-denoising.mp4" type="video/mp4">Video unavailable. <a href="assets/api-denoising.mp4">Open the MP4</a>.</video></div><figcaption>Noise2Void denoises streamed images; throughput depends on model and hardware. <a href="media-manifest.json">Source</a></figcaption></figure>
+</div>
+<p class="slide__body">Processing is not feedback until a rule triggers a supported action.</p>
+</section>
+
+<section class="slide" id="slide-22">
+<p class="slide__label">ZEN-API / frame context</p>
+<h2 class="slide__heading">Keep acquisition context with the pixels.</h2>
+<table><thead><tr><th>Keep</th><th>Use it to</th></tr></thead><tbody>
+<tr><td>Experiment ID + frame number</td><td>Identify data, not just arrival time.</td></tr>
+<tr><td>T / Z / C / tile / scene</td><td>Place frames in acquisition dimensions.</td></tr>
+<tr><td>Position + scaling</td><td>Convert image results to physical locations.</td></tr>
+<tr><td>Pixel type + full-frame size</td><td>Decode the correct type and shape.</td></tr>
+<tr><td>Payload offset + size</td><td>Reassemble partial data at the correct location.</td></tr>
+</tbody></table>
+<p class="small">A response may contain only part of a frame. Raw bytes are not already a NumPy image.</p>
+</section>
+
+<section class="slide" id="slide-23">
+<p class="slide__label">ZEN-API / receiving pixels</p>
+<h2 class="slide__heading">Choose delivery and manage processing lag.</h2>
+<ul>
+<li><code>GetNextFrame</code>: one response, with experiment/channel scope.</li>
+<li><code>MonitorExperiment</code> / <code>MonitorAllExperiments</code>: server streams.</li>
+<li><code>enable_raw_data</code>: raw lines or partial frames; otherwise assembled frames.</li>
+<li>Separate reception, analysis, and hardware decisions.</li>
+<li>Bound buffers; measure lag; define overload behavior.</li>
+</ul>
+<p class="small">These are engineering choices, not a hard real-time guarantee.</p>
+</section>
+
+<section class="slide" id="slide-24">
+<p class="slide__label">napari / operating modes</p>
+<h2 class="slide__heading">Watch, start, or store an acquisition.</h2>
+<div class="split">
+<figure><a class="media" href="assets/napari-streaming-ui.png" target="_blank" rel="noopener"><img src="assets/napari-streaming-ui.png" width="2347" height="1527" loading="eager" alt="napari ZEN API Streaming widget shows experiment selection, OME-ZARR-only mode, acquisition dimensions, and writer progress"></a><figcaption>The plugin exposes experiment selection, streaming, and OME-Zarr output controls. <a href="smart-microscopy-zen.html#s12">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li><strong>Watch:</strong> ZEN starts; napari listens. Run only one acquisition.</li>
+<li><strong>Start:</strong> read experiment XML; filter by the returned experiment ID.</li>
+<li><strong>OME-Zarr only:</strong> dedicated channel and writer; start or arm before manual acquisition.</li>
+</ul><p class="small">Connecting alone does not start acquisition.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-25">
+<p class="slide__label">napari / live demonstration</p>
+<h2 class="slide__heading">A Python viewer receives pixels from ZEN.</h2>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-napari-streaming-poster.jpg"><source src="assets/recording-napari-streaming.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-napari-streaming.mp4">Open the MP4</a>.</video></div><figcaption>napari-zenapi-streaming is an external client, not a replacement acquisition engine. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+</section>
+
+<section class="slide" id="slide-26">
+<p class="slide__label">napari / display versus storage</p>
+<h2 class="slide__heading">Preview values are not raw measurement values.</h2>
+<div class="split">
+<figure><a class="media" href="assets/napari-omezarr-result.png" target="_blank" rel="noopener"><img src="assets/napari-omezarr-result.png" width="3460" height="1465" loading="eager" alt="napari displays data from a streamed OME-Zarr beside the selected ZEN well-plate acquisition"></a><figcaption>Stored OME-Zarr opens in napari after acquisition and optional pyramid generation. <a href="smart-microscopy-zen.html#s12">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li>Display normalizes assumed <code>uint16</code> frames.</li>
+<li>Received frames remain available for scene mosaics.</li>
+<li>Small live previews do not mean constant memory.</li>
+<li>The direct writer preserves <code>GRAY8</code> / <code>GRAY16</code>; not color.</li>
+</ul></div>
+</div>
+</section>
+
+<section class="slide" id="slide-27">
+<p class="slide__label">napari / operating limits</p>
+<h2 class="slide__heading">Check completeness and compatibility separately.</h2>
+<div class="split">
+<div class="copy"><h3>Did all frames arrive?</h3><ul>
+<li>Final pixels may follow acquisition-finished status.</li>
+<li>Started Display runs check unique frame count, with inactivity fallback.</li>
+<li>The configured writer checks coordinates; inspect <code>acquisition_status.json</code>.</li>
+<li>Older unconfigured CLI lacks equivalent certification.</li>
+</ul></div>
+<div class="copy"><h3>Does this setup match?</h3><ul>
+<li>Alpha / MVP; primarily ZEN Blue on Windows.</li>
+<li>Python 3.12-3.14; API 2026.5.1-2026.11.1.</li>
+<li>Install compatible API and utility wheels in napari's environment.</li>
+<li>Remote Linux streaming is experimental, not hardware-certified.</li>
+</ul></div>
+</div>
+</section>
+
+<section class="slide" id="slide-28">
+<p class="slide__label">napari / existing CZI data</p>
+<h2 class="slide__heading">File viewing is a separate workflow.</h2>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-czi-viewing-poster.jpg"><source src="assets/recording-czi-viewing.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-czi-viewing.mp4">Open the MP4</a>.</video></div><figcaption>napari-czitools reads existing CZI data; this is neither PixelStream nor microscope control. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+<p class="small">The recording is not a general file-size or loading-speed benchmark.</p>
+</section>
+
+<section class="slide" id="slide-29">
+<p class="slide__label">Additional recordings / receiving versus acting</p>
+<h2 class="slide__heading">Receiving pixels and selecting targets are different steps.</h2>
+<div class="pair">
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-baseline-poster.jpg"><source src="assets/recording-pixel-baseline.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-pixel-baseline.mp4">Open the MP4</a>.</video></div><figcaption>PixelStream baseline: receive and display, without processing. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-api-guided-poster.jpg"><source src="assets/recording-api-guided.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-api-guided.mp4">Open the MP4</a>.</video></div><figcaption>Guided Acquisition: an external client requests selected detail scans. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+</div>
+</section>
+
+<section class="slide" id="slide-30">
+<p class="slide__label">Additional recordings / client-side processing</p>
+<h2 class="slide__heading">Image processing alone does not change acquisition.</h2>
+<div class="pair">
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-denoising-poster.jpg"><source src="assets/api-denoising.mp4" type="video/mp4">Video unavailable. <a href="assets/api-denoising.mp4">Open the MP4</a>.</video></div><figcaption>Noise2Void improves the displayed image through client-side denoising. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-segmentation-poster.jpg"><source src="assets/api-segmentation.mp4" type="video/mp4">Video unavailable. <a href="assets/api-segmentation.mp4">Open the MP4</a>.</video></div><figcaption>Semantic segmentation extracts candidates; an explicit control rule must follow. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
+</div>
+<p class="small">Separate custom clients, not implied napari-plugin features. These two players reuse the earlier demonstration files.</p>
+</section>
+
+<section class="slide" id="slide-31">
+<p class="slide__label">ZEN-API / external Guided Acquisition</p>
+<h2 class="slide__heading">Make the analysis-to-acquisition handoff explicit.</h2>
+<div class="split">
+<figure><div class="film"><video controls playsinline preload="none" poster="assets/api-guided-poster.jpg"><source src="assets/api-guided.mp4" type="video/mp4">Video unavailable. <a href="assets/api-guided.mp4">Open the MP4</a>.</video></div><figcaption>External analysis returns targets for selected detailed acquisitions. <a href="smart-microscopy-zen.html#s11">Source</a></figcaption></figure>
+<div class="copy"><ol>
+<li>Acquire the overview; wait for data.</li>
+<li>Analyze images in the client.</li>
+<li>Validate targets and physical coordinates.</li>
+<li>Clone a detail recipe; update regions.</li>
+<li>Acquire targets; retain results and errors.</li>
+</ol></div>
+</div>
+</section>
+
+<section class="slide" id="slide-32">
+<p class="slide__label">ZEN-API / workflow ownership</p>
+<h2 class="slide__heading">Delegate acquisition blocks, not mouse clicks.</h2>
+<div class="split">
+<figure><a class="media" href="assets/api-workflow-blocks.png" target="_blank" rel="noopener"><img src="assets/api-workflow-blocks.png" width="1920" height="1080" loading="eager" alt="Source sequence illustration divides a CellDiscoverer workflow between an external client, ZEN, the imaging system and data storage"></a><figcaption>Client, ZEN, instrument, and storage execute different workflow blocks. Illustration: Sebastian Rhode, ZEISS. <a href="media-manifest.json">Source</a></figcaption></figure>
+<div class="copy"><ul>
+<li>Client orchestration sequences wells, focus, data readiness, and analysis.</li>
+<li>Keep hardware actions sequential; analysis can overlap previous files.</li>
+<li>ZEN core jobs are not acquisition experiments; check edition-specific services.</li>
+<li>The guided example mixes API and TCP/IP; region dimensions use meters.</li>
+</ul><p class="small">Rectangle, polygon, or ellipse: convert coordinates first. Carrier handling is instrument-specific.</p></div>
+</div>
+</section>
+
+<section class="slide" id="slide-33">
+<p class="slide__label">Workshop examples / control and data</p>
+<h2 class="slide__heading">Connect control to Python image access.</h2>
+<div class="pair">
+<article class="workshop"><h3>Control and acquire</h3>
+<figure class="example-image"><a class="media" href="assets/example-zenapi-control.svg" target="_blank" rel="noopener"><img src="assets/example-zenapi-control.svg" width="960" height="540" loading="eager" alt="A computer displays cell images, a selected target, acquisition tiles and stage controls beside a connected microscope illuminating a selected specimen region"></a><figcaption>External control and image delivery; conceptual illustration. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">Stage, focus, autofocus, optics, regions, Z-stacks, streaming, and guided acquisition.</p>
+<p class="small"><a href="../examples/control_zen_via_zenapi/README.md">Control examples</a></p></article>
+<article class="workshop"><h3>Read CZI in Python</h3>
+<figure class="example-image"><a class="media" href="assets/example-czi-handling.png" target="_blank" rel="noopener"><img src="assets/example-czi-handling.png" width="1200" height="620" loading="eager" alt="Python pylibCZIrw output pairs two CZI image planes with NumPy array shape and metadata for time points, Z planes, channels, width and height"></a><figcaption>Saved pylibCZIrw output: image planes, array shape, and acquisition metadata. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">Pixels, metadata, scenes, plates, attachments; write CZI, export OME-Zarr, or use lazy/VZIP access.</p>
+<p class="small"><a href="../examples/czi_handling/README.md">CZI examples</a> / VZIP needs the unchanged original CZI.</p></article>
+</div>
+</section>
+
+<section class="slide" id="slide-34">
+<p class="slide__label">Workshop examples / models and measurements</p>
+<h2 class="slide__heading">Turn images into predictions and biological readouts.</h2>
+<div class="pair">
+<article class="workshop"><h3>Deep learning</h3>
+<figure class="example-image"><a class="media" href="assets/example-deep-learning.png" target="_blank" rel="noopener"><img src="assets/example-deep-learning.png" width="1315" height="429" loading="eager" alt="Saved notebook output compares a fluorescence image, predicted nuclei segmentation and the label mask"></a><figcaption>Saved notebook output compares input, prediction, and labels; not a general accuracy claim. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">Inspect CZANN; run ONNX inference; train a small PyTorch model and export CZANN. Match preprocessing.</p>
+<p class="small"><a href="../examples/deep_learning/README.md">Deep-learning examples</a></p></article>
+<article class="workshop"><h3>Translocation</h3>
+<figure class="example-image"><a class="media" href="assets/example-translocation.png" target="_blank" rel="noopener"><img src="assets/example-translocation.png" width="2058" height="1100" loading="eager" alt="Translocation assay example compares EGFP and DAPI images with segmented nuclei and surrounding cytoplasmic rings"></a><figcaption>DAPI nuclei and cytoplasmic rings support nuclear-to-cytoplasmic EGFP measurement. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">CZI/OME-Zarr plates become cell measurements, well summaries, heatmaps, and dose-response fits.</p>
+<p class="small"><a href="../examples/translocation/README.md">Assay example</a> / <a href="../examples/translocation/translocation_docs/translocation-assay.html">Walkthrough</a></p></article>
+</div>
+</section>
+
+<section class="slide slide--closing" id="slide-35">
+<p class="slide__label">Takeaway</p>
+<h2 class="slide__heading">Observe. Decide. Act. Check the result.</h2>
+<p class="slide__body rule">Monitoring becomes Smart Microscopy when sample information drives a supported, validated acquisition decision.</p>
+<p class="slide__body">Use the simplest route that fits: module, Feedback, OAD, or ZEN-API.</p>
+<p class="small">Workshop code is educational. Review inputs, outputs, model assumptions, and approved instrument procedures before use.</p>
+</section>
+
+<section class="slide" id="slide-36">
+<p class="slide__label">Links and additional info</p>
+<h2 class="slide__heading">Start with the documentation for your ZEN system.</h2>
+<ul class="links">
+<li><a href="https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/">ZEN 3.14: API documentation 2026.5.1</a> / <a href="https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/proto/">Protocol reference</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/README.md">ZEN-API overview and setup README</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD">OAD repository</a> / <a href="smart-microscopy-zen.html#s1">Interface illustrations</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD/tree/master/Experiment_Feedback">Experiment Feedback</a> / <a href="https://github.com/zeiss-microscopy/OAD/blob/master/Experiment_Feedback/Experiment_Feedback_Tutorial_3.14.pdf">ZEN 3.14 tutorial</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD/tree/master/Guided_Acquisition">Guided Acquisition: module, scripts, tutorials</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD/tree/master/SmartMicroscopy/Detecting%20Mitosis">Detecting Mitosis</a> / <a href="smart-microscopy-zen.html#s7">Case-study media</a></li>
+<li><a href="https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/zen_api_utils/README.md">Client utilities</a> / <a href="https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/protofiles/proto_2026.11.1/zen_api/acquisition/v1beta">Newer 2026.11.1 contracts</a></li>
+<li><a href="https://github.com/sebi06/napari-zenapi-streaming">napari-zenapi-streaming</a> / <a href="https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/python_examples">OAD Python workflows</a></li>
+</ul>
+</section>
+
+<section class="slide" id="slide-37">
+<p class="slide__label">Links and additional info / media and credits</p>
+<h2 class="slide__heading">Keep the sources and the caveats with the examples.</h2>
+<ul class="links">
+<li><a href="smart-microscopy-zen.html">Full overview and source credits</a> / <a href="media-manifest.json">Media provenance</a> / <a href="slide-validation-report.json">Slide delivery checks</a></li>
+<li><a href="assets/feedback-demo.mp4">Feedback demo</a> / <a href="assets/mitosis-mosaic.jpg">Mitosis acquisition mosaic</a> / <a href="smart-microscopy-zen.html#s8">API illustrations</a></li>
+<li><a href="assets/recording-napari-streaming.mp4">napari streaming</a> / <a href="assets/recording-czi-viewing.mp4">CZI viewing</a> / <a href="assets/recording-api-guided.mp4">API guided acquisition</a></li>
+<li><a href="assets/recording-pixel-baseline.mp4">Baseline</a> / <a href="assets/api-denoising.mp4">Noise2Void</a> / <a href="assets/api-segmentation.mp4">Semantic segmentation</a></li>
+</ul>
+<p class="small">ZEISS / Sebastian Rhode. Mitosis contributors: Marion Lang, Sandra Orthaus, Phillip Seidel, Pierre Menard, and colleagues.</p>
+<p class="small">napari plugin: Krijn H. van der Steen, UMC Utrecht, and Sebastian Rhode, ZEISS. Sample credits accompany the figures.</p>
+<p class="small">Educational demonstrations, not support, speed, or accuracy guarantees. No additional redistribution rights. Videos play on request; this deck runs no microscope code.</p>
+</section>
+</main>
+<script>
+  // ===== DELIVERY CHECK (copy as is) =====
+  function autoFit() {
+    document.querySelectorAll('.slide__kpi-val').forEach(function(el) {
+      if (el.scrollWidth > el.clientWidth) {
+        el.style.transform = 'scale(' + el.clientWidth / el.scrollWidth + ')'; el.style.transformOrigin = 'left top';
+        el.closest('.slide').setAttribute('data-auto-fit', 'KPI value');
+      }
+    });
+    document.querySelectorAll('.slide--quote blockquote').forEach(function(el) {
+      var len = el.textContent.trim().length;
+      if (len > 150) {
+        el.style.fontSize = Math.max(16, Math.round(parseFloat(getComputedStyle(el).fontSize) * Math.max(.5, 150 / len))) + 'px';
+        el.closest('.slide').setAttribute('data-auto-fit', 'quote');
+      }
+    });
+  }
+  function checkSlideOverflow() {
+    var failures = [];
+    document.querySelectorAll('.slide').forEach(function(slide, i) {
+      var excess = Math.ceil(slide.scrollHeight - slide.clientHeight), fit = slide.getAttribute('data-auto-fit');
+      if (excess > 1 || fit) {
+        slide.setAttribute('data-slide-check', excess > 1 ? 'overflow' : 'auto-fit');
+        slide.setAttribute('data-slide-check-label', excess > 1 ? 'OVERFLOW — split or reduce (' + excess + 'px)' : 'AUTO-FIT USED — review budget (' + fit + ')');
+        failures.push('Slide ' + (i + 1) + ': ' + (excess > 1 ? 'vertical overflow ' + excess + 'px' : 'autoFit: ' + fit));
+      } else {
+        slide.removeAttribute('data-slide-check'); slide.removeAttribute('data-slide-check-label');
+      }
+    });
+    if (failures.length) console.error('Slide delivery check failed. ' + failures.join(' | ') + '. Split or reduce content; autoFit is only a safety net.');
+    else console.info('Slide delivery check passed: no vertical overflow or autoFit fallback.');
+    return failures;
+  }
+  function finishSlideRender() {
+    autoFit();
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(function() { requestAnimationFrame(checkSlideOverflow); });
+  }
+
+  // ===== ENGINE (copy as is) =====
+  function SlideEngine() {
+    this.deck = document.querySelector('.deck');
+    this.slides = [].slice.call(document.querySelectorAll('.slide'));
+    this.current = 0; this.total = this.slides.length;
+    this.storeKey = ['visual-explainer:slide-deck', location.pathname, document.title, this.total].join(':');
+    this.buildChrome(); this.bindEvents(); this.observe(); this.restore(); this.update();
+  }
+  SlideEngine.prototype.titleOf = function(i) {
+    var el = this.slides[i].querySelector('.slide__hero,.slide__heading,blockquote');
+    var t = el ? el.textContent.trim().replace(/\s+/g, ' ') : 'Slide ' + (i + 1);
+    return t.length > 58 ? t.slice(0, 56) + '…' : t;
+  };
+  SlideEngine.prototype.make = function(tag, cls, text) { var el = document.createElement(tag); if (cls) el.className = cls; if (text) el.textContent = text; return el; };
+  SlideEngine.prototype.buildChrome = function() {
+    var self = this;
+    this.bar = document.body.appendChild(this.make('div', 'deck-progress'));
+    var dots = this.make('nav', 'deck-dots'); dots.setAttribute('aria-label', 'Slide navigation');
+    this.slides.forEach(function(_, i) {
+      var title = self.titleOf(i), d = self.make('button', 'deck-dot');
+      d.type = 'button'; d.setAttribute('aria-label', 'Go to slide ' + (i + 1) + ': ' + title);
+      d.appendChild(self.make('span', 'deck-dot-label', title)); d.onclick = function() { self.goTo(i); };
+      dots.appendChild(d);
+    });
+    document.body.appendChild(dots); this.dots = [].slice.call(dots.children);
+    this.counter = document.body.appendChild(this.make('div', 'deck-counter')); this.counter.setAttribute('aria-live', 'polite');
+    this.hints = document.body.appendChild(this.make('div', 'deck-hints', '← → · O outline · ? help'));
+    this.hintTimer = setTimeout(function() { self.hints.classList.add('faded'); }, 4500);
+    this.overlay = this.make('div', 'deck-overlay'); this.overlay.setAttribute('aria-hidden', 'true');
+    this.panel = this.make('div', 'deck-panel'); this.panel.setAttribute('role', 'dialog'); this.panel.setAttribute('aria-modal', 'true'); this.panel.tabIndex = -1;
+    this.overlay.appendChild(this.panel); document.body.appendChild(this.overlay);
+    this.overlay.addEventListener('click', function(e) { if (e.target === self.overlay) self.closeOverlay(); });
+  };
+  SlideEngine.prototype.openOverlay = function(mode) {
+    var self = this, title = mode === 'help' ? 'Keyboard' : 'Outline';
+    this.panel.replaceChildren(this.make('div', 'deck-panel__header', title)); this.panel.setAttribute('aria-label', title);
+    if (mode === 'help') {
+      [['next', '→ / ↓ / Space'], ['previous', '← / ↑'], ['first / last', 'Home / End'], ['outline', 'O'], ['help', '?'], ['close', 'Esc']].forEach(function(r) {
+        var row = self.make('div', 'deck-help-row'); row.append(self.make('span', '', r[0]), self.make('kbd', '', r[1])); self.panel.appendChild(row);
+      });
+    } else {
+      this.slides.forEach(function(_, i) {
+        var b = self.make('button', 'deck-panel__button'); b.type = 'button';
+        if (i === self.current) b.setAttribute('aria-current', 'true');
+        b.append(self.make('span', 'deck-panel__number', String(i + 1)), self.make('span', '', self.titleOf(i)));
+        b.onclick = function() { self.goTo(i); self.closeOverlay(); }; self.panel.appendChild(b);
+      });
+    }
+    this.lastFocus = document.activeElement; this.overlay.classList.add('open'); this.overlay.setAttribute('aria-hidden', 'false'); this.panel.focus(); this.fadeHints();
+  };
+  SlideEngine.prototype.closeOverlay = function() {
+    this.overlay.classList.remove('open'); this.overlay.setAttribute('aria-hidden', 'true');
+    if (this.lastFocus && this.lastFocus.focus) this.lastFocus.focus();
+  };
+  SlideEngine.prototype.bindEvents = function() {
+    var self = this;
+    document.addEventListener('keydown', function(e) {
+      if (e.target.closest('.diagram-shell,.fig-scroll,.table-scroll,.code-scroll,input,textarea,select,[contenteditable]')) return;
+      var open = self.overlay.classList.contains('open');
+      if (e.key === 'Escape' && open) { e.preventDefault(); self.closeOverlay(); return; }
+      if (e.key === 'o' || e.key === 'O' || e.key === '?') { e.preventDefault(); open ? self.closeOverlay() : self.openOverlay(e.key === '?' ? 'help' : 'outline'); return; }
+      if (open) return;
+      if (['ArrowDown', 'ArrowRight', ' ', 'PageDown'].indexOf(e.key) > -1) { e.preventDefault(); self.goTo(self.current + 1); }
+      else if (['ArrowUp', 'ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); self.goTo(self.current - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); self.goTo(0); }
+      else if (e.key === 'End') { e.preventDefault(); self.goTo(self.total - 1); }
+      self.fadeHints();
+    });
+    addEventListener('hashchange', function() { var i = self.fromHash(); if (i !== null && i !== self.current) self.goTo(i); });
+    var y0;
+    this.deck.addEventListener('touchstart', function(e) { y0 = e.touches[0].clientY; }, { passive: true });
+    this.deck.addEventListener('touchend', function(e) { var dy = y0 - e.changedTouches[0].clientY; if (Math.abs(dy) > 50) self.goTo(self.current + (dy > 0 ? 1 : -1)); });
+  };
+  SlideEngine.prototype.fromHash = function() { var m = /^#(?:slide-)?(\d+)$/.exec(location.hash); var i = m ? +m[1] - 1 : -1; return i >= 0 && i < this.total ? i : null; };
+  SlideEngine.prototype.restore = function() {
+    var i = this.fromHash();
+    if (i === null) { try { var j = parseInt(localStorage.getItem(this.storeKey), 10); if (j > 0 && j < this.total) i = j; } catch (e) {} }
+    if (i) { var self = this; this.current = i; setTimeout(function() { self.slides[i].scrollIntoView({ block: 'start', behavior: 'instant' }); }, 60); }
+  };
+  SlideEngine.prototype.observe = function() {
+    var self = this, obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) { if (en.isIntersecting) { en.target.classList.add('visible'); self.current = self.slides.indexOf(en.target); self.update(); } });
+    }, { threshold: .5 });
+    this.slides.forEach(function(s) { obs.observe(s); });
+  };
+  SlideEngine.prototype.goTo = function(i) { this.slides[Math.max(0, Math.min(i, this.total - 1))].scrollIntoView({ behavior: 'smooth' }); };
+  SlideEngine.prototype.update = function() {
+    var c = this.current, pct = Math.round((c + 1) / this.total * 100);
+    this.bar.style.width = pct + '%';
+    this.dots.forEach(function(d, i) { i === c ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'); });
+    this.counter.textContent = (c + 1) + ' / ' + this.total + ' · ' + pct + '%';
+    // file:// pages throw on replaceState and storage can be blocked; keep the two independent.
+    try { history.replaceState(null, '', '#slide-' + (c + 1)); } catch (e) {}
+    try { localStorage.setItem(this.storeKey, String(c)); } catch (e) {}
+  };
+  SlideEngine.prototype.fadeHints = function() { clearTimeout(this.hintTimer); this.hints.classList.add('faded'); };
+
+  new SlideEngine();
+  finishSlideRender();
+</script>
+<script>
+const mediaVisibility = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) entry.target.pause();
+  }
+}, { root: document.querySelector(".deck"), threshold: 0.01 });
+for (const video of document.querySelectorAll("video")) {
+  mediaVisibility.observe(video);
+  video.addEventListener("keydown", event => {
+    if ([" ", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"].includes(event.key)) event.stopPropagation();
+  });
+}
+</script>
+</body>
+</html>
