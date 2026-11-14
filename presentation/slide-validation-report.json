@@ -1,552 +1,364 @@
 {
-  "checked": "2026-11-13T19:36:07.982041+00:00",
+  "checked": "2026-11-14T15:14:56.865883+00:00",
   "overall_status": "passed",
-  "entry_point": "smart-microscopy-zen-slides.html",
-  "source": "smart-microscopy-zen-slides.src.html",
-  "final_html_sha256": "06bf1e564b6e2d725fd0f434f527c097962ad19646a77212a8fee1074f124e88",
-  "backup": {
-    "file": "presentation-backup-2026-11-13-1946.zip",
-    "verified_original_files": 68,
-    "original_documents_and_assets_unchanged": false,
-    "subsequent_changes": "Overview navigation now wraps all 13 links; the shared manifest includes the supplied ZEISS logo. The original snapshot remains in the ZIP backup."
-  },
-  "content": {
-    "slides": 37,
-    "figures": 41,
-    "captions": 41,
-    "video_players": 13,
-    "unique_video_files": 11,
-    "original_image_and_video_occurrences_preserved": true,
-    "all_four_workshop_examples_linked_and_illustrated": true,
-    "text_words_before": 4399,
-    "text_words_after": 1809,
-    "text_reduction_percent": 58.9,
-    "word_count_method": "All authored HTML text, including captions, references, and optional original details; excludes head, scripts, styles, and video fallback text."
-  },
-  "checks": {
-    "static_file_and_anchor_integrity": "passed",
-    "local_targets": 59,
-    "manifest_hashes_verified": 61,
-    "template_engine_chrome_and_delivery_code_unchanged": true,
-    "keyboard_outline_and_help": "Home, next, outline selection, Escape, End and previous passed; outline has 37 slides.",
-    "deep_link_and_reload": 33,
-    "video_playback": {
-      "media": [
-        {
-          "source": "assets/feedback-demo.mp4",
-          "width": 1280,
-          "height": 720,
-          "duration": 47
-        },
-        {
-          "source": "assets/ga-prometaphase.mp4",
-          "width": 1920,
-          "height": 1200,
-          "duration": 23
-        },
-        {
-          "source": "assets/ga-300-mitosis.mp4",
-          "width": 814,
-          "height": 806,
-          "duration": 29
-        },
-        {
-          "source": "assets/oad-mitosis.mp4",
-          "width": 1280,
-          "height": 720,
-          "duration": 116.889002
-        },
-        {
-          "source": "assets/api-segmentation.mp4",
-          "width": 2556,
-          "height": 1380,
-          "duration": 31
-        },
-        {
-          "source": "assets/api-denoising.mp4",
-          "width": 2556,
-          "height": 1380,
-          "duration": 25
-        },
-        {
-          "source": "assets/recording-napari-streaming.mp4",
-          "width": 2034,
-          "height": 1094,
-          "duration": 69
-        },
-        {
-          "source": "assets/recording-czi-viewing.mp4",
-          "width": 2548,
-          "height": 1380,
-          "duration": 44
-        },
-        {
-          "source": "assets/recording-pixel-baseline.mp4",
-          "width": 2556,
-          "height": 1380,
-          "duration": 31
-        },
-        {
-          "source": "assets/recording-api-guided.mp4",
-          "width": 2544,
-          "height": 1348,
-          "duration": 39
-        },
-        {
-          "source": "assets/api-denoising.mp4",
-          "width": 2556,
-          "height": 1380,
-          "duration": 25
-        },
-        {
-          "source": "assets/api-segmentation.mp4",
-          "width": 2556,
-          "height": 1380,
-          "duration": 31
-        },
-        {
-          "source": "assets/api-guided.mp4",
-          "width": 2544,
-          "height": 1348,
-          "duration": 39
-        }
-      ],
-      "playing": true,
-      "videoKeys": {
-        "paused": true,
-        "slide": "#slide-7"
-      },
-      "offSlidePaused": true,
-      "deepLinkAndReload": 33
+  "content_review": {
+    "scope": "Both standalone documents: all authored sections, captions, media players, source links, and corresponding compiled output.",
+    "cross_document_policy": "The overview and slide deck intentionally contain the same demonstrations. Deduplication means one player per distinct demonstration in each document, not removing coverage from one format.",
+    "duplicate_cleanup": [
+      "Semantic segmentation is embedded only in PixelStream / slide 21, not repeated in additional applications.",
+      "Noise2Void is embedded only in PixelStream / slide 21, not repeated in additional applications.",
+      "External Guided Acquisition is embedded only in external workflows / slide 30. The alternate recording is linked from the overview source collection, not embedded.",
+      "The former repeated processing slide was removed; the deck now has 36 consecutively numbered slides."
+    ],
+    "alternate_guided_recording": {
+      "retained_player": "assets/api-guided.mp4",
+      "linked_only": "assets/recording-api-guided.mp4",
+      "decision": "Same Guided Acquisition demonstration; matched 20%, 50%, and 80% timeline frames are pixel-identical at review resolution despite different full decoded-stream hashes.",
+      "source_files_deleted": false
     },
-    "renderer_proof": "passed at 390px and 1280px; zero visual problems. First sheet reviewed.",
-    "renderer_proof_method": "Identical slide layouts on a temporary document-scroll surface. The default renderer cannot crop off-screen figures inside the deck's fixed nested scroll container. Native delivery checks validate the actual deck separately.",
-    "http_resources": {
-      "state": "passed",
-      "verification": "All 12 URLs rechecked with Windows Invoke-WebRequest; each returned HTTP 200.",
-      "results": [
-        {
-          "url": "https://github.com/sebi06/napari-zenapi-streaming",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/Experiment_Feedback/Experiment_Feedback_Tutorial_3.14.pdf",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/README.md",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/zen_api_utils/README.md",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Experiment_Feedback",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Guided_Acquisition",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/SmartMicroscopy/Detecting%20Mitosis",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/protofiles/proto_2026.11.1/zen_api/acquisition/v1beta",
-          "status": 200
-        },
-        {
-          "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/python_examples",
-          "status": 200
-        },
-        {
-          "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/",
-          "status": 200
-        },
-        {
-          "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/proto/",
-          "status": 200
-        }
-      ]
-    },
-    "native_slide_delivery": [
-      {
-        "size": {
-          "width": 1920,
-          "height": 1080
-        },
-        "failures": []
-      },
-      {
-        "size": {
-          "width": 1280,
-          "height": 600
-        },
-        "failures": []
-      }
+    "related_but_complementary_content_retained": [
+      "Prometaphase overview-to-detail demonstration and the event-centered overnight montage show different aspects of the mitosis case study.",
+      "The receive/display baseline differs from semantic segmentation and Noise2Void processing, even though recordings share sample/UI content.",
+      "Experiment Feedback, OAD scheduling, API-guided acquisition, live napari streaming, and existing-CZI viewing show different execution or data paths.",
+      "Summary thumbnails and later detailed diagrams are intentional orientation/detail reuse, not repeated video players."
     ],
-    "computed_typography": [
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "57.6px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "19.2px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "19.2px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "19.2px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "19.2px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "19.2px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "18px"
-      },
-      {
-        "font": "Consolas, \"Courier New\", monospace",
-        "size": "18px"
-      }
+    "consistency_corrections": [
+      "Overview video labels now follow reading order A-J; references use the corrected labels.",
+      "Additional-applications navigation, section label, and deck baseline label agree.",
+      "The baseline-only section heading describes the one remaining player, with cross-references instead of repeated processing/guided players.",
+      "Source collection explicitly distinguishes the embedded guided demo from its linked-only alternate.",
+      "Deck media credits link the actual retained guided demo.",
+      "Removed the obsolete claim that all six additional recordings are embedded.",
+      "Overview title text now separates 'image' and 'to' for text extraction/accessibility.",
+      "Narrow-screen split layouts, table spacing, and concise repeated wording prevent clipped content and collapsed workshop images.",
+      "Validation reports contain current counts and current tests, not mixed 37-slide/13-player historical results."
     ],
-    "preview_sheets": [
-      "smart-microscopy-zen-slides.sheet.png",
-      "smart-microscopy-zen-slides.sheet-2.png",
-      "smart-microscopy-zen-slides.sheet-3.png",
-      "smart-microscopy-zen-slides.slide-2.sheet.png",
-      "smart-microscopy-zen-slides.slide-2.sheet-2.png",
-      "smart-microscopy-zen-slides.brand.sheet.png",
-      "smart-microscopy-zen-slides.brand.sheet-2.png",
-      "smart-microscopy-zen-slides.dark.sheet.png",
-      "smart-microscopy-zen-slides.dark.sheet-2.png",
-      "smart-microscopy-zen-slides.dark.sheet-3.png",
-      "smart-microscopy-zen-slides.detection.sheet.png",
-      "smart-microscopy-zen-slides.detection.sheet-2.png"
-    ],
-    "slide_2_visual_routes": {
-      "figures": 4,
-      "images": [
-        {
-          "src": "assets/oad-editor.png",
-          "loaded": true
-        },
-        {
-          "src": "assets/feedback-editor.png",
-          "loaded": true
-        },
-        {
-          "src": "assets/mitosis-overview.jpg",
-          "loaded": true
-        },
-        {
-          "src": "assets/mitosis-detail.png",
-          "loaded": true
-        },
-        {
-          "src": "assets/example-zenapi-control.svg",
-          "loaded": true
-        }
-      ],
-      "source_links": "passed",
-      "image_hashes": "passed",
-      "navigation": "passed",
-      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
-      "desktop_fit": "passed at 1920x1080 and 1280x600 with no overflow or autoFit",
-      "additional_mobile_observation": "Slide 2 fits at 390x900; pre-existing overflow was observed on unrelated slides 3, 6, 22 and 32. Those slides were not changed."
-    },
-    "zeiss_branding": {
-      "delivery": [
-        {
-          "size": {
-            "width": 1920,
-            "height": 1080
-          },
-          "failures": []
-        },
-        {
-          "size": {
-            "width": 1280,
-            "height": 600
-          },
-          "failures": []
-        }
-      ],
-      "image": {
-        "loaded": true,
-        "position": "fixed",
-        "source": "assets/zeiss.png"
-      },
-      "logoVisibleOnSlides": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        37
-      ],
-      "finalLogoBox": {
-        "x": 1216.010498046875,
-        "y": 12,
-        "width": 44.7916259765625,
-        "height": 43.96875
-      },
-      "copy_matches_supplied_file": true,
-      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
-      "manifest_reference": "assets/zeiss.png"
-    },
-    "linked_overview_navigation": "All 13 links visible without horizontal scrolling at 1920px, 1280px, and 390px; section headings clear the sticky navigation.",
-    "dark_theme": {
-      "themes": [
-        {
-          "colorScheme": "dark",
-          "tokens": {
-            "--bg": "#0f0f0f",
-            "--surface": "#1a1a19",
-            "--border": "#2b2a28",
-            "--border-bright": "#696763",
-            "--text": "#f2f0eb",
-            "--text-dim": "#a4a19b",
-            "--accent": "#ff6e50",
-            "--accent-dim": "rgba(255,110,80,.14)",
-            "--ok": "#6cc492",
-            "--risk": "#f57fa2"
-          },
-          "matchesOverviewDark": true
-        },
-        {
-          "colorScheme": "light",
-          "tokens": {
-            "--bg": "#0f0f0f",
-            "--surface": "#1a1a19",
-            "--border": "#2b2a28",
-            "--border-bright": "#696763",
-            "--text": "#f2f0eb",
-            "--text-dim": "#a4a19b",
-            "--accent": "#ff6e50",
-            "--accent-dim": "rgba(255,110,80,.14)",
-            "--ok": "#6cc492",
-            "--risk": "#f57fa2"
-          },
-          "matchesOverviewDark": true
-        }
-      ],
-      "delivery": [
-        {
-          "size": {
-            "width": 1920,
-            "height": 1080
-          },
-          "failures": []
-        },
-        {
-          "size": {
-            "width": 1280,
-            "height": 600
-          },
-          "failures": []
-        }
-      ],
-      "outline": {
-        "background": "rgb(15, 15, 15)",
-        "color": "rgb(242, 240, 235)"
-      },
-      "logoLoaded": true,
-      "navigation": "passed",
-      "text_contrast": [
-        {
-          "background": "--bg",
-          "foreground": "--text",
-          "ratio": 16.83
-        },
-        {
-          "background": "--bg",
-          "foreground": "--text-dim",
-          "ratio": 7.44
-        },
-        {
-          "background": "--bg",
-          "foreground": "--accent",
-          "ratio": 6.94
-        },
-        {
-          "background": "--surface",
-          "foreground": "--text",
-          "ratio": 15.29
-        },
-        {
-          "background": "--surface",
-          "foreground": "--text-dim",
-          "ratio": 6.76
-        },
-        {
-          "background": "--surface",
-          "foreground": "--accent",
-          "ratio": 6.3
-        }
-      ],
-      "renderer_proof": "passed at 390px and 1280px; representative sheet reviewed",
-      "policy": "Fixed dark palette matching the overview dark theme, including when the operating system prefers light. Original image colors and ZEISS logo are unchanged."
-    },
-    "slide_10_vertical_spacing": {
-      "status": "passed",
-      "viewports": [
-        {
-          "size": {
-            "width": 1920,
-            "height": 1080
-          },
-          "failures": [],
-          "methods": 5,
-          "listHeight": 808.5,
-          "gaps": [
-            109.58332824707031,
-            109.5833740234375,
-            109.58331298828125,
-            109.58331298828125
-          ],
-          "noteBelowList": true,
-          "distribution": "space-evenly"
-        },
-        {
-          "size": {
-            "width": 1280,
-            "height": 600
-          },
-          "failures": [],
-          "methods": 5,
-          "listHeight": 406.94793701171875,
-          "gaps": [
-            49.42707824707031,
-            49.427093505859375,
-            49.4375,
-            49.427093505859375
-          ],
-          "noteBelowList": true,
-          "distribution": "space-evenly"
-        }
-      ],
-      "renderer_proof": "passed at 390px and 1280px; sheet reviewed",
-      "scope": "Only the object-detection slide layout changed; text, theme, logo and other slide layouts preserved."
-    }
-  },
-  "coverage": {
-    "overview_and_choice": [
-      1,
-      2,
-      35
-    ],
-    "interfaces": [
-      3
-    ],
-    "oad": [
-      4
-    ],
-    "feedback": [
-      5,
-      6,
-      7
-    ],
-    "guided": [
-      8,
-      9,
-      10,
-      11,
-      12,
-      13
-    ],
-    "mitosis": [
-      14,
-      15,
-      16,
-      17
-    ],
-    "api_architecture_and_contracts": [
-      18,
-      19,
-      20
-    ],
-    "pixelstream": [
-      21,
-      22,
-      23
-    ],
-    "napari": [
-      24,
-      25,
-      26,
-      27,
-      28
-    ],
-    "additional_recordings": [
-      29,
-      30
-    ],
-    "external_workflows": [
-      31,
-      32
-    ],
-    "four_workshop_examples": [
-      33,
-      34
-    ],
-    "sources_and_credits": [
-      36,
-      37
+    "technical_topics_compared": [
+      "Internal IronPython vs external CPython; OAD recording limits; TCP/IP vs gRPC.",
+      "Feedback lifecycle, observable-driven execution, and analysis/disk synchronization.",
+      "Guided module, OAD script, five detection methods, and external analysis integration caveats.",
+      "Client/gateway/provider roles; generated API vs utility packages; package, namespace, and server-version distinctions.",
+      "Frame identity/dimensions/scaling/type, raw partial payloads, assembled frames, and buffering.",
+      "napari viewing/storage modes, display normalization vs raw storage, completeness checks, and compatibility caveats.",
+      "Calibrated coordinates/meters, hardware sequencing, and core jobs vs acquisition experiments."
     ]
   },
-  "notes": [
-    "HTML presentation only; no PPTX produced.",
-    "Keep assets and the full overview beside the slides; workshop links expect the repository layout.",
-    "Consolas remains the main font. Videos require an MP4-capable browser.",
-    "Playback tested successfully over temporary localhost HTTP; the VS Code embedded browser's file proxy aborted MP4 loads. Direct local-file playback was not certified by that browser.",
-    "The original overview remains intact as a detailed reference in addition to the complete ZIP backup.",
-    "The shared media manifest now includes the supplied ZEISS logo. The pre-change manifest remains in the verified ZIP backup; existing media files are unchanged; overview navigation was subsequently updated to show all 13 links."
-  ]
+  "video_audit": {
+    "embedded_players_per_document": 10,
+    "unique_file_hashes": 10,
+    "unique_decoded_video_hashes": 10,
+    "included_video_files_fully_decoded": 11,
+    "decode_method": "FFmpeg -xerror; complete video decode to SHA256, plus manual review of matched 20%, 50%, and 80% timeline samples.",
+    "embedded_media": [
+      {
+        "source": "assets/api-denoising.mp4",
+        "codec_name": "h264",
+        "width": 2556,
+        "height": 1380,
+        "duration": 25.0,
+        "bytes": 13624000,
+        "file_sha256": "6b3700d3c1657e0e4f5cd21b869750df9b6db71713d8dd730c074cc0e27d6ccc",
+        "decoded_video_sha256": "635a24bf2e51571eb8b6f845838e275e4730fe0cf3b8f1e1986d3a50eea415ec",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/api-guided.mp4",
+        "codec_name": "h264",
+        "width": 2544,
+        "height": 1348,
+        "duration": 39.0,
+        "bytes": 4630186,
+        "file_sha256": "29e16b5eaafb86e8df0f4af35675f50fd919d46ae2c22942ae542dbcb79bcda7",
+        "decoded_video_sha256": "ed82df3c55cbf37a21105badb73169e8b2828eff6caa92f95399beb0445d33a4",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/api-segmentation.mp4",
+        "codec_name": "h264",
+        "width": 2556,
+        "height": 1380,
+        "duration": 31.0,
+        "bytes": 11393765,
+        "file_sha256": "5f479c9942d1c21fcbf45133eaceea54bdd0201137537886f29b7fc4f9fbfeaf",
+        "decoded_video_sha256": "4e988493dfd16dc52373bb55a3aa3a5b5863817a1f7885685d675d4abc44b268",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/feedback-demo.mp4",
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "duration": 47.0,
+        "bytes": 2920021,
+        "file_sha256": "ed74ca5fe22ab4a0e2580eb2077d7edb7029ad2f966b0aaf46d31ca8c56bbd59",
+        "decoded_video_sha256": "b2675c887c7d7e939073d98ec787cd7bbd04ebdc2f58b098edfc306d006ee354",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/ga-300-mitosis.mp4",
+        "codec_name": "h264",
+        "width": 814,
+        "height": 806,
+        "duration": 29.0,
+        "bytes": 3206627,
+        "file_sha256": "4e2f0c1238146a6807534a8268af6dc9b1ab99276afd15764781a00f18481669",
+        "decoded_video_sha256": "8e283be884ab7449bf53d94ffb93e4b5c143bad8320815776f5a4372a5e2d884",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/ga-prometaphase.mp4",
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1200,
+        "duration": 23.0,
+        "bytes": 1178402,
+        "file_sha256": "d1fd13174273e65addb128e9f9d956266cc5f04ec72cb61e0fea2e24ca768303",
+        "decoded_video_sha256": "ae7f81f634b9d4e83b43d41f01909b1f501eadf46086955a8d8dcf8e8387b98a",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/oad-mitosis.mp4",
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "duration": 116.88,
+        "bytes": 17883501,
+        "file_sha256": "7a0e0ea0d0338bb6de4fbe2f7b898fa4d8176c55a65724f7a0031e05d0205113",
+        "decoded_video_sha256": "400ac16d77a668c1d566168a5d4d588adbed75fbfa65d3bf46ebf00954424bc0",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/recording-czi-viewing.mp4",
+        "codec_name": "h264",
+        "width": 2548,
+        "height": 1380,
+        "duration": 44.0,
+        "bytes": 7228585,
+        "file_sha256": "f5928c262137957311afbe4d7630b491722afd76512abaa494168b530df01813",
+        "decoded_video_sha256": "19d302a6cbb90ecf2a8f5465d151248c91f81bfcd2f1f97fe045f5f5f160547e",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/recording-napari-streaming.mp4",
+        "codec_name": "h264",
+        "width": 2034,
+        "height": 1094,
+        "duration": 69.0,
+        "bytes": 13927816,
+        "file_sha256": "e7ba3fc3ab52ffceaef4090c6c690a4bb68e51c30d50eabb6356f7904a7aefef",
+        "decoded_video_sha256": "97571f076f263dd89bacf11c58c27c832f58d6512ce774f5bd3bbcbf65b8c205",
+        "full_decode": "passed"
+      },
+      {
+        "source": "assets/recording-pixel-baseline.mp4",
+        "codec_name": "h264",
+        "width": 2556,
+        "height": 1380,
+        "duration": 31.0,
+        "bytes": 9848654,
+        "file_sha256": "cd38dc1935c7bca386a435003631dcfa14f3a088ad1b88b173d9432722331764",
+        "decoded_video_sha256": "2e11d4248859841dfaf243bdf368767275a982e3db1395a57da8c2f985dc2ccc",
+        "full_decode": "passed"
+      }
+    ]
+  },
+  "integrity": {
+    "manifest_hashes_and_sizes_verified": 61,
+    "manifest_source_or_derivation_targets_checked": true,
+    "same_video_set_and_order_in_both_documents": true,
+    "source_and_compiled_content_match": true,
+    "comparison_method": "Exact authored-main equality, allowing the renderer's ve-bars-to-SVG expansion.",
+    "local_links_fragments_image_alt_text_and_caption_counts": "passed",
+    "public_documentation_urls": [
+      {
+        "url": "https://github.com/sebi06/napari-zenapi-streaming",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/blob/master/Experiment_Feedback/Experiment_Feedback_Tutorial_3.14.pdf",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/README.md",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/blob/master/ZEN-API/zen_api_utils/README.md",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Experiment_Feedback",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/tree/master/Guided_Acquisition",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/tree/master/SmartMicroscopy/Detecting%20Mitosis",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/protofiles/proto_2026.11.1/zen_api/acquisition/v1beta",
+        "status": 200
+      },
+      {
+        "url": "https://github.com/zeiss-microscopy/OAD/tree/master/ZEN-API/python_examples",
+        "status": 200
+      },
+      {
+        "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/",
+        "status": 200
+      },
+      {
+        "url": "https://zeiss-microscopy.github.io/OAD/zenapi/2026.5.1/proto/",
+        "status": 200
+      }
+    ],
+    "private_workstation_paths_or_old_repository_name_in_authored_main": false
+  },
+  "media_playback": {
+    "transport": "Temporary localhost HTTP server; Chromium native HTML5 video controls.",
+    "players_tested_in_this_document": 10,
+    "all_loaded_metadata_and_advanced_current_time": true,
+    "all_paused_after_testing": true,
+    "autoplay_in_delivered_documents": false
+  },
+  "backup": {
+    "file": "../presentation-backup-2026-11-13-1946.zip",
+    "policy": "Original snapshot preserved. Current overview, deck, and reports intentionally differ after revisions; no source media was deleted."
+  },
+  "entry_point": "smart-microscopy-zen-slides.html",
+  "source": "smart-microscopy-zen-slides.src.html",
+  "source_sha256": "b8ce553c60d3e1a3d99e97c5e2c626cb32af515a83362c57fd55ab8f0ce9a158",
+  "final_html_sha256": "eed41f98c1655be8c910036530b2c959389c7a50c9b25698ca04f9870e2d0b05",
+  "content": {
+    "figures": 38,
+    "captions": 38,
+    "video_players": 10,
+    "unique_video_files": 10,
+    "video_sources": [
+      "assets/feedback-demo.mp4",
+      "assets/ga-prometaphase.mp4",
+      "assets/ga-300-mitosis.mp4",
+      "assets/oad-mitosis.mp4",
+      "assets/api-segmentation.mp4",
+      "assets/api-denoising.mp4",
+      "assets/recording-napari-streaming.mp4",
+      "assets/recording-czi-viewing.mp4",
+      "assets/recording-pixel-baseline.mp4",
+      "assets/api-guided.mp4"
+    ],
+    "local_targets_checked": 65,
+    "duplicate_ids": [],
+    "missing_local_targets_or_anchors": [],
+    "missing_image_alt_text": [],
+    "slides": 36,
+    "all_overview_image_assets_represented": true,
+    "shared_image_assets_with_overview": 25
+  },
+  "layout": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "delivery": [],
+      "zeroHeightImages": [],
+      "workshopImageHeights": [
+        346,
+        346,
+        346,
+        346
+      ],
+      "brand": {
+        "x": 1837,
+        "y": 21.59375,
+        "width": 55,
+        "height": 54,
+        "top": 21.59375,
+        "right": 1892,
+        "bottom": 75.59375,
+        "left": 1837
+      },
+      "background": "rgb(15, 15, 15)"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "delivery": [],
+      "zeroHeightImages": [],
+      "workshopImageHeights": [
+        192,
+        192,
+        192,
+        192
+      ],
+      "brand": {
+        "x": 1216.010498046875,
+        "y": 12,
+        "width": 44.79166793823242,
+        "height": 43.96875,
+        "top": 12,
+        "right": 1260.8021659851074,
+        "bottom": 55.96875,
+        "left": 1216.010498046875
+      },
+      "background": "rgb(15, 15, 15)"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "delivery": [],
+      "zeroHeightImages": [],
+      "workshopImageHeights": [
+        170,
+        147,
+        164,
+        163
+      ],
+      "brand": {
+        "x": 346,
+        "y": 16.875,
+        "width": 32,
+        "height": 31.416667938232422,
+        "top": 16.875,
+        "right": 378,
+        "bottom": 48.29166793823242,
+        "left": 346
+      },
+      "background": "rgb(15, 15, 15)"
+    }
+  ],
+  "navigation": {
+    "home": true,
+    "next": true,
+    "previous": true,
+    "end": true,
+    "outlineCount": 36,
+    "help": true,
+    "deepLinkReload": 30
+  },
+  "branding": {
+    "tested": 36,
+    "failures": []
+  },
+  "media_controls": {
+    "space_pauses_without_slide_navigation": true,
+    "leaving_slide_pauses_video": true
+  },
+  "visual_validation": {
+    "renderer": "Recompiled deck; flow-proof rendering for slides 2, 10, 29, 36 and separately 31-33, at phone/desktop widths.",
+    "renderer_reported_problems": [],
+    "preview_sheets_manually_reviewed": true,
+    "native_delivery_check": "All 36 slides pass at 1920x1080, 1280x600, and 390x844 with reduced motion. No zero-height images or autoFit delivery failures."
+  }
 }

@@ -505,6 +505,11 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
   .slide__heading { font-size: 27px; }
   .slide__hero { font-size: 36px; }
   .split, .pair, .four { gap: 14px; }
+  .split { grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) auto; }
+  .copy { gap: 12px; }
+  .workshop { gap: 8px; }
+  .slide li + li { margin-top: 8px; }
+  .slide th, .slide td { padding: 6px 8px; }
   .slide__body, .slide li, .slide td, .slide th, .slide figcaption { font-size: 18px; }
   .slide .links { gap: 10px; }
   .deck-dots { right: 4px; }
@@ -565,11 +570,11 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 <div class="split">
 <figure><a class="media" href="assets/interfaces.png" target="_blank" rel="noopener"><img src="assets/interfaces.png" width="1731" height="1198" loading="eager" alt="Source illustration places OAD, Experiment Feedback, ZEN API, COM, TCP/IP, extensions, and CZI access around ZEN"></a><figcaption>ZEN offers distinct data, scripting, extension, and service interfaces. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
 <div class="copy"><ul>
-<li><strong>CZI libraries:</strong> pixels and metadata.</li>
-<li><strong>OAD / Feedback:</strong> internal ZEN workflows.</li>
-<li><strong>COM / TCP-IP:</strong> external scripting routes.</li>
-<li><strong>C# extensions:</strong> integrated functionality.</li>
-<li><strong>ZEN-API:</strong> typed external services.</li>
+<li><strong>CZI:</strong> pixels + metadata.</li>
+<li><strong>OAD / Feedback:</strong> inside ZEN.</li>
+<li><strong>COM / TCP-IP:</strong> scripting.</li>
+<li><strong>C# extensions:</strong> ZEN plug-ins.</li>
+<li><strong>ZEN-API:</strong> typed services.</li>
 </ul><p class="small">TCP/IP scripting is not gRPC ZEN-API. Availability depends on edition, license, version, and instrument.</p></div>
 </div>
 </section>
@@ -597,10 +602,9 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 <div class="split">
 <figure><a class="media" href="assets/feedback-editor.png" target="_blank" rel="noopener"><img src="assets/feedback-editor.png" width="1481" height="997" loading="eager" alt="Experiment Feedback editor showing the three script areas and observable/action lists"></a><figcaption>The experiment stores setup, event-dependent logic, and final actions. <a href="smart-microscopy-zen.html#s1">Source</a></figcaption></figure>
 <div class="copy"><ul>
-<li>Read online measurements or hardware state.</li>
-<li>Stop, adjust, log, or launch external software.</li>
-<li>Wait for analysis when rules need its results.</li>
-<li>Wait for disk before external image reading.</li>
+<li>Read measurements or hardware state.</li>
+<li>Stop, adjust, log, or call external software.</li>
+<li>Wait for analysis results or files on disk.</li>
 <li>Define measurements; reload changed settings.</li>
 </ul><p class="small">Free Run / Synchronized execution and script cost affect acquisition timing.</p></div>
 </div>
@@ -654,7 +658,7 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 
 <section class="slide" id="slide-11">
 <p class="slide__label">Guided Acquisition / OAD script</p>
-<h2 class="slide__heading">Own the workflow when the standard sequence does not fit.</h2>
+<h2 class="slide__heading">Customize the guided sequence.</h2>
 <div class="split">
 <figure><a class="media fit" href="assets/ga-script.png" target="_blank" rel="noopener"><img src="assets/ga-script.png" width="2279" height="2974" loading="eager" alt="Detailed source workflow for scripted Guided Acquisition"></a><figcaption>The script exposes processing, target selection, experiment changes, and external handoffs. <a href="smart-microscopy-zen.html#s3">Source</a></figcaption></figure>
 <div class="copy"><ul>
@@ -771,7 +775,7 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 <tr><td>Pixel type + full-frame size</td><td>Decode the correct type and shape.</td></tr>
 <tr><td>Payload offset + size</td><td>Reassemble partial data at the correct location.</td></tr>
 </tbody></table>
-<p class="small">A response may contain only part of a frame. Raw bytes are not already a NumPy image.</p>
+<p class="small">Raw responses may contain partial frames. Raw bytes are not yet a NumPy image.</p>
 </section>
 
 <section class="slide" id="slide-23">
@@ -847,25 +851,13 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 </section>
 
 <section class="slide" id="slide-29">
-<p class="slide__label">Additional recordings / receiving versus acting</p>
-<h2 class="slide__heading">Receiving pixels and selecting targets are different steps.</h2>
-<div class="pair">
+<p class="slide__label">Additional Applications using ZEN-API / receiving-only baseline</p>
+<h2 class="slide__heading">Receive and display pixels without processing.</h2>
 <figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-baseline-poster.jpg"><source src="assets/recording-pixel-baseline.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-pixel-baseline.mp4">Open the MP4</a>.</video></div><figcaption>PixelStream baseline: receive and display, without processing. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
-<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-api-guided-poster.jpg"><source src="assets/recording-api-guided.mp4" type="video/mp4">Video unavailable. <a href="assets/recording-api-guided.mp4">Open the MP4</a>.</video></div><figcaption>Guided Acquisition: an external client requests selected detail scans. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
-</div>
+<p class="small">The earlier segmentation and denoising demos use separate custom clients, not implied napari-plugin features.</p>
 </section>
 
 <section class="slide" id="slide-30">
-<p class="slide__label">Additional recordings / client-side processing</p>
-<h2 class="slide__heading">Image processing alone does not change acquisition.</h2>
-<div class="pair">
-<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-denoising-poster.jpg"><source src="assets/api-denoising.mp4" type="video/mp4">Video unavailable. <a href="assets/api-denoising.mp4">Open the MP4</a>.</video></div><figcaption>Noise2Void improves the displayed image through client-side denoising. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
-<figure><div class="film"><video controls playsinline preload="none" poster="assets/recording-pixel-segmentation-poster.jpg"><source src="assets/api-segmentation.mp4" type="video/mp4">Video unavailable. <a href="assets/api-segmentation.mp4">Open the MP4</a>.</video></div><figcaption>Semantic segmentation extracts candidates; an explicit control rule must follow. <a href="smart-microscopy-zen.html#s13">Source</a></figcaption></figure>
-</div>
-<p class="small">Separate custom clients, not implied napari-plugin features. These two players reuse the earlier demonstration files.</p>
-</section>
-
-<section class="slide" id="slide-31">
 <p class="slide__label">ZEN-API / external Guided Acquisition</p>
 <h2 class="slide__heading">Make the analysis-to-acquisition handoff explicit.</h2>
 <div class="split">
@@ -880,51 +872,51 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 </div>
 </section>
 
-<section class="slide" id="slide-32">
+<section class="slide" id="slide-31">
 <p class="slide__label">ZEN-API / workflow ownership</p>
 <h2 class="slide__heading">Delegate acquisition blocks, not mouse clicks.</h2>
 <div class="split">
 <figure><a class="media" href="assets/api-workflow-blocks.png" target="_blank" rel="noopener"><img src="assets/api-workflow-blocks.png" width="1920" height="1080" loading="eager" alt="Source sequence illustration divides a CellDiscoverer workflow between an external client, ZEN, the imaging system and data storage"></a><figcaption>Client, ZEN, instrument, and storage execute different workflow blocks. Illustration: Sebastian Rhode, ZEISS. <a href="media-manifest.json">Source</a></figcaption></figure>
 <div class="copy"><ul>
-<li>Client orchestration sequences wells, focus, data readiness, and analysis.</li>
-<li>Keep hardware actions sequential; analysis can overlap previous files.</li>
-<li>ZEN core jobs are not acquisition experiments; check edition-specific services.</li>
-<li>The guided example mixes API and TCP/IP; region dimensions use meters.</li>
-</ul><p class="small">Rectangle, polygon, or ellipse: convert coordinates first. Carrier handling is instrument-specific.</p></div>
+<li>Client sequences wells, focus, data readiness, and analysis.</li>
+<li>Sequence hardware; overlap analysis with prior files.</li>
+<li>Core jobs are not experiments; check edition-specific services.</li>
+<li>Guided example: API + TCP/IP; region sizes in meters.</li>
+</ul><p class="small">Convert region coordinates first. Carrier handling is instrument-specific.</p></div>
 </div>
 </section>
 
-<section class="slide" id="slide-33">
+<section class="slide" id="slide-32">
 <p class="slide__label">Workshop examples / control and data</p>
 <h2 class="slide__heading">Connect control to Python image access.</h2>
 <div class="pair">
 <article class="workshop"><h3>Control and acquire</h3>
 <figure class="example-image"><a class="media" href="assets/example-zenapi-control.svg" target="_blank" rel="noopener"><img src="assets/example-zenapi-control.svg" width="960" height="540" loading="eager" alt="A computer displays cell images, a selected target, acquisition tiles and stage controls beside a connected microscope illuminating a selected specimen region"></a><figcaption>External control and image delivery; conceptual illustration. <a href="media-manifest.json">Source</a></figcaption></figure>
-<p class="slide__body">Stage, focus, autofocus, optics, regions, Z-stacks, streaming, and guided acquisition.</p>
+<p class="slide__body">Stage, focus, regions, Z-stacks, streaming, and guided acquisition.</p>
 <p class="small"><a href="../examples/control_zen_via_zenapi/README.md">Control examples</a></p></article>
 <article class="workshop"><h3>Read CZI in Python</h3>
-<figure class="example-image"><a class="media" href="assets/example-czi-handling.png" target="_blank" rel="noopener"><img src="assets/example-czi-handling.png" width="1200" height="620" loading="eager" alt="Python pylibCZIrw output pairs two CZI image planes with NumPy array shape and metadata for time points, Z planes, channels, width and height"></a><figcaption>Saved pylibCZIrw output: image planes, array shape, and acquisition metadata. <a href="media-manifest.json">Source</a></figcaption></figure>
-<p class="slide__body">Pixels, metadata, scenes, plates, attachments; write CZI, export OME-Zarr, or use lazy/VZIP access.</p>
-<p class="small"><a href="../examples/czi_handling/README.md">CZI examples</a> / VZIP needs the unchanged original CZI.</p></article>
+<figure class="example-image"><a class="media" href="assets/example-czi-handling.png" target="_blank" rel="noopener"><img src="assets/example-czi-handling.png" width="1200" height="620" loading="eager" alt="Python pylibCZIrw output pairs two CZI image planes with NumPy array shape and metadata for time points, Z planes, channels, width and height"></a><figcaption>Saved pylibCZIrw output shows planes, shape, and metadata. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">Read pixels and metadata. Write CZI or export OME-Zarr; try lazy access.</p>
+<p class="small"><a href="../examples/czi_handling/README.md">CZI examples</a> / VZIP needs its unchanged original CZI.</p></article>
 </div>
 </section>
 
-<section class="slide" id="slide-34">
+<section class="slide" id="slide-33">
 <p class="slide__label">Workshop examples / models and measurements</p>
 <h2 class="slide__heading">Turn images into predictions and biological readouts.</h2>
 <div class="pair">
 <article class="workshop"><h3>Deep learning</h3>
-<figure class="example-image"><a class="media" href="assets/example-deep-learning.png" target="_blank" rel="noopener"><img src="assets/example-deep-learning.png" width="1315" height="429" loading="eager" alt="Saved notebook output compares a fluorescence image, predicted nuclei segmentation and the label mask"></a><figcaption>Saved notebook output compares input, prediction, and labels; not a general accuracy claim. <a href="media-manifest.json">Source</a></figcaption></figure>
-<p class="slide__body">Inspect CZANN; run ONNX inference; train a small PyTorch model and export CZANN. Match preprocessing.</p>
+<figure class="example-image"><a class="media" href="assets/example-deep-learning.png" target="_blank" rel="noopener"><img src="assets/example-deep-learning.png" width="1315" height="429" loading="eager" alt="Saved notebook output compares a fluorescence image, predicted nuclei segmentation and the label mask"></a><figcaption>Saved input, prediction, and labels; not an accuracy benchmark. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">Inspect CZANN, run ONNX, or train/export a PyTorch model. Match preprocessing.</p>
 <p class="small"><a href="../examples/deep_learning/README.md">Deep-learning examples</a></p></article>
 <article class="workshop"><h3>Translocation</h3>
-<figure class="example-image"><a class="media" href="assets/example-translocation.png" target="_blank" rel="noopener"><img src="assets/example-translocation.png" width="2058" height="1100" loading="eager" alt="Translocation assay example compares EGFP and DAPI images with segmented nuclei and surrounding cytoplasmic rings"></a><figcaption>DAPI nuclei and cytoplasmic rings support nuclear-to-cytoplasmic EGFP measurement. <a href="media-manifest.json">Source</a></figcaption></figure>
-<p class="slide__body">CZI/OME-Zarr plates become cell measurements, well summaries, heatmaps, and dose-response fits.</p>
+<figure class="example-image"><a class="media" href="assets/example-translocation.png" target="_blank" rel="noopener"><img src="assets/example-translocation.png" width="2058" height="1100" loading="eager" alt="Translocation assay example compares EGFP and DAPI images with segmented nuclei and surrounding cytoplasmic rings"></a><figcaption>Segment nuclei and rings to measure EGFP translocation. <a href="media-manifest.json">Source</a></figcaption></figure>
+<p class="slide__body">CZI/OME-Zarr plates yield cell/well measurements, heatmaps, and dose-response fits.</p>
 <p class="small"><a href="../examples/translocation/README.md">Assay example</a> / <a href="../examples/translocation/translocation_docs/translocation-assay.html">Walkthrough</a></p></article>
 </div>
 </section>
 
-<section class="slide slide--closing" id="slide-35">
+<section class="slide slide--closing" id="slide-34">
 <p class="slide__label">Takeaway</p>
 <h2 class="slide__heading">Observe. Decide. Act. Check the result.</h2>
 <p class="slide__body rule">Monitoring becomes Smart Microscopy when sample information drives a supported, validated acquisition decision.</p>
@@ -932,7 +924,7 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 <p class="small">Workshop code is educational. Review inputs, outputs, model assumptions, and approved instrument procedures before use.</p>
 </section>
 
-<section class="slide" id="slide-36">
+<section class="slide" id="slide-35">
 <p class="slide__label">Links and additional info</p>
 <h2 class="slide__heading">Start with the documentation for your ZEN system.</h2>
 <ul class="links">
@@ -947,13 +939,13 @@ body, h1, h2, h3, p, a, li, figure, figcaption, table, code, button { font-famil
 </ul>
 </section>
 
-<section class="slide" id="slide-37">
+<section class="slide" id="slide-36">
 <p class="slide__label">Links and additional info / media and credits</p>
 <h2 class="slide__heading">Keep the sources and the caveats with the examples.</h2>
 <ul class="links">
 <li><a href="smart-microscopy-zen.html">Full overview and source credits</a> / <a href="media-manifest.json">Media provenance</a> / <a href="slide-validation-report.json">Slide delivery checks</a></li>
 <li><a href="assets/feedback-demo.mp4">Feedback demo</a> / <a href="assets/mitosis-mosaic.jpg">Mitosis acquisition mosaic</a> / <a href="smart-microscopy-zen.html#s8">API illustrations</a></li>
-<li><a href="assets/recording-napari-streaming.mp4">napari streaming</a> / <a href="assets/recording-czi-viewing.mp4">CZI viewing</a> / <a href="assets/recording-api-guided.mp4">API guided acquisition</a></li>
+<li><a href="assets/recording-napari-streaming.mp4">napari streaming</a> / <a href="assets/recording-czi-viewing.mp4">CZI viewing</a> / <a href="assets/api-guided.mp4">API guided acquisition</a></li>
 <li><a href="assets/recording-pixel-baseline.mp4">Baseline</a> / <a href="assets/api-denoising.mp4">Noise2Void</a> / <a href="assets/api-segmentation.mp4">Semantic segmentation</a></li>
 </ul>
 <p class="small">ZEISS / Sebastian Rhode. Mitosis contributors: Marion Lang, Sandra Orthaus, Phillip Seidel, Pierre Menard, and colleagues.</p>
